@@ -194,7 +194,7 @@ class CustomersController extends BaseController {
 //			echo json_encode($events);
 			return $events;
 		}
-		echo "4";
+//		echo "4";
 	}
 
 	public static function EstimateSchedule2()
