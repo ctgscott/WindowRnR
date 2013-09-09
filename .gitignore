@@ -2,6 +2,7 @@
 /vendor
 /app/storage
 /public/google
+/public/google-api-php-client
 composer.phar
 composer.lock
 .DS_Store
