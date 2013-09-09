@@ -1,0 +1,40 @@
+<?php 
+
+
+
+Class Calendar {	
+	public static function getEvents($date)
+	{
+		require_once "c:\wamp\www\dev1\public\google-api-php-client\src\Google_Client.php";
+		require_once "c:\wamp\www\dev1\public\google-api-php-client/src/contrib/Google_CalendarService.php";
+//session_start();
+		$CLIENT_ID = '400539187186.apps.googleusercontent.com';
+		$SERVICE_ACCOUNT_NAME = 'ctgscott@gmail.com';
+		$KEY_FILE = 'c:\users\scott\downloads\d3ffaa8345cd89205df87bf41a462358ee95f73e-privatekey.p12';
+		$client = new Google_Client();
+		$client->setApplicationName("Public Calendar");
+		$client->setUseObjects(true);
+		if (isset($_SESSION['token'])) {
+			$client->setAccessToken($_SESSION['token']);
+		}
+		$key = file_get_contents($KEY_FILE);
+		$client->setAssertionCredentials(new Google_AssertionCredentials(
+			$SERVICE_ACCOUNT_NAME,
+			array('https://www.googleapis.com/auth/calendar', "https://www.googleapis.com/auth/calendar.readonly"),
+			$key)
+		);
+		$client->setClientId($CLIENT_ID);
+		$service = new Google_CalendarService($client);
+		if ($client->getAccessToken()) {
+			$_SESSION['token'] = $client->getAccessToken();
+		}
+//		$rightNow = date('c');
+		$rightNow = $date;
+		$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $rightNow);
+		$events = $service->events->listEvents('primary', $params);
+		foreach ($events->getItems() as $event) {
+			echo '<p>'.$event->getSummary().'</p>';
+		}
+	}
+}
+?>
