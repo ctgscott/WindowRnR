@@ -1,0 +1,119 @@
+body {
+	line-height:10px;
+}
+
+hr {
+	margin: 10px;
+}
+
+p {
+	margin-top: 10px;
+}
+
+strong {
+	font-weight: bold;
+	font-size: 125%;
+}
+
+em {
+	font-weight: bold;
+}
+
+.form-inline .input-small {
+	margin-right: 10px;
+	margin-bottom: 10px;
+	display: table-cell;
+    vertical-align: middle;
+}
+
+.form-inline .input-small[name=f_name] {
+	width: 90px;
+}
+
+.form-inline .input-small[name=l_name] {
+	width: 115px;
+}
+
+.form-inline .input-small[name=phone] {
+	width: 105px;
+}
+
+.form-inline .input-small[name=alt_phone] {
+	width: 105px;
+}
+
+.form-inline .input-small[name=email] {
+	width: 150px;
+}
+
+.form-inline .input-small[name=address] {
+	width: 40%;
+}
+
+.form-inline .input-small[name=city] {
+	width: 25%;
+}
+
+.form-inline .input-small[name=zip] {
+	width: 12%;
+}
+
+.form-inline .input-small[name=built] {
+	width: 12%;
+}
+
+.form-inline [name=lead_other] {
+	width: 150px;
+}
+
+.input-small[name=symptoms] {
+	resize: both;
+	margin-bottom: 0px;
+	width: 95%;
+}
+
+textarea {
+	width: 95%;
+	margin-top: 10px;
+}
+
+.well {
+	margin-bottom: 20px;
+}
+
+.well-small, input[name=checkbox] {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+#checkbox_label {
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+
+#checkbox_middle {
+	padding-top: 5px;
+}
+
+form {
+	margin-bottom: 0px;
+}
+
+input[type=submit] {
+	margin-top: 10px;
+	width: 100px;
+}
+
+input[name=type_other] {
+	width: 150px;
+}
+
+input[type=checkbox] {
+	margin-bottom: 5px;
+}
+
+#source, .form-inline .radio, input[name=lead_source], input[type=radio] {
+	margin-bottom: 5px;
+}
