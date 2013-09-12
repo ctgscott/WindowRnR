@@ -72,7 +72,9 @@ class UserController extends BaseController {
 			    	}
 			    } 
 
-			    return View::make('customers')->with($data);
+			    //return View::make('customers')->with($data);
+				return View::make('users.login');
+				//return Redirect::to('customers')->with($data);
 			} else {
 				Session::flash('error', 'You are not logged in.');
 				return Redirect::to('users/login');

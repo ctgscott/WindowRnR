@@ -27,6 +27,7 @@ class CustomersController extends BaseController {
 				->get();
 			
 			return View::make('customers.index')->with($results);
+			//return Redirect::to('customers')->with($results);
 		}
 	}
 	

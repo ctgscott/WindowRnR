@@ -7,6 +7,8 @@ Log In
 
 @section('styles')
 <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
+<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 @stop
 
 {{-- Content --}}

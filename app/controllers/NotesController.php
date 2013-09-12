@@ -10,6 +10,7 @@ class NotesController extends BaseController {
 	public function index()
 	{
 		//
+		echo "Hello World";
 	}
 
 	/**

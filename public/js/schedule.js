@@ -6,7 +6,6 @@ $(document).ready(function(){
 		content : '<div id="popOverBox"><img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" /></div>' //this is the content of the html box. add the image here or anything you want really.
 	});
 
-
     $(':button.test').click(function(){
 		var date = new Date();
 		var d = date.getDate();
