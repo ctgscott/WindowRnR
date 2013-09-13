@@ -5,6 +5,11 @@
 Log In
 @stop
 
+@section('styles')
+<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+@stop
+
+
 {{-- Content --}}
 @section('content')
 <h4>Login</h4>

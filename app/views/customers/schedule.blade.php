@@ -2,20 +2,21 @@
 
 {{-- Web site Title --}}
 @section('title')
-Log In
+Schedule Appointments
 @stop
 
 @section('styles')
-<link href="{{ asset('css/customer.css') }}" rel="stylesheet">
 <link rel='stylesheet' type='text/css' href="{{ asset('css/fullcalendar.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/jquery-ui-1.10.3.custom.min.css') }}" />
+<link rel='stylesheet' type='text/css' href="{{ asset('css/validationEngine.jquery.css') }}" />
+<link rel='stylesheet' type='text/css' href="{{ asset('css/customer.css') }}" >
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
-<!--<script type='text/javascript' src="{{ asset('js/jquery.qtip.min.js') }}"></script>-->
-
+<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
 @stop
 
 {{-- Content --}}
@@ -70,7 +71,7 @@ Log In
 	<FORM id=reserveformID method=post>
 		<DIV class=sysdesc>&nbsp;</DIV>
 		<DIV class=rowElem>
-			<LABEL>meeting room:</LABEL> <!--<input type="text" name="meeting" id="meeting" class="validate[required]">-->
+			<LABEL>meeting room:</LABEL> 
 			<SELECT id=meeting class=validate[required] name=meeting></SELECT>
 		</DIV>
 		<DIV class=rowElem><LABEL>Repeated weeks:</LABEL> 
@@ -108,6 +109,32 @@ Log In
 				<DIV id=addresult></DIV>
 			</DIV>
 		</DIV>
+	</FORM>
+</DIV>
+
+<DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">
+	<FORM id=scheduleformID method=post>
+		<DIV class=sysdesc>&nbsp;</DIV>
+		<DIV class=rowElem id=timeSelected>Time Selected:&nbsp;<p id=timeInsert>Test</p></div> 
+		<DIV class=rowElem><LABEL>Arrival Window</LABEL> 
+			<SELECT id=arrivalWindow name=arrivalWindow> 
+				<OPTION selected value=0>1/2 hour</OPTION>
+				<OPTION value=2>1 hour</OPTION>
+			</SELECT>
+		</DIV>
+		<DIV class=rowElem><LABEL>Calendar</LABEL> 
+			<SELECT id=calendarName name=calendarName> 
+				<OPTION selected value=0>Norm's</OPTION>
+				<OPTION value=2>Ed's</OPTION>
+				<OPTION value=2>Scott's</OPTION>
+			</SELECT>
+		</DIV>
+		<DIV class=rowElem>
+			<LABEL>Notes:</LABEL>
+			<TEXTAREA id=details rows=3 cols=43 name=details></TEXTAREA>
+		</DIV>
+		<DIV class=rowElem> </DIV>
+		<DIV class=rowElem> </DIV>
 	</FORM>
 </DIV>
 

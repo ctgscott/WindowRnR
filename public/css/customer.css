@@ -1,3 +1,18 @@
+.ui-corner-all {
+    border-radius: 6px;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 1em;
+    position: relative;
+	line-height: 15px;
+}
+
+.ui-widget-overlay {
+    background: #666666;
+    opacity: 0.5;
+}
+
 body {
 	line-height:10px;
 }

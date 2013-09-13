@@ -10,7 +10,7 @@ $(document).ready(function() {
 	$('#calendar').fullCalendar({
 		// put your options and callbacks here
 		
-		dayClick: function(date, allDay, jsEvent, view, event, element) {
+		dayClick: function(date, allDay, jsEvent, view) {
 			//alert('a day has been clicked!');
 			//$('#myModal').modal('show')
 			if (allDay) {
@@ -18,27 +18,31 @@ $(document).ready(function() {
 			}else{
 				//alert('Clicked on the slot: ' + date);
 
-				var selectdate = $.fullCalendar.formatDate(date, "yyyy-MM-dd");	
+				//$(this).css('background-color', 'red');
+
+				var selectdate = $.fullCalendar.formatDate(date, "yyyy-MM-dd");
+				var selecttime = $.fullCalendar.formatDate(date, "hh:mm tt");
 							
-				$('#reservebox').dialog({
+				$('#schedulebox').dialog({
 					autoOpen: false,
-					height: 450,
-					width: 400,
-					title: 'Reserve meeting room on ' + selectdate,
+					height: 550,
+					width: 600,
+					title: 'Reserve meeting room on ' + selectdate + ' @ ' + selecttime,
+//					title: 'Reserve meeting room on ' + date,
 					modal: true,
 					position: "center",
 					draggable: false,
-					beforeClose: function(event, ui) {
+/*					beforeClose: function(event, ui) {
 							$.validationEngine.closePrompt("#meeting");
 							$.validationEngine.closePrompt("#start");
 							$.validationEngine.closePrompt("#end");								
 					},
-					buttons: {
+*/					buttons: {
 						"close": function() {
 							$( this ).dialog( "close" );
 						},
 						"reserve": function() {				
-							if($("#reserveformID").validationEngine({returnIsValid:true})){
+//							if($("#reserveformID").validationEngine({returnIsValid:true})){
 								var startdatestr = $("#start").val();
 								var enddatestr = $("#end").val();		
 								var confid = $("#meeting").val();	
@@ -49,12 +53,14 @@ $(document).ready(function() {
 								var startdate =  $.fullCalendar.parseDate(selectdate+"T"+startdatestr); 
 								var enddate =  $.fullCalendar.parseDate(selectdate+"T"+enddatestr);
 								var schdata = {startdate:startdate, enddate:enddate, confid:confid, repweeks:repweeks};									
-							}	
+								
+								alert('Stuff: ' + startdate + ', ' + enddate);
+//							}	
 						}
 					}
 				});
 				
-				$( "#reservebox" ).dialog( "open" );
+				$( "#schedulebox" ).dialog( "open" );
 				return false;
 
 		
