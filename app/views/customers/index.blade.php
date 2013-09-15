@@ -87,7 +87,17 @@ Log In
 				<div>
 					<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary']);?>
 					<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
-					<?php echo Form::close(); ?>
+					<?php echo Form::close(); 
+					
+						require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+						ob_start();
+						$firephp = FirePHP::getInstance(true);
+						$firephp->log($_SESSION, 'Index.Blade');
+
+						echo '<pre>';
+						var_dump($_SESSION);
+						echo '</pre>';
+					?>
 				</div>
 			</div>
 			<div class="well well-small">

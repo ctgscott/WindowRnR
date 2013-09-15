@@ -41,7 +41,38 @@ Schedule Appointments
         </div>
     </div>
 </div> 
-<iframe src="https://www.google.com/calendar/embed?title=NormTest&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=windowrnr.com_c7df92ao3vvg02n2kh52b81tn4%40group.calendar.google.com&amp;color=%23182C57&amp;ctz=America%2FLos_Angeles" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<div></div>
+
+<?php 
+	require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+	ob_start();
+	$firephp = FirePHP::getInstance(true);
+	$firephp->log($_SESSION, 'Schedule.Blade');
+	if(isset($_SESSION['lead']))
+		$firephp->log($_SESSION, 'Iterators');
+		
+	//echo $_SESSION;		
+	//echo $_SESSION['_sf2_attributes']['_token'];
+	//echo $results['lead'];
+	echo '<pre>';
+	var_dump($lead);
+	echo '</pre>';
+	echo '<pre>';
+	var_dump($notes);
+	echo '</pre>';
+		
+	echo '<pre>';
+	print_r($lead[0]->job_city);
+	echo '</pre>';
+	
+	foreach ($notes as $note) {
+		echo '<pre>';
+		print_r($note);
+		echo '</pre>';
+	}
+?>
+<!--<iframe src="https://www.google.com/calendar/embed?title=NormTest&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=windowrnr.com_c7df92ao3vvg02n2kh52b81tn4%40group.calendar.google.com&amp;color=%23182C57&amp;ctz=America%2FLos_Angeles" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
+
 <!-- Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -111,32 +142,47 @@ Schedule Appointments
 		</DIV>
 	</FORM>
 </DIV>
-
 <DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">
 	<FORM id=scheduleformID method=post>
 		<DIV class=sysdesc>&nbsp;</DIV>
-		<DIV class=rowElem id=timeSelected>Time Selected:&nbsp;<p id=timeInsert>Test</p></div> 
-		<DIV class=rowElem><LABEL>Arrival Window</LABEL> 
-			<SELECT id=arrivalWindow name=arrivalWindow> 
-				<OPTION selected value=0>1/2 hour</OPTION>
-				<OPTION value=2>1 hour</OPTION>
-			</SELECT>
+		<DIV class="row" id=timeSelected>Time Selected:&nbsp;</div> 
+		<DIV class="row">
+			<div class="span2 field">
+				<LABEL class="scheduleLabel">Arrival Window</LABEL> 
+				<SELECT id=arrivalWindow name=arrivalWindow> 
+					<OPTION selected value=0>1/2 hour</OPTION>
+					<OPTION value=2>1 hour</OPTION>
+				</SELECT>
+			</div>
+			<div class="span2 calendar">
+				<LABEL class="scheduleLabel">Calendar</LABEL> 
+				<SELECT id=calendarName name=calendarName> 
+					<OPTION selected value=0>Norm's</OPTION>
+					<OPTION value=2>Ed's</OPTION>
+					<OPTION value=3>Scott's</OPTION>
+				</SELECT>
+			</div>
 		</DIV>
-		<DIV class=rowElem><LABEL>Calendar</LABEL> 
-			<SELECT id=calendarName name=calendarName> 
-				<OPTION selected value=0>Norm's</OPTION>
-				<OPTION value=2>Ed's</OPTION>
-				<OPTION value=2>Scott's</OPTION>
-			</SELECT>
-		</DIV>
+		<div class="row">
+			<div class="span4 field">
+				<LABEL class="scheduleLabel">Title:</LABEL>
+				<TEXTAREA id=title rows=1 cols=43 name=title disabled>({{ $lead[0]->job_city }})&nbsp;{{ $lead[0]->customer_lname }}</TEXTAREA>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span4 field">
+				<LABEL class="scheduleLabel">Location:</LABEL>
+				<TEXTAREA id=location rows=1 cols=43 name=location disabled>{{ $lead[0]->job_address }}, {{ $lead[0]->job_city }}, {{ $lead[0]->job_zip }}</TEXTAREA>
+			</div>
+		</div>
 		<DIV class=rowElem>
-			<LABEL>Notes:</LABEL>
-			<TEXTAREA id=details rows=3 cols=43 name=details></TEXTAREA>
+			<LABEL class="scheduleLabel">Notes:</LABEL>
+			<TEXTAREA id=notes rows=4 cols=43 name=notes disabled>@foreach ($notes as $note)*{{ $note->note }} ({{ $note->user_name }} - {{ date("m/d/Y, g:i a", strtotime($note->created_at)) }}){{ "\n" }}@endforeach</TEXTAREA>
 		</DIV>
-		<DIV class=rowElem> </DIV>
-		<DIV class=rowElem> </DIV>
 	</FORM>
 </DIV>
+
+
 
 @stop
 

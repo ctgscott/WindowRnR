@@ -24,6 +24,10 @@ $(document).ready(function() {
 				var selecttime = $.fullCalendar.formatDate(date, "hh:mm tt");
 							
 				$('#schedulebox').dialog({
+					create: function(event, ui) { 
+						var widget = $(this).dialog("widget");
+						$(".ui-dialog-titlebar-close", widget).addClass("ui-icon-closethick");
+					},
 					autoOpen: false,
 					height: 550,
 					width: 600,

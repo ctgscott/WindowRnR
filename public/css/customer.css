@@ -1,3 +1,37 @@
+.ui-widget-header {
+	background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+	background-color: #006DCC;
+	border: #a5a5a5;
+}
+
+.scheduleLabel {
+	margin-bottom: 0px;
+}
+
+#title , #location {
+	height: 30px;
+	resize: none;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.field {
+	margin-left: 0px;
+}
+	
+#arrivalWindow {
+	width: 120px;
+}
+
+#calendarName {
+	width: 100px;
+}
+
+.row {
+	margin-left: 0px;
+	margin-top: 10px;
+}
+
 .ui-corner-all {
     border-radius: 6px;
 }
@@ -5,9 +39,8 @@
 .ui-dialog .ui-dialog-titlebar {
     padding: .4em 1em;
     position: relative;
-	line-height: 15px;
+	line-height: 20px;
 }
-
 .ui-widget-overlay {
     background: #666666;
     opacity: 0.5;

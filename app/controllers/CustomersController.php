@@ -10,6 +10,10 @@ class CustomersController extends BaseController {
 	 */
 	public function index()
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -25,7 +29,9 @@ class CustomersController extends BaseController {
 				->where('jobs.status', '=', 1)
 				->where('jobs.archive', '=', 0)
 				->get();
-			
+
+			$firephp->log($results, 'index()');
+				
 			return View::make('customers.index')->with($results);
 			//return Redirect::to('customers')->with($results);
 		}
@@ -65,17 +71,23 @@ class CustomersController extends BaseController {
 		}
 		else
 		{
-			return View::make('customers.schedule');
+			$results = array("test", "stuff");
+			return View::make('customers.schedule')->with($results);
+			//return Redirect::to('customers/schedule')->with($results);
 		}
 	}
 
 
 	public function getScheduleID($id)
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
-		    Session::flash('error', 'There was a problem accessing your account.');
+			Session::flash('error', 'There was a problem accessing your account.');
 			return Redirect::to('/');
 		}
 		else
@@ -83,15 +95,27 @@ class CustomersController extends BaseController {
 			// User is logged in
 			$results['lead'] = DB::table('jobs')
 				->join('customers', 'jobs.customer_id', '=', 'customers.id')
-				->join('notes', 'jobs.id', '=', 'notes.job_id')
-				->select('customers.id', 'customers.l_name', 'customers.f_name', 'customers.phone', 'customers.alt_phone', 'customers.email', 'jobs.id as job_id', 'jobs.created_at', 'jobs.created_by', 'jobs.address', 'jobs.city', 'jobs.built')
+//				->join('notes', 'jobs.id', '=', 'notes.job_id')
+				->select('customers.id as customer_id', 'customers.l_name as customer_lname', 'customers.f_name as customer_fname', 'customers.phone as customer_phone', 'customers.alt_phone as customer_altphone', 'customers.email as customer_email', 'jobs.id as job_id', 'jobs.created_at as job_created_at', 'jobs.created_by as job_created_by', 'jobs.address as job_address', 'jobs.city as job_city', 'jobs.zip as job_zip', 'jobs.built as house_built')
 				->where('jobs.id', '=', $id)
 				->get();
 				
-//print_r($results['lead']);
+			$results['notes'] = DB::table('notes')
+				->select('note', 'user_name', 'created_at')
+				->where('job_id', '=', $id)
+				->orderBy('created_at', 'desc')
+				->get();
+				
+//print_r($results);
 //exit;			
-//			return View::make('customers.schedule')->with($results);
-			return Redirect::to('customers/schedule')->with($results);
+
+			$firephp->log($results, 'getScheduleID($id)');
+			
+//			exit;			
+			
+			return View::make('customers.schedule')->with($results);
+			//return $results;
+			//return Redirect::to('customers/schedule')->with($results);
 		}
 	}
 
@@ -329,7 +353,8 @@ class CustomersController extends BaseController {
 		$noteAdd = new note;
 		$noteAdd->job_id = $job->id;
 		$noteAdd->user_id = $user->id;
-		$noteAdd->note = 'Lead created on '.date("n/j/y (g:ia)", strtotime($timeDate)).' by: '.$user->first_name;
+		$noteAdd->user_name = $user->first_name;
+		$noteAdd->note = 'Lead created.';
 		$noteAdd->save();	
 			
 		$note = new note;
