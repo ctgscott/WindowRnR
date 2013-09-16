@@ -117,19 +117,16 @@ Log In
 						@foreach ($customers as $customer)
 							<tr>
 								<td>{{ $customer->job_id }}</td>
-								<td>{{ date("n/j/y", strtotime($customer->created_at)) }}</td>
-								<td><a href="#">{{ $customer->l_name }}</a></td>
-								<td><a href="#">{{ $customer->address }}</a></td>
-								<td>{{ $customer->city }}</td>
-								<td>{{ $customer->built }}</td>
-								<td>{{ $customer->phone }}</td>
-								<td>{{ $customer->email }}</td>
+								<td>{{ date("n/j/y", strtotime($customer->job_created_at)) }}</td>
+								<td><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
+								<td>{{ $customer->job_address }}</a></td>
+								<td>{{ $customer->job_city }}</td>
+								<td>{{ $customer->job_house_built }}</td>
+								<td>{{ $customer->customer_phone }}</td>
+								<td>{{ $customer->customer_email }}</td>
 								<td>
-									<!--<button class="btn-mini btn-info" onClick="location.href='{{ URL::to('customer/edit') }}/{{ $customer->id}}'">Details</button>  -->
 									<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
-									<!--<button class="btn-mini btn-success action_confirm radius" href="{{ URL::to('customer/delete') }}/{{ $customer->id}}" data-method="post">Schedule</button>-->
 									<button class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
-									<!--<button class="btn-mini btn-success action_confirm radius" href='#tab2' data-toggle="tab" id="schedButton">Schedule</button>-->
 								</td>
 							</tr>
 						@endforeach

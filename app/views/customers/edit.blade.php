@@ -1,1 +1,1 @@
-edit.blade
+<h1>edit.blade</h1><?php	print_r($customers);?>

@@ -1,6 +1,14 @@
+.ui-dialog,
+.ui-dialog-buttonpane,
+.ui-dialog-content ,
+.ui-widget-content {
+	background-color: #ffffff;
+	background-image: none;
+}
+
 .ui-widget-header {
 	background-image: linear-gradient(to bottom, #0088CC, #0044CC);
-	background-color: #006DCC;
+	background-color: #ffffff;
 	border: #a5a5a5;
 }
 

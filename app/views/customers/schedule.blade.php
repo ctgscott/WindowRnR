@@ -177,7 +177,7 @@ Schedule Appointments
 		</div>
 		<DIV class=rowElem>
 			<LABEL class="scheduleLabel">Notes:</LABEL>
-			<TEXTAREA id=notes rows=4 cols=43 name=notes disabled>@foreach ($notes as $note)*{{ $note->note }} ({{ $note->user_name }} - {{ date("m/d/Y, g:i a", strtotime($note->created_at)) }}){{ "\n" }}@endforeach</TEXTAREA>
+			<TEXTAREA id=notes rows=4 cols=43 name=notes disabled>@foreach ($notes as $note)*{{ $note->note }} [{{ $note->user_name }}: {{ date("g:i a, m/d/Y", strtotime($note->created_at)) }}]{{ "\n" }}@endforeach</TEXTAREA>
 		</DIV>
 	</FORM>
 </DIV>

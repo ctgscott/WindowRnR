@@ -16,15 +16,15 @@ $(document).ready(function(){
 			[
 				{
 					"title": "(Long Beach) Anderson",
-					"start": new Date(y, m, 4, 11, 00),
-					"end": new Date(y, m, 4, 12, 00),
+					"start": new Date(y, m, 19, 11, 00),
+					"end": new Date(y, m, 19, 12, 00),
 					"allDay": false,
 					"url": "http://www.google.com"
 				},
 				{
 					"title": "(Long Beach) Baker",
-					"start": new Date(y, m, 5, 11, 00),
-					"end": new Date(y, m, 5, 12, 00),
+					"start": new Date(y, m, 20, 11, 00),
+					"end": new Date(y, m, 20, 12, 00),
 					"allDay": false,
 					"url": "http://www.google.com"
 				}

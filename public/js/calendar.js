@@ -42,10 +42,7 @@ $(document).ready(function() {
 							$.validationEngine.closePrompt("#end");								
 					},
 */					buttons: {
-						"close": function() {
-							$( this ).dialog( "close" );
-						},
-						"reserve": function() {				
+						"Schedule": function() {				
 //							if($("#reserveformID").validationEngine({returnIsValid:true})){
 								var startdatestr = $("#start").val();
 								var enddatestr = $("#end").val();		
@@ -58,9 +55,22 @@ $(document).ready(function() {
 								var enddate =  $.fullCalendar.parseDate(selectdate+"T"+enddatestr);
 								var schdata = {startdate:startdate, enddate:enddate, confid:confid, repweeks:repweeks};									
 								
-								alert('Stuff: ' + startdate + ', ' + enddate);
+								alert('Stuff: ' + var_dump(schdata) + ', ' + startdate + ', ' + enddate);
 //							}	
+						},
+						"Cancel": function() {
+							$( this ).dialog( "close" );
+						},
+						"Edit Lead": function() {
+						//	var id = $customer->job_id;
+						//	$.get("/customers/" + id);
+							document.location.href='/customers/1';
 						}
+					},
+					open: function() {
+						$('.ui-dialog-buttonpane').find('button:contains("Schedule")').addClass('btn btn-success');
+						$('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-primary');
+						$('.ui-dialog-buttonpane').find('button:contains("Edit Lead")').addClass('btn btn-info');
 					}
 				});
 				

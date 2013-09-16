@@ -20,11 +20,11 @@ Route::get('/', function()
 
 Route::get('/', 'UserController@getIndex');
 Route::get('customers/archive/{id}', 'CustomersController@archive');
-//Route::get('customers/schedule', 'CustomersController@getSchedule');
 Route::get('customers/schedule/{id}', 'CustomersController@getScheduleID');
 Route::post('customers/estimateschedule', 'CustomersController@EstimateSchedule');
 Route::get('customers/estimateschedule', 'CustomersController@EstimateSchedule');
 Route::post('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
+Route::get('customers/{id}', 'CustomersController@edit');
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
 {
 	// check URL segment
@@ -63,8 +63,8 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 
 
 Route::controller('users', 'UserController');
-Route::controller('customers', 'CustomersController');
 Route::controller('customers/schedule', 'CustomersController'); 
+Route::controller('customers', 'CustomersController');
 
 Route::resource('groups', 'GroupController');
 

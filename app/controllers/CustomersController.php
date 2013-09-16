@@ -25,16 +25,58 @@ class CustomersController extends BaseController {
 			// User is logged in
 			$results['customers'] = DB::table('jobs')
 				->join('customers', 'jobs.customer_id', '=', 'customers.id')
-				->select('customers.id', 'customers.l_name', 'customers.f_name', 'customers.phone', 'customers.alt_phone', 'customers.email', 'jobs.id as job_id', 'jobs.created_at', 'jobs.created_by', 'jobs.address', 'jobs.city', 'jobs.built')
+				->select(
+					'customers.id as customer_id', 
+					'customers.l_name as customer_lname', 
+					'customers.f_name as customer_fname', 
+					'customers.phone as customer_phone', 
+					'customers.alt_phone as customer_altphone', 
+					'customers.email as customer_email', 
+					'jobs.id as job_id', 
+					'jobs.created_at as job_created_at', 
+					'jobs.created_by as job_created_by', 
+					'jobs.address as job_address', 
+					'jobs.city as job_city', 
+					'jobs.zip as job_zip', 
+					'jobs.built as job_house_built'
+				)
 				->where('jobs.status', '=', 1)
 				->where('jobs.archive', '=', 0)
 				->get();
 
 			$firephp->log($results, 'index()');
-				
+//print_r($results);
+//exit;				
 			return View::make('customers.index')->with($results);
 			//return Redirect::to('customers')->with($results);
 		}
+	}
+
+	public function leadByJob($jobId)
+	{
+		$results['customers'] = DB::table('jobs')
+			->join('customers', 'jobs.customer_id', '=', 'customers.id')
+			->select(
+				'customers.id as customer_id', 
+				'customers.l_name as customer_lname', 
+				'customers.f_name as customer_fname', 
+				'customers.phone as customer_phone', 
+				'customers.alt_phone as customer_altphone', 
+				'customers.email as customer_email', 
+				'jobs.id as job_id', 
+				'jobs.created_at as job_created_at', 
+				'jobs.created_by as job_created_by', 
+				'jobs.address as job_address', 
+				'jobs.city as job_city', 
+				'jobs.zip as job_zip', 
+				'jobs.built as job_house_built'
+			)
+			->where('jobs.status', '=', 1)
+			->where('jobs.archive', '=', 0)
+			->where('jobs.id', '=', $jobId)
+			->get();
+			
+		return $results;
 	}
 	
 	public function archive($id)
@@ -389,7 +431,8 @@ class CustomersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$results = CustomersController::leadByJob($id);
+		return View::make('customers.edit')->with($results);
 	}
 
 	/**
