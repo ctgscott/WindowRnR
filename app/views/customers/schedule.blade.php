@@ -21,6 +21,8 @@ Schedule Appointments
 
 {{-- Content --}}
 @section('content')
+
+
 <h4>Estimates Appointments</h4>
 	<div class="container-fluid">
 		<div id="calendar"></div>
@@ -31,6 +33,25 @@ Schedule Appointments
 		<a href="#" rel="drevil">mischief</a>
 	</div>
 
+<div id='wrap'>
+
+<div id='external-events'>
+<h4>Draggable Events</h4>
+<div class='external-event'>My Event 1</div>
+<div class='external-event'>My Event 2</div>
+<div class='external-event'>My Event 3</div>
+<div class='external-event'>My Event 4</div>
+<div class='external-event'>My Event 5</div>
+<p>
+<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+</p>
+</div>
+
+<div id='calendar'></div>
+
+<div style='clear:both'></div>
+</div>	
+	
 <!-- Button to trigger modal -->
 <a href="#myModal" role="button" class="btn" data-toggle="modal" data-target="#myModal">Launch demo modal</a>
 <div id="popoverTemplateContainer" style="display: none">
@@ -150,23 +171,23 @@ Schedule Appointments
 			<div class="span2 field">
 				<LABEL class="scheduleLabel">Arrival Window</LABEL> 
 				<SELECT id=arrivalWindow name=arrivalWindow> 
-					<OPTION selected value=0>1/2 hour</OPTION>
-					<OPTION value=2>1 hour</OPTION>
+					<OPTION selected value=.5>1/2 hour</OPTION>
+					<OPTION value=1>1 hour</OPTION>
 				</SELECT>
 			</div>
 			<div class="span2 calendar">
 				<LABEL class="scheduleLabel">Calendar</LABEL> 
 				<SELECT id=calendarName name=calendarName> 
-					<OPTION selected value=0>Norm's</OPTION>
-					<OPTION value=2>Ed's</OPTION>
-					<OPTION value=3>Scott's</OPTION>
+					<OPTION selected value="Norm">Norm's</OPTION>
+					<OPTION value="Ed">Ed's</OPTION>
+					<OPTION value="Scott">Scott's</OPTION>
 				</SELECT>
 			</div>
 		</DIV>
 		<div class="row">
 			<div class="span4 field">
 				<LABEL class="scheduleLabel">Title:</LABEL>
-				<TEXTAREA id=title rows=1 cols=43 name=title disabled>({{ $lead[0]->job_city }})&nbsp;{{ $lead[0]->customer_lname }}</TEXTAREA>
+				<TEXTAREA id=title rows=1 cols=43 name=title disabled>({{ $lead[0]->job_city }})&nbsp;{{ $lead[0]->customer_lname }}, {{ $lead[0]->customer_fname }}</TEXTAREA>
 			</div>
 		</div>
 		<div class="row">

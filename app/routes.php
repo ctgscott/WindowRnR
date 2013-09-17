@@ -24,8 +24,10 @@ Route::get('customers/schedule/{id}', 'CustomersController@getScheduleID');
 Route::post('customers/estimateschedule', 'CustomersController@EstimateSchedule');
 Route::get('customers/estimateschedule', 'CustomersController@EstimateSchedule');
 Route::post('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
-Route::get('customers/{id}', 'CustomersController@edit');
+//Route::get('customers/{id}', 'CustomersController@edit');
+
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
+
 {
 	// check URL segment
 	if ($action == "auth") {
