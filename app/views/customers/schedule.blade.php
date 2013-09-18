@@ -65,7 +65,7 @@ Schedule Appointments
 <div></div>
 
 <?php 
-	require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+/*	require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
 	ob_start();
 	$firephp = FirePHP::getInstance(true);
 	$firephp->log($_SESSION, 'Schedule.Blade');
@@ -91,6 +91,7 @@ Schedule Appointments
 		print_r($note);
 		echo '</pre>';
 	}
+*/	
 ?>
 <!--<iframe src="https://www.google.com/calendar/embed?title=NormTest&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=windowrnr.com_c7df92ao3vvg02n2kh52b81tn4%40group.calendar.google.com&amp;color=%23182C57&amp;ctz=America%2FLos_Angeles" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
 
@@ -178,16 +179,16 @@ Schedule Appointments
 			<div class="span2 calendar">
 				<LABEL class="scheduleLabel">Calendar</LABEL> 
 				<SELECT id=calendarName name=calendarName> 
-					<OPTION selected value="Norm">Norm's</OPTION>
-					<OPTION value="Ed">Ed's</OPTION>
-					<OPTION value="Scott">Scott's</OPTION>
+					<OPTION selected value="windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com">Norm's</OPTION>
+					<!--<OPTION value="Ed">Ed's</OPTION>-->
+					<OPTION value="primary">Scott's</OPTION>
 				</SELECT>
 			</div>
 		</DIV>
 		<div class="row">
 			<div class="span4 field">
-				<LABEL class="scheduleLabel">Title:</LABEL>
-				<TEXTAREA id=title rows=1 cols=43 name=title disabled>({{ $lead[0]->job_city }})&nbsp;{{ $lead[0]->customer_lname }}, {{ $lead[0]->customer_fname }}</TEXTAREA>
+				<LABEL class="scheduleLabel">Summary:</LABEL>
+				<TEXTAREA id=summary rows=1 cols=43 name=summary disabled>({{ $lead[0]->job_city }})&nbsp;{{ $lead[0]->customer_lname }}, {{ $lead[0]->customer_fname }}</TEXTAREA>
 			</div>
 		</div>
 		<div class="row">

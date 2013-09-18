@@ -58,7 +58,7 @@ $(document).ready(function() {
 			}
 		},
 		
-		dayClick: function(date, allDay, jsEvent, view) {
+/*		dayClick: function(date, allDay, jsEvent, view) {
 			//alert('a day has been clicked!');
 			//$('#myModal').modal('show')
 			if (allDay) {
@@ -80,34 +80,18 @@ $(document).ready(function() {
 					height: 550,
 					width: 600,
 					title: 'Reserve meeting room on ' + selectdate + ' @ ' + selecttime,
-//					title: 'Reserve meeting room on ' + date,
 					modal: true,
 					position: "center",
 					draggable: false,
-/*					beforeClose: function(event, ui) {
-							$.validationEngine.closePrompt("#meeting");
-							$.validationEngine.closePrompt("#start");
-							$.validationEngine.closePrompt("#end");								
-					},
-*/					buttons: {
+					buttons: {
 						"Schedule": function() {				
-//							if($("#reserveformID").validationEngine({returnIsValid:true})){
-								var startdatestr = $("#start").val();
-								var enddatestr = $("#end").val();		
-								var confid = $("#meeting").val();	
-								var repweeks = $("#repweeks").val();	
-								if(repweeks==null){
-									repweeks=0;
-								}
-								var startdate =  $.fullCalendar.parseDate(selectdate+"T"+startdatestr); 
-								var enddate =  $.fullCalendar.parseDate(selectdate+"T"+enddatestr);
-								var schdata = {startdate:startdate, enddate:enddate, confid:confid, repweeks:repweeks};		
-
-								var duration = $("#arrivalWindow").val();
-								var calendarName = $("#calendarName").val();
-								
-								alert('Stuff: ' + selectdate + ', ' + selecttime + ', ' + date + ', ' + duration + ', ' + calendarName);
-//							}	
+							var duration = $("#arrivalWindow").val();
+							var calendarName = $("#calendarName").val();
+							var summary = $("#summary").val();
+							var location = $("#location").val();
+							var description = $("#notes").val();
+							
+							alert('$calendarID: ' + calendarName + ', $start: ' + date + ', $end: ' + end + ', $summary: ' + summary + ', $location: ' + location + ', $description: ' + description);
 						},
 						"Cancel": function() {
 							$( this ).dialog( "close" );
@@ -128,58 +112,15 @@ $(document).ready(function() {
 				$( "#schedulebox" ).dialog( "open" );
 				return false;
 
-		
-		
-/*				if($(this).data('popover') == null)
-				{					
-					$(this).tooltip({
-						animation: true,
-						placement: 'right',
-						trigger: 'manual',
-						title: 'My Dynamic PopOver',
-						container:'body',
-						content:'Add Schedule to: ' + date,
-						html : true,
-					//template: $('#popoverTemplate').clone().attr('id','').html()
-					}).tooltip('show');
-				}
-*//*					$.ajax({
-						type: HTTP_GET,
-						url: "/myURL"
-
-						success: function(data)
-						{
-							//Clean the popover previous content
-							$('.popover.in .popover-inner').empty();    
-
-							//Fill in content with new AJAX data
-							$('.popover.in .popover-inner').html(data);
-
-						}*/
-//					});
-
-//				});
-
-				if($(this).data('popover') !== null)
-				{
-				//	$(this).popover('hide');
-				}
 			}
-
-//			alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-
-//			alert('Current view: ' + view.name);
-						
-			// change the day's background color just for fun
-			//$(this).css('background-color', 'red');
 		},
-
+*/
 		selectable: true,
 		selectHelper: true,
-		select: function(start, end, allDay) {
+/*		select: function(start, end, allDay) {
 			var title = prompt('Event Title:');
 			if (title) {
-				calendar.fullCalendar('renderEvent',
+				$('#calendar').fullCalendar('renderEvent',
 					{
 						title: title,
 						start: start,
@@ -189,8 +130,70 @@ $(document).ready(function() {
 					true // make the event "stick"
 				);
 			}
-			calendar.fullCalendar('unselect');
+			$('#calendar').fullCalendar('unselect');
 		},
+*/
+		select: function(start, end, allDay) {
+			$('#schedulebox').dialog({
+				create: function(event, ui) { 
+					var widget = $(this).dialog("widget");
+					$(".ui-dialog-titlebar-close", widget).addClass("ui-icon-closethick");
+				},
+				autoOpen: false,
+				height: 550,
+				width: 600,
+				title: 'Reserve meeting room on ' + date + ' @ ' + start,
+				modal: true,
+				position: "center",
+				draggable: false,
+				buttons: {
+					"Schedule": function() {				
+						var duration = $("#arrivalWindow").val();
+						var calendarName = $("#calendarName").val();
+						var summary = $("#summary").val();
+						var location = $("#location").val();
+						var description = $("#notes").val();
+					
+						alert('$calendarID: ' + calendarName + ', $start: ' + start + ', $end: ' + end + ', $summary: ' + summary + ', $location: ' + location + ', $description: ' + description);
+						
+						var googleInsert = {};
+						googleInsert['calendarID'] = calendarName;
+						googleInsert['summary'] = summary;
+						googleInsert['location'] = location;
+						googleInsert['start'] = start;
+						googleInsert['end'] = end;
+						googleInsert['description'] = description;
+						
+						alert(JSON.stringify(googleInsert));
+						$.ajax({
+							type: "POST",
+							url: '/customers/postGoogleInsert',
+							data: googleInsert
+							//success: //success function called here
+						});
+						
+						alert(dataType);
+					},
+					"Cancel": function() {
+						$( this ).dialog( "close" );
+					},
+					"Edit Lead": function() {
+					//	var id = $customer->job_id;
+					//	$.get("/customers/" + id);
+						document.location.href='/customers/1';
+					}
+				},
+				open: function() {
+					$('.ui-dialog-buttonpane').find('button:contains("Schedule")').addClass('btn btn-success');
+					$('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-primary');
+					$('.ui-dialog-buttonpane').find('button:contains("Edit Lead")').addClass('btn btn-info');
+				}
+			});
+			
+			$( "#schedulebox" ).dialog( "open" );
+			return false;
+		},
+
 
 		weekends: false, 	// will hide Saturdays and Sundays
 		editable: true,  	// enables drag, drop and resize
