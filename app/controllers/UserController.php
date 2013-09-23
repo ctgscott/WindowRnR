@@ -341,6 +341,9 @@ class UserController extends BaseController {
 	public function getLogout() 
 	{
 		Sentry::logout();
+		if (isset($_SESSION['token'])) {
+		  unset($_SESSION['token']);
+		}
 		return Redirect::to('/');
 	}
 

@@ -10,9 +10,6 @@ class CustomersController extends BaseController {
 	 */
 	public function index()
 	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
 
 		if ( ! Sentry::check())
 		{
@@ -27,10 +24,6 @@ class CustomersController extends BaseController {
 			require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
 			$client = new Google_Client();
 			
-			require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-			ob_start();
-			$firephp = FirePHP::getInstance(true);
-
 			if (isset($_GET['code'])) {
 				$client->authenticate($_GET['code']);
 				$_SESSION['token'] = $client->getAccessToken();
@@ -40,8 +33,6 @@ class CustomersController extends BaseController {
 			if (isset($_SESSION['token'])) {
 				$client->setAccessToken($_SESSION['token']);
 			}
-			
-			$firephp->log($_SESSION, 'Customer - Index, $_SESSION)');
 			
 			$results['customers'] = DB::table('jobs')
 				->join('customers', 'jobs.customer_id', '=', 'customers.id')
@@ -64,11 +55,7 @@ class CustomersController extends BaseController {
 				->where('jobs.archive', '=', 0)
 				->get();
 
-			$firephp->log($results, 'index()');
-//print_r($results);
-//exit;				
 			return View::make('customers.index')->with($results);
-			//return Redirect::to('customers')->with($results);
 		}
 	}
 
@@ -327,10 +314,6 @@ class CustomersController extends BaseController {
 
 		if ($client->getAccessToken()) {
 			$calList = $cal->calendarList->listCalendarList();
-//			print_r($calList);
-//			exit;
-			$rightNow = date('c');
-			echo $rightNow;
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
 			$calList2 = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
 			//print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
@@ -401,20 +384,29 @@ class CustomersController extends BaseController {
 		$calendarID = $_POST['calendarID'];
 		$summary = $_POST['summary'];
 		$location = $_POST['location'];
-		$start = $_POST['start'];
-		$end = $_POST['end'];
+//		$start = new DateTime($_POST['start']);
+//		$start = str_split($_POST['start'], 33);
+		$start = substr($_POST['start'], 0, 33);
+		$start = strtotime($start);
+		$start = date('c', $start);
+		$end = substr($_POST['end'], 0, 33);
+		$end = strtotime($end);
+		$end = date('c', $end);
+//		$end = strtotime($_POST['end']);
 		$description = $_POST['description'];
-		
-		$event = new Event();
+//var_dump($start);
+//exit;		
+		$event = new Google_Event();
 		$event->setSummary('summary');
 		$event->setLocation($location);
 		$event->setDescription($description);
-//		$start = new EventDateTime();
-//		$start->setDateTime('2011-06-03T10:00:00.000-07:00');
-		$event->setStart($start);
-//		$end = new EventDateTime();
-//		$end->setDateTime('2011-06-03T10:25:00.000-07:00');
-		$event->setEnd($end);
+		$eventStart = new Google_EventDateTime();
+		$eventStart->setDateTime($start);
+		$event->setStart($eventStart);
+		$eventEnd = new Google_EventDateTime();
+		$eventEnd->setDateTime($end);
+		$event->setEnd($eventEnd);
+//		$event->setTimeZone('America/Los_Angeles');
 //		$attendee1 = new EventAttendee();
 //		$attendee1->setEmail('attendeeEmail');
 		// ...
@@ -422,11 +414,13 @@ class CustomersController extends BaseController {
 						   // ...
 //       );
 //		$event->attendees = $attendees;
-		$createdEvent = $service->events->insert($calendarID, $event);
 
-		return $createdEvent->getId();
+		$createdEvent = $cal->events->insert($calendarID, $event);
+//print_r($createdEvent);
+//exit;
+		return $createdEvent['id'];
 
-		$_SESSION['token'] = $client->getAccessToken();
+//		$_SESSION['token'] = $client->getAccessToken();
 		} else {
 		  $authUrl = $client->createAuthUrl();
 	//	  print "<a class='login' href='$authUrl'>Connect Me!</a>";

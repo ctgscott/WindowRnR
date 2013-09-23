@@ -164,7 +164,7 @@ $(document).ready(function() {
 						googleInsert['end'] = end;
 						googleInsert['description'] = description;
 						
-						alert(JSON.stringify(googleInsert));
+						//alert(JSON.stringify(googleInsert));
 						$.ajax({
 							type: "POST",
 							url: '/customers/postGoogleInsert',
@@ -172,7 +172,7 @@ $(document).ready(function() {
 							//success: //success function called here
 						});
 						
-						alert(dataType);
+						//alert(googleInsert);
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );
