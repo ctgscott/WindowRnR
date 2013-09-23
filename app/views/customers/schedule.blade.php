@@ -28,7 +28,7 @@ Schedule Appointments
 		<div id="calendar"></div>
 		<button class="test btn btn-primary">TEST</button>
 	<!--	{//{ Calendar::getEvents(date('c')) }}-->
-		<?php echo json_encode(CustomersController::EstimateSchedule2()) ?>
+		<?php //echo json_encode(CustomersController::EstimateSchedule2()) ?>
 	<!--	{//{ CustomersController::EstimateSchedule() }}-->
 		<a href="#" rel="drevil">mischief</a>
 	</div>

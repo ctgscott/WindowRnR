@@ -23,6 +23,26 @@ class CustomersController extends BaseController {
 		else
 		{
 			// User is logged in
+			require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
+			require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
+			$client = new Google_Client();
+			
+			require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+			ob_start();
+			$firephp = FirePHP::getInstance(true);
+
+			if (isset($_GET['code'])) {
+				$client->authenticate($_GET['code']);
+				$_SESSION['token'] = $client->getAccessToken();
+				header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+			}
+
+			if (isset($_SESSION['token'])) {
+				$client->setAccessToken($_SESSION['token']);
+			}
+			
+			$firephp->log($_SESSION, 'Customer - Index, $_SESSION)');
+			
 			$results['customers'] = DB::table('jobs')
 				->join('customers', 'jobs.customer_id', '=', 'customers.id')
 				->select(
@@ -225,24 +245,23 @@ class CustomersController extends BaseController {
 */	
 	public static function EstimateSchedule()
 	{
-//		echo "A";
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
-//		echo "0";
+
 		$client = new Google_Client();
-//		echo "1";
 		$client->setApplicationName("Google Calendar PHP Starter Application");
-//		echo "2";
 		$cal = new Google_CalendarService($client);
 
+		$start = date('c',$_GET['start']);
+
 		if (isset($_SESSION['token'])) {
-		  $client->setAccessToken($_SESSION['token']);
+			$client->setAccessToken($_SESSION['token']);
 		}
+
 		if ($client->getAccessToken()) {
-//			echo "3";
 			$calList = $cal->calendarList->listCalendarList();
 			$rightNow = date('c');
-			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $rightNow);
+			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
 			$calList2 = $cal->events->listEvents('primary', $params);
 			$events = array();
 			foreach ($calList2['items'] as $event)
@@ -261,7 +280,6 @@ class CustomersController extends BaseController {
 //			echo json_encode($events);
 			return $events;
 		}
-//		echo "4";
 	}
 
 	public static function EstimateSchedule2()
@@ -269,16 +287,27 @@ class CustomersController extends BaseController {
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
 		//session_start();
+		
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
 
+		
+		$start = date('c',$_GET['start']);
+		
+		$firephp->log($start, 'EstimateSchedule2, $start)');
+		$firephp->log($_SESSION, 'EstimateSchedule2, $_SESSION)');
+
+		
 		$client = new Google_Client();
 		$client->setApplicationName("Google Calendar PHP Starter Application");
 
 		// Visit https://code.google.com/apis/console?api=calendar to generate your
 		// client id, client secret, and to register your redirect uri.
-		$client->setClientId('9824738942-4g6mv5siudqkgb9768662jad4qhb5lir.apps.googleusercontent.com');
-		$client->setClientSecret('3hbp4TiSn_kAjlgw36IvB3_4');
+//		$client->setClientId('9824738942-4g6mv5siudqkgb9768662jad4qhb5lir.apps.googleusercontent.com');
+//		$client->setClientSecret('3hbp4TiSn_kAjlgw36IvB3_4');
 		$client->setRedirectUri('http://Localhost:8000/customers/schedule');
-		$client->setDeveloperKey('AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8');
+//		$client->setDeveloperKey('AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8');
 		$cal = new Google_CalendarService($client);
 		if (isset($_GET['logout'])) {
 		  unset($_SESSION['token']);
@@ -294,12 +323,15 @@ class CustomersController extends BaseController {
 		  $client->setAccessToken($_SESSION['token']);
 		}
 
+		$firephp->log($client, 'EstimateSchedule2, $client)');
+
 		if ($client->getAccessToken()) {
 			$calList = $cal->calendarList->listCalendarList();
 //			print_r($calList);
 //			exit;
 			$rightNow = date('c');
-			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $rightNow);
+			echo $rightNow;
+			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
 			$calList2 = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
 			//print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
 			//print "<h1>Calendar List2</h1><pre>" . print_r($calList2, true) . "</pre>";
@@ -319,10 +351,17 @@ class CustomersController extends BaseController {
 			}
 
 			$_SESSION['token'] = $client->getAccessToken();
+		$firephp->log($events, 'getScheduleID($events)');
+		$firephp->log($_SESSION, 'getScheduleID($_SESSION)');
+
 			return $events;
 		} else {
-		  $authUrl = $client->createAuthUrl();
-		  print "<a class='login' href='$authUrl'>Connect Me!</a>";
+			$authUrl = $client->createAuthUrl();
+			//print "<a class='login' href='$authUrl'>Connect Me!</a>";
+			echo '<script type="text/javascript">
+				window.location.href="'.$authUrl.'";
+				</script>';
+		$firephp->log($_SESSION, 'EstimateSchedule2, $_SESSION #2)');
 		}
 	}
 	

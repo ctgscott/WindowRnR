@@ -267,20 +267,28 @@ $(document).ready(function() {
 		eventSources: [
 			{
 				url: '/customers/estimateschedule',
-				type: 'POST',
-				color: 'blue',    // an option!
+				type: 'GET',
+/*				data: {
+				start: startParam, //	custom_param1: 'something',
+				end: startParam //	custom_param2: 'somethingelse'
+				},
+*/				color: 'blue',    // an option!
 				textColor: 'white',  // an option!
 				error: function() {
-					alert('there was an error while fetching events!');
+					alert('there was an error while fetching estimageschedule!');
 				}
 			},
 			{
 				url: '/customers/estimateschedule2',
-				type: 'POST',
-				color: 'green',    // an option!
+				type: 'GET',
+/*				data: {
+					basstart: 'start',
+					blah: 'end'
+				},
+*/				color: 'green',    // an option!
 				textColor: 'white',  // an option!
 				error: function() {
-					alert('there was an error while fetching events!');
+					alert('there was an error while fetching estimageschedule2!');
 				}
 			}
 		]

@@ -94,10 +94,10 @@ Log In
 						$firephp = FirePHP::getInstance(true);
 						$firephp->log($_SESSION, 'Index.Blade');
 
-						echo '<pre>';
+/*						echo '<pre>';
 						var_dump($_SESSION);
 						echo '</pre>';
-					?>
+*/					?>
 				</div>
 			</div>
 			<div class="well well-small">

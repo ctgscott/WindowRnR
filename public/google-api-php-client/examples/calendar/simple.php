@@ -32,8 +32,9 @@ if ($client->getAccessToken()) {
   print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
 
 
-$_SESSION['token'] = $client->getAccessToken();
+  $_SESSION['token'] = $client->getAccessToken();
 } else {
   $authUrl = $client->createAuthUrl();
-  print "<a class='login' href='$authUrl'>Connect Me!</a>";
+  //print "<a class='login' href='$authUrl'>Connect Me!</a>";
+  window.location = $authUrl;
 }
