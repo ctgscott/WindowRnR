@@ -26,32 +26,96 @@ Schedule Appointments
 <h4>Estimates Appointments</h4>
 	<div class="container-fluid">
 		<div id="calendar"></div>
-		<button class="test btn btn-primary">TEST</button>
-	<!--	{//{ Calendar::getEvents(date('c')) }}-->
-		<?php //echo json_encode(CustomersController::EstimateSchedule2()) ?>
-	<!--	{//{ CustomersController::EstimateSchedule() }}-->
-		<a href="#" rel="drevil">mischief</a>
 	</div>
-
-<div id='wrap'>
-
-<div id='external-events'>
-<h4>Draggable Events</h4>
-<div class='external-event'>My Event 1</div>
-<div class='external-event'>My Event 2</div>
-<div class='external-event'>My Event 3</div>
-<div class='external-event'>My Event 4</div>
-<div class='external-event'>My Event 5</div>
-<p>
-<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
-</p>
+<div>&nbsp;</div>
+<div class="well well-small">
+<!--	<div id='wrap'>
+		<div id='external-events'>
+			<h4>Draggable Events</h4>
+			<div class='external-event'>My Event 1</div>
+			<div class='external-event'>My Event 2</div>
+			<div class='external-event'>My Event 3</div>
+			<div class='external-event'>My Event 4</div>
+			<div class='external-event'>My Event 5</div>
+			<p>
+				<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+			</p>
+		</div>
+		<div id='calendar'></div>
+		<div style='clear:both'></div>
+	</div>
+-->
+	<h4><em>Existing leads</em></h4>
+	<div class="row" id='wrap'>
+		<p>
+			<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+		</p>
+		<div class="span12" id='external-events'>
+			<div class="row">
+				<div class="span1">#</div>
+				<div class="span1">Created</div>
+				<div class="span1">Last Name</div>
+				<div class="span1">Address</div>
+				<div class="span1">City</div>
+				<div class="span1">Built&nbsp;</div>
+				<div class="span2">Phone</div>
+				<div class="span2">Email</div>
+				<div class="span2">Action</div>
+			</div>
+			
+			@foreach ($customers as $customer)
+				<div class="row">
+					<div class="external-event span1">{{ $customer->job_id }}</div>
+					<div class="span1">{{ date("n/j/y", strtotime($customer->job_created_at)) }}</div>
+					<div class="span1"><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></div>
+					<div class="span1">{{ $customer->job_address }}</div>
+					<div class="span1">{{ $customer->job_city }}</div>
+					<div class="span1">{{ $customer->job_house_built }}</div>
+					<div class="span2">{{ $customer->customer_phone }}</div>
+					<div class="span2">{{ $customer->customer_email }}</div>
+					<div class="span2">
+						<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
+						<button class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
+					</div>
+				</div>
+			@endforeach
+		</div>
+		<div id='calendar'></div>
+		<div style='clear:both'></div>
+	</div>
 </div>
 
-<div id='calendar'></div>
-
-<div style='clear:both'></div>
-</div>	
-	
+<!--	<table class="table table-condensed table-striped">
+		<thead>
+			<th>#&nbsp;&nbsp;</th>
+			<th>Created</th>
+			<th>Last Name</th>
+			<th>Address</th>
+			<th>City</th>
+			<th>Built&nbsp;</th>
+			<th>Phone</th>
+			<th>email</th>
+		</thead>
+		<tbody>
+			@foreach ($customers as $customer)
+				<tr>
+					<td>{{ $customer->job_id }}</td>
+					<td>{{ date("n/j/y", strtotime($customer->job_created_at)) }}</td>
+					<td><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
+					<td>{{ $customer->job_address }}</a></td>
+					<td>{{ $customer->job_city }}</td>
+					<td>{{ $customer->job_house_built }}</td>
+					<td>{{ $customer->customer_phone }}</td>
+					<td>{{ $customer->customer_email }}</td>
+					<td>
+						<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
+						<button class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
+-->	
 <!-- Button to trigger modal -->
 <a href="#myModal" role="button" class="btn" data-toggle="modal" data-target="#myModal">Launch demo modal</a>
 <div id="popoverTemplateContainer" style="display: none">
@@ -120,63 +184,19 @@ Schedule Appointments
   </div>
 </div>
 
-<DIV style="DISPLAY: none" id=reservebox title="Reserve meeting room">
-	<FORM id=reserveformID method=post>
-		<DIV class=sysdesc>&nbsp;</DIV>
-		<DIV class=rowElem>
-			<LABEL>meeting room:</LABEL> 
-			<SELECT id=meeting class=validate[required] name=meeting></SELECT>
-		</DIV>
-		<DIV class=rowElem><LABEL>Repeated weeks:</LABEL> 
-			<SELECT id=repweeks name=repweeks> 
-				<OPTION selected value=0>Not repeated</OPTION>
-				<OPTION value=2>1 week</OPTION>
-				<OPTION value=3>2 weeks</OPTION>
-				<OPTION value=4>3 weeks</OPTION>
-				<OPTION value=5>4 weeks</OPTION>
-				<OPTION value=9>8 weeks</OPTION>
-				<OPTION value=17>16 weeks</OPTION>
-				<OPTION value=33>32 weeks</OPTION>
-			</SELECT>
-		</DIV>
-		<DIV class=rowElem>
-			<LABEL>start time:</LABEL>
-			<INPUT id=start class=validate[required,funcCall[validate2time]] name=start>
-		</DIV>
-		<DIV class=rowElem>
-			<LABEL>end time:</LABEL>
-			<INPUT id=end class=validate[required,funcCall[validate2time]] name=end>
-		</DIV>
-		<DIV class=rowElem>
-			<LABEL>Title:</LABEL>
-			<INPUT id=title name=title>
-		</DIV>
-		<DIV class=rowElem>
-			<LABEL>Details:</LABEL>
-			<TEXTAREA id=details rows=3 cols=43 name=details></TEXTAREA>
-		</DIV>
-		<DIV class=rowElem> </DIV>
-		<DIV class=rowElem> </DIV>
-		<DIV id=addhelper class=ui-widget>
-			<DIV style="PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 5px" class="ui-state-error ui-corner-all">
-				<DIV id=addresult></DIV>
-			</DIV>
-		</DIV>
-	</FORM>
-</DIV>
 <DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">
 	<FORM id=scheduleformID method=post>
 		<DIV class=sysdesc>&nbsp;</DIV>
 		<DIV class="row" id=timeSelected>Time Selected:&nbsp;</div> 
 		<DIV class="row">
-			<div class="span2 field">
+<!--			<div class="span2 field">
 				<LABEL class="scheduleLabel">Arrival Window</LABEL> 
 				<SELECT id=arrivalWindow name=arrivalWindow> 
 					<OPTION selected value=.5>1/2 hour</OPTION>
 					<OPTION value=1>1 hour</OPTION>
 				</SELECT>
 			</div>
-			<div class="span2 calendar">
+-->			<div class="span2 calendar">
 				<LABEL class="scheduleLabel">Calendar</LABEL> 
 				<SELECT id=calendarName name=calendarName> 
 					<OPTION selected value="windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com">Norm's</OPTION>

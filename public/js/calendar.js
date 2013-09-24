@@ -164,15 +164,18 @@ $(document).ready(function() {
 						googleInsert['end'] = end;
 						googleInsert['description'] = description;
 						
-						//alert(JSON.stringify(googleInsert));
+						alert(JSON.stringify(googleInsert));
 						$.ajax({
 							type: "POST",
 							url: '/customers/postGoogleInsert',
-							data: googleInsert
-							//success: //success function called here
+							data: googleInsert,
+							success: function(data) {
+								//$("#calendar").fullCalendar("refetchEvents");
+								window.location.reload();
+							}
 						});
-						
-						//alert(googleInsert);
+						//This will close the popup div form
+						$( this ).dialog( "close" );
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );

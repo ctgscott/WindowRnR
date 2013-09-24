@@ -155,8 +155,26 @@ class CustomersController extends BaseController {
 				->orderBy('created_at', 'desc')
 				->get();
 				
-//print_r($results);
-//exit;			
+			$results['customers'] = DB::table('jobs')
+				->join('customers', 'jobs.customer_id', '=', 'customers.id')
+				->select(
+					'customers.id as customer_id', 
+					'customers.l_name as customer_lname', 
+					'customers.f_name as customer_fname', 
+					'customers.phone as customer_phone', 
+					'customers.alt_phone as customer_altphone', 
+					'customers.email as customer_email', 
+					'jobs.id as job_id', 
+					'jobs.created_at as job_created_at', 
+					'jobs.created_by as job_created_by', 
+					'jobs.address as job_address', 
+					'jobs.city as job_city', 
+					'jobs.zip as job_zip', 
+					'jobs.built as job_house_built'
+				)
+				->where('jobs.status', '=', 1)
+				->where('jobs.archive', '=', 0)
+				->get();
 
 			$firephp->log($results, 'getScheduleID($id)');
 			
@@ -397,7 +415,7 @@ class CustomersController extends BaseController {
 //var_dump($start);
 //exit;		
 		$event = new Google_Event();
-		$event->setSummary('summary');
+		$event->setSummary($summary);
 		$event->setLocation($location);
 		$event->setDescription($description);
 		$eventStart = new Google_EventDateTime();
@@ -418,6 +436,7 @@ class CustomersController extends BaseController {
 		$createdEvent = $cal->events->insert($calendarID, $event);
 //print_r($createdEvent);
 //exit;
+		Session::flash('success', 'Lead Scheduled');
 		return $createdEvent['id'];
 
 //		$_SESSION['token'] = $client->getAccessToken();

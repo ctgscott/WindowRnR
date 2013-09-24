@@ -68,10 +68,12 @@
 
 		<!-- Container -->
 		<div class="container">
-			<!-- Notifications -->
-			@include('notifications')
-			<!-- ./ notifications -->
-
+			<div id="notifications">
+				<!-- Notifications -->
+				@include('notifications')
+				<!-- ./ notifications -->
+			</div>
+				
 			<!-- Content -->
 			@yield('content')
 			<!-- ./ content -->
