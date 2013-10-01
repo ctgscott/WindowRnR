@@ -92,3 +92,5 @@ Route::resource('stock_parts', 'Stock_partsController');
 Route::resource('stock_part_cats', 'Stock_part_catsController');
 
 Route::resource('notes', 'NotesController');
+
+Route::resource('statuses', 'StatusesController');

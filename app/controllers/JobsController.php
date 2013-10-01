@@ -12,6 +12,59 @@ class JobsController extends BaseController {
 	{
 		//
 	}
+	
+	public static function updateStatus($id, $status)
+	{
+		/* states:
+		* 1 = Lead created
+		* 2 = Lead Scheduled
+		* 3 = Quote created
+		* 4 = Job scheduled
+		* 5 = Sales receipt created/Job complete
+		*/
+		try {
+			DB::table('jobs')
+				->where('id', $id)
+				->update(array('status' => $status));
+			
+			$user = Sentry::getUser();
+			$jobStatus = DB::table('jobs')
+				->join('status', 'jobs.status', '=', 'status.status_id')
+				->select('status.status')
+				->where('status.status_id', '=', $status)
+				->get();
+				
+			$noteAdd = new note;
+			$noteAdd->job_id = $id;
+			$noteAdd->user_id = $user->id;
+			$noteAdd->note = 'Status changed to "'.$jobStatus.'" on '.date("n/j/Y (g:ia)", time()).' by: '.$user->first_name;
+			$noteAdd->save();	
+			
+			return 'Success';
+		}
+		
+		catch (Exception $e) {
+			return $e;
+		}
+	}
+	
+	public function archive($id)
+	{
+		DB::table('jobs')
+			->where('id', $id)
+			->update(array('archive' => '1'));
+		
+		$user = Sentry::getUser();
+		
+		$noteAdd = new note;
+		$noteAdd->job_id = $id;
+		$noteAdd->user_id = $user->id;
+		$noteAdd->note = 'Lead archived on '.date("n/j/Y (g:ia)", time()).' by: '.$user->first_name;
+		$noteAdd->save();	
+		
+		Session::flash("success", "Job #".$id." archived.");
+		return Redirect::to('customers');
+	}
 
 	/**
 	 * Show the form for creating a new resource.

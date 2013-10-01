@@ -399,46 +399,53 @@ class CustomersController extends BaseController {
 //		  $calList = $cal->calendarList->listCalendarList();
 //		  print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
 
-		$calendarID = $_POST['calendarID'];
-		$summary = $_POST['summary'];
-		$location = $_POST['location'];
-//		$start = new DateTime($_POST['start']);
-//		$start = str_split($_POST['start'], 33);
-		$start = substr($_POST['start'], 0, 33);
-		$start = strtotime($start);
-		$start = date('c', $start);
-		$end = substr($_POST['end'], 0, 33);
-		$end = strtotime($end);
-		$end = date('c', $end);
-//		$end = strtotime($_POST['end']);
-		$description = $_POST['description'];
-//var_dump($start);
-//exit;		
-		$event = new Google_Event();
-		$event->setSummary($summary);
-		$event->setLocation($location);
-		$event->setDescription($description);
-		$eventStart = new Google_EventDateTime();
-		$eventStart->setDateTime($start);
-		$event->setStart($eventStart);
-		$eventEnd = new Google_EventDateTime();
-		$eventEnd->setDateTime($end);
-		$event->setEnd($eventEnd);
-//		$event->setTimeZone('America/Los_Angeles');
-//		$attendee1 = new EventAttendee();
-//		$attendee1->setEmail('attendeeEmail');
-		// ...
-//		$attendees = array($attendee1,
-						   // ...
-//       );
-//		$event->attendees = $attendees;
+			$calendarID = $_POST['calendarID'];
+			$summary = $_POST['summary'];
+			$location = $_POST['location'];
+	//		$start = new DateTime($_POST['start']);
+	//		$start = str_split($_POST['start'], 33);
+			$start = substr($_POST['start'], 0, 33);
+			$start = strtotime($start);
+			$start = date('c', $start);
+			$end = substr($_POST['end'], 0, 33);
+			$end = strtotime($end);
+			$end = date('c', $end);
+	//		$end = strtotime($_POST['end']);
+			$description = $_POST['description'];
+	//var_dump($start);
+	//exit;		
+			$event = new Google_Event();
+			$event->setSummary($summary);
+			$event->setLocation($location);
+			$event->setDescription($description);
+			$eventStart = new Google_EventDateTime();
+			$eventStart->setDateTime($start);
+			$event->setStart($eventStart);
+			$eventEnd = new Google_EventDateTime();
+			$eventEnd->setDateTime($end);
+			$event->setEnd($eventEnd);
+	//		$event->setTimeZone('America/Los_Angeles');
+	//		$attendee1 = new EventAttendee();
+	//		$attendee1->setEmail('attendeeEmail');
+			// ...
+	//		$attendees = array($attendee1,
+							   // ...
+	//       );
+	//		$event->attendees = $attendees;
 
-		$createdEvent = $cal->events->insert($calendarID, $event);
-//print_r($createdEvent);
-//exit;
-		Session::flash('success', 'Lead Scheduled');
-		return $createdEvent['id'];
-
+			$createdEvent = $cal->events->insert($calendarID, $event);
+	//print_r($createdEvent);
+	//exit;
+//			$id = $lead[0]->job_id;
+			$id = 1;
+			$statusResult = JobsController::updateStatus($id, 2);
+			if ($statusResult = 'success') {
+				Session::flash('success', 'Lead Scheduled');
+				return $createdEvent['id'];
+			} else {
+				Session::flash("Failure", "Status updated failed with ".$statusResult);
+			}
+		
 //		$_SESSION['token'] = $client->getAccessToken();
 		} else {
 		  $authUrl = $client->createAuthUrl();

@@ -11,6 +11,28 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+    $('#sourceCheckbox5').click(function(){
+		if (this.checked) {
+			$('#source_referral').removeAttr("disabled");
+		}
+		else {
+			$('#source_referral').attr("disabled", true);
+		}
+    });
+});
+
+$(document).ready(function(){
+    $('#sourceCheckbox6').click(function(){
+		if (this.checked) {
+			$('#source_other').removeAttr("disabled");
+		}
+		else {
+			$('#source_other').attr("disabled", true);
+		}
+    });
+});
+
+$(document).ready(function(){
     $('#radio_lead_other').click(function(){
 		if (this.checked) {
 			$('#text_lead_other').removeAttr("disabled");

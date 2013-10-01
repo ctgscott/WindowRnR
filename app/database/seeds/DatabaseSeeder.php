@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StockPartsTableSeeder');
 		$this->call('StockPartCatsTableSeeder');
 		$this->call('NotesTableSeeder');
+		$this->call('StatusTableSeeder');
 	}
-
 }
