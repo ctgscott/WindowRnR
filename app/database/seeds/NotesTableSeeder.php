@@ -10,28 +10,24 @@ class NotesTableSeeder extends Seeder {
 		$notes = array(
 			['job_id' => '1', 
 			'user_id' => '1',
-			'user_name' => 'Scott',
 			'note' => 'Lead created.',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime],
 
 			['job_id' => '1', 
 			'user_id' => '1',
-			'user_name' => 'Scott',
 			'note' => '6 wood DHs, all need tune-up, please call before arriving.',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime],
 
 			['job_id' => '2', 
 			'user_id' => '2',
-			'user_name' => 'Ed',
 			'note' => 'Lead created.',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime],
 
 			['job_id' => '2', 
 			'user_id' => '2',
-			'user_name' => 'Ed',
 			'note' => '6 wood DHs, all need tune-up, please call before arriving.',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime],

@@ -45,6 +45,11 @@ Schedule Appointments
 		<div style='clear:both'></div>
 	</div>
 -->
+	<?php $results['id'] = Sentry::getUser()->id;
+		$results['first_name'] = Sentry::getUser()->first_name;
+		$results['user'] = Sentry::findUserById($results['id'])->first_name;
+		print_r($results);
+	?>
 	<h4><em>Existing leads</em></h4>
 	<div class="row" id='wrap'>
 		<p>
@@ -187,7 +192,7 @@ Schedule Appointments
 <DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">
 	<FORM id=scheduleformID method=post>
 		<DIV class=sysdesc>&nbsp;</DIV>
-		<DIV class="row" id=timeSelected>Time Selected:&nbsp;</div> 
+		<DIV class="row" id="timeSelected">Time Selected for Lead id #<span id="job_id" name="job_id"><?php echo $lead['0']->job_id ?></span>&nbsp;</div> 
 		<DIV class="row">
 <!--			<div class="span2 field">
 				<LABEL class="scheduleLabel">Arrival Window</LABEL> 

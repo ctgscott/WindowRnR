@@ -22,29 +22,38 @@ class JobsController extends BaseController {
 		* 4 = Job scheduled
 		* 5 = Sales receipt created/Job complete
 		*/
-		try {
-			DB::table('jobs')
-				->where('id', $id)
-				->update(array('status' => $status));
-			
-			$user = Sentry::getUser();
-			$jobStatus = DB::table('jobs')
-				->join('status', 'jobs.status', '=', 'status.status_id')
-				->select('status.status')
-				->where('status.status_id', '=', $status)
-				->get();
-				
-			$noteAdd = new note;
-			$noteAdd->job_id = $id;
-			$noteAdd->user_id = $user->id;
-			$noteAdd->note = 'Status changed to "'.$jobStatus.'" on '.date("n/j/Y (g:ia)", time()).' by: '.$user->first_name;
-			$noteAdd->save();	
-			
-			return 'Success';
-		}
 		
-		catch (Exception $e) {
-			return $e;
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				DB::table('jobs')
+					->where('id', $id)
+					->update(array('status' => $status));
+				
+				$jobStatus = DB::table('jobs')
+					->join('status', 'jobs.status', '=', 'status.status_id')
+					->where('status.status_id', '=', $status)
+					->pluck('status.status');
+				$job_id = $id;
+				$user_id = Sentry::getUser()->id;
+				$note = 'Lead status changed to: '.$jobStatus;
+				$result = NotesController::create($job_id, $user_id, $note);
+				
+				return $result;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
 		}
 	}
 	

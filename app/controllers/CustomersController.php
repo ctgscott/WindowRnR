@@ -136,6 +136,9 @@ class CustomersController extends BaseController {
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
 			Session::flash('error', 'There was a problem accessing your account.');
 			return Redirect::to('/');
 		}
@@ -150,9 +153,10 @@ class CustomersController extends BaseController {
 				->get();
 				
 			$results['notes'] = DB::table('notes')
-				->select('note', 'user_name', 'created_at')
+				->join('users', 'notes.user_id', '=', 'users.id')
+				->select('notes.note', 'user_id', 'notes.created_at', 'users.first_name as user_name')
 				->where('job_id', '=', $id)
-				->orderBy('created_at', 'desc')
+				->orderBy('notes.created_at', 'desc')
 				->get();
 				
 			$results['customers'] = DB::table('jobs')
@@ -374,12 +378,6 @@ class CustomersController extends BaseController {
 		$client = new Google_Client();
 		$client->setApplicationName("WindowRnR");
 
-		// Visit https://code.google.com/apis/console?api=calendar to generate your
-		// client id, client secret, and to register your redirect uri.
-		// $client->setClientId('insert_your_oauth2_client_id');
-		// $client->setClientSecret('insert_your_oauth2_client_secret');
-		// $client->setRedirectUri('insert_your_oauth2_redirect_uri');
-		// $client->setDeveloperKey('insert_your_developer_key');
 		$cal = new Google_CalendarService($client);
 		if (isset($_GET['logout'])) {
 		  unset($_SESSION['token']);
@@ -396,24 +394,18 @@ class CustomersController extends BaseController {
 		}
 
 		if ($client->getAccessToken()) {
-//		  $calList = $cal->calendarList->listCalendarList();
-//		  print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
 
 			$calendarID = $_POST['calendarID'];
 			$summary = $_POST['summary'];
 			$location = $_POST['location'];
-	//		$start = new DateTime($_POST['start']);
-	//		$start = str_split($_POST['start'], 33);
+			$job_id = $_POST['job_id'];
 			$start = substr($_POST['start'], 0, 33);
 			$start = strtotime($start);
 			$start = date('c', $start);
 			$end = substr($_POST['end'], 0, 33);
 			$end = strtotime($end);
 			$end = date('c', $end);
-	//		$end = strtotime($_POST['end']);
 			$description = $_POST['description'];
-	//var_dump($start);
-	//exit;		
 			$event = new Google_Event();
 			$event->setSummary($summary);
 			$event->setLocation($location);
@@ -424,21 +416,11 @@ class CustomersController extends BaseController {
 			$eventEnd = new Google_EventDateTime();
 			$eventEnd->setDateTime($end);
 			$event->setEnd($eventEnd);
-	//		$event->setTimeZone('America/Los_Angeles');
-	//		$attendee1 = new EventAttendee();
-	//		$attendee1->setEmail('attendeeEmail');
-			// ...
-	//		$attendees = array($attendee1,
-							   // ...
-	//       );
-	//		$event->attendees = $attendees;
 
 			$createdEvent = $cal->events->insert($calendarID, $event);
-	//print_r($createdEvent);
-	//exit;
-//			$id = $lead[0]->job_id;
-			$id = 1;
-			$statusResult = JobsController::updateStatus($id, 2);
+
+			$statusResult = JobsController::updateStatus($job_id, 2);
+
 			if ($statusResult = 'success') {
 				Session::flash('success', 'Lead Scheduled');
 				return $createdEvent['id'];

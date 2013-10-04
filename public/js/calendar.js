@@ -153,6 +153,7 @@ $(document).ready(function() {
 						var summary = $("#summary").val();
 						var location = $("#location").val();
 						var description = $("#notes").val();
+						var job_id = $("#job_id").html();
 					
 						//alert('$calendarID: ' + calendarName + ', $start: ' + start + ', $end: ' + end + ', $summary: ' + summary + ', $location: ' + location + ', $description: ' + description);
 						
@@ -163,6 +164,7 @@ $(document).ready(function() {
 						googleInsert['start'] = start;
 						googleInsert['end'] = end;
 						googleInsert['description'] = description;
+						googleInsert['job_id'] = job_id;
 						
 						//alert(JSON.stringify(googleInsert));
 						$.ajax({
@@ -171,6 +173,7 @@ $(document).ready(function() {
 							data: googleInsert,
 							success: function(data) {
 								//$("#calendar").fullCalendar("refetchEvents");
+							//	alert(data)
 								window.location.reload();
 							}
 						});
