@@ -45,10 +45,11 @@ Schedule Appointments
 		<div style='clear:both'></div>
 	</div>
 -->
-	<?php $results['id'] = Sentry::getUser()->id;
+	<?php /*$results['id'] = Sentry::getUser()->id;
 		$results['first_name'] = Sentry::getUser()->first_name;
 		$results['user'] = Sentry::findUserById($results['id'])->first_name;
 		print_r($results);
+		phpinfo(); */
 	?>
 	<h4><em>Existing leads</em></h4>
 	<div class="row" id='wrap'>

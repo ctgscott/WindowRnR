@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'mysql_godaddy',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,7 +52,18 @@ return array(
 			'prefix'   => '',
 		),
 
-		'mysql' => array(
+		'mysql_godaddy' => array(
+			'driver'    => 'mysql',
+			'host'      => '50.63.244.198',
+			'database'  => 'windowcustomer',
+			'username'  => 'windowcustomer',
+			'password'  => 'Windowrandr01!',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
+		
+		'mysql_localhost' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'dev1',
