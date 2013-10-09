@@ -19,6 +19,7 @@ Route::get('/', function()
 */
 
 Route::get('/', 'UserController@getIndex');
+Route::get('customers/{id}', 'CustomersController@getDetailID');
 Route::get('customers/archive/{id}', 'CustomersController@archive');
 Route::get('customers/schedule/{id}', 'CustomersController@getScheduleID');
 Route::post('customers/estimateschedule', 'CustomersController@EstimateSchedule');
@@ -26,10 +27,7 @@ Route::get('customers/estimateschedule', 'CustomersController@EstimateSchedule')
 Route::post('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
 Route::get('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
 Route::post('customers/postGoogleInsert', 'CustomersController@postGoogleInsert');
-Route::get('customers/mail', function()
-	{
-		return View::make('customers/mail');
-	});
+
 
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
 

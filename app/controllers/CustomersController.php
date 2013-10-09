@@ -10,7 +10,6 @@ class CustomersController extends BaseController {
 	 */
 	public function index()
 	{
-
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -59,33 +58,103 @@ class CustomersController extends BaseController {
 		}
 	}
 
-	public function leadByJob($jobId)
+	public function leadByJobID($jobID)
 	{
-		$results['customers'] = DB::table('jobs')
-			->join('customers', 'jobs.customer_id', '=', 'customers.id')
-			->select(
-				'customers.id as customer_id', 
-				'customers.l_name as customer_lname', 
-				'customers.f_name as customer_fname', 
-				'customers.phone as customer_phone', 
-				'customers.alt_phone as customer_altphone', 
-				'customers.email as customer_email', 
-				'jobs.id as job_id', 
-				'jobs.created_at as job_created_at', 
-				'jobs.created_by as job_created_by', 
-				'jobs.address as job_address', 
-				'jobs.city as job_city', 
-				'jobs.zip as job_zip', 
-				'jobs.built as job_house_built'
-			)
-			->where('jobs.status', '=', 1)
-			->where('jobs.archive', '=', 0)
-			->where('jobs.id', '=', $jobId)
-			->get();
-			
-		return $results;
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			$results['customers'] = DB::table('jobs')
+				->join('customers', 'jobs.customer_id', '=', 'customers.id')
+				->select(
+					'customers.id as customer_id', 
+					'customers.l_name as customer_lname', 
+					'customers.f_name as customer_fname', 
+					'customers.phone as customer_phone', 
+					'customers.alt_phone as customer_altphone', 
+					'customers.email as customer_email', 
+					'jobs.id as job_id', 
+					'jobs.created_at as job_created_at', 
+					'jobs.created_by as job_created_by', 
+					'jobs.address as job_address', 
+					'jobs.city as job_city', 
+					'jobs.zip as job_zip', 
+					'jobs.built as job_house_built'
+				)
+				->where('jobs.status', '=', 1)
+				->where('jobs.archive', '=', 0)
+				->where('jobs.id', '=', $jobID)
+				->get();
+				
+			return $results;
+		}
 	}
 	
+	public function leadByCustID($custID)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			try 
+			{
+				$results['leads'] = DB::table('jobs')
+					->join('customers', 'jobs.customer_id', '=', 'customers.id')
+					->join('notes', 'notes.job_id', '=', 'jobs.id')
+					->select(
+						'customers.id as customer_id', 
+						'customers.l_name as customer_lname', 
+						'customers.f_name as customer_fname', 
+						'customers.phone as customer_phone', 
+						'customers.alt_phone as customer_altphone', 
+						'customers.email as customer_email', 
+						'customers.billing_address as billing_address',
+						'customers.billing_city as billing_city',
+						'customers.billing_state as billing_state',
+						'customers.billing_zip as billing_zip',
+						'jobs.id as job_id', 
+						'jobs.created_at as job_created_at', 
+						'jobs.created_by as job_created_by', 
+						'jobs.address as job_address', 
+						'jobs.city as job_city', 
+						'jobs.state as job_state', 
+						'jobs.zip as job_zip', 
+						'jobs.built as job_house_built',
+						'jobs.type as job_type',
+						'jobs.symptoms as job_symptoms',
+						'jobs.lead_source as job_lead_source',
+						'notes.user_id as notes_user_id',
+						'notes.note as notes_note',
+						'notes.created_at'
+					)
+					->where('jobs.status', '=', 1)
+					->where('jobs.archive', '=', 0)
+					->where('customers.id', '=', $custID)
+					->get();
+					
+				return $results;
+			}
+			catch (Exception $e) {
+				Session::flash('error', 'There was a problem: '.$e);
+				return $e;
+			}
+		}
+	}
+
 	public function archive($id)
 	{
 		DB::table('jobs')
@@ -126,7 +195,30 @@ class CustomersController extends BaseController {
 		}
 	}
 
-
+	public function getDetailID($id)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			try {
+				$results = CustomersController::leadByCustID($id);
+				return View::make('customers.edit')->with($results);
+			}
+			catch (Exception $e) {
+				Session::flash('error', 'There was a problem: '.$e);
+				return $e;
+			}
+		}
+	}
+	
 	public function getScheduleID($id)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
@@ -541,7 +633,7 @@ class CustomersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$results = CustomersController::leadByJob($id);
+		$results = CustomersController::leadByJobID($id);
 		return View::make('customers.edit')->with($results);
 	}
 
