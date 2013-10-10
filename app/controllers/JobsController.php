@@ -13,6 +13,53 @@ class JobsController extends BaseController {
 		//
 	}
 	
+	public static function jobDetailByCustID($custID, $status, $archive)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			try 
+			{
+				$results = DB::table('jobs')
+					->join('notes', 'notes.job_id', '=', 'jobs.id')
+					->select(
+						'jobs.id as job_id', 
+						'jobs.created_at as job_created_at', 
+						'jobs.created_by as job_created_by', 
+						'jobs.address as job_address', 
+						'jobs.city as job_city', 
+						'jobs.state as job_state', 
+						'jobs.zip as job_zip', 
+						'jobs.built as job_house_built',
+						'jobs.type as job_type',
+						'jobs.symptoms as job_symptoms',
+						'jobs.lead_source as job_lead_source',
+						'notes.user_id as notes_user_id',
+						'notes.note as notes_note',
+						'notes.created_at'
+					)
+					->where('jobs.status', '=', $status)
+					->where('jobs.archive', '=', $archive)
+					->where('jobs.customer_id', '=', $custID)
+					->get();
+					
+				return $results;
+			}
+			catch (Exception $e) {
+				Session::flash('error', 'There was a problem: '.$e);
+				return $e;
+			}
+		}
+	}
+
 	public static function updateStatus($id, $status)
 	{
 		/* states:

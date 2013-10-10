@@ -112,7 +112,7 @@ class CustomersController extends BaseController {
 		{
 			try 
 			{
-				$results['leads'] = DB::table('jobs')
+				$results = DB::table('jobs')
 					->join('customers', 'jobs.customer_id', '=', 'customers.id')
 					->join('notes', 'notes.job_id', '=', 'jobs.id')
 					->select(
@@ -125,24 +125,8 @@ class CustomersController extends BaseController {
 						'customers.billing_address as billing_address',
 						'customers.billing_city as billing_city',
 						'customers.billing_state as billing_state',
-						'customers.billing_zip as billing_zip',
-						'jobs.id as job_id', 
-						'jobs.created_at as job_created_at', 
-						'jobs.created_by as job_created_by', 
-						'jobs.address as job_address', 
-						'jobs.city as job_city', 
-						'jobs.state as job_state', 
-						'jobs.zip as job_zip', 
-						'jobs.built as job_house_built',
-						'jobs.type as job_type',
-						'jobs.symptoms as job_symptoms',
-						'jobs.lead_source as job_lead_source',
-						'notes.user_id as notes_user_id',
-						'notes.note as notes_note',
-						'notes.created_at'
+						'customers.billing_zip as billing_zip'
 					)
-					->where('jobs.status', '=', 1)
-					->where('jobs.archive', '=', 0)
 					->where('customers.id', '=', $custID)
 					->get();
 					
@@ -209,7 +193,8 @@ class CustomersController extends BaseController {
 		else
 		{
 			try {
-				$results = CustomersController::leadByCustID($id);
+				$results['leads'] = CustomersController::leadByCustID($id);
+				$results['jobs'] = JobsController::jobDetailByCustID($id, 1, 0);
 				return View::make('customers.edit')->with($results);
 			}
 			catch (Exception $e) {

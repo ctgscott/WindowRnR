@@ -26,7 +26,7 @@ class CustomersTableSeeder extends Seeder {
 			'billing_state' => 'CA',
 			'billing_zip' => '90720',
 			'phone' => '(424) 226-2355',
-			'email' => 'edwindowrepair@yahoo.co',
+			'email' => 'edwindowrepair@yahoo.com',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime
 			],

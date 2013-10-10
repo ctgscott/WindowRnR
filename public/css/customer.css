@@ -99,7 +99,11 @@ em {
 }
 
 .form-inline .input-small[name=email] {
-	width: 150px;
+	width: 200px;
+}
+
+.form-inline .input-small[name=billing_address] {
+	width: 225px;
 }
 
 .form-inline .input-small[name=address] {
