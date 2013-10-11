@@ -29,7 +29,7 @@ class JobsController extends BaseController {
 			try 
 			{
 				$results = DB::table('jobs')
-					->join('notes', 'notes.job_id', '=', 'jobs.id')
+				//	->join('notes', 'notes.job_id', '=', 'jobs.id')
 					->select(
 						'jobs.id as job_id', 
 						'jobs.created_at as job_created_at', 
@@ -41,11 +41,11 @@ class JobsController extends BaseController {
 						'jobs.built as job_house_built',
 						'jobs.type as job_type',
 						'jobs.symptoms as job_symptoms',
-						'jobs.lead_source as job_lead_source',
-						'notes.user_id as notes_user_id',
+						'jobs.lead_source as job_lead_source'
+					/*	'notes.user_id as notes_user_id',
 						'notes.note as notes_note',
 						'notes.created_at'
-					)
+					*/)
 					->where('jobs.status', '=', $status)
 					->where('jobs.archive', '=', $archive)
 					->where('jobs.customer_id', '=', $custID)

@@ -15,37 +15,35 @@ Edit Lead Details
 @section('content')
 <div class="well well-small">
 <?php 
-	echo "<pre>".var_dump($_SESSION)."</pre>";
-	//echo "<pre>".var_dump($0->customer_id)."</pre>";
-	echo "<pre>".var_dump($leads)."</pre>";
+	//echo "<pre>".var_dump($leadDetail)."</pre>";
 	echo "<pre>".var_dump($jobs)."</pre>";
 ?>
 	
 	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input class="input-small" type="text" name="custID" value="Cust. ID #{{ $leads['0']->customer_id }}" disabled/>
-		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $leads['0']->customer_lname }}" required>
-		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $leads['0']->customer_fname }}" required>
-		<?php echo Form::text('phone', $leads[0]->customer_phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
-		<?php echo Form::text('alt_phone', $leads[0]->customer_altphone, array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
-		<?php echo Form::text('email', $leads[0]->customer_email, array('placeholder' => 'email', 'class' => 'input-small')); ?>
+		<input class="input-small" type="text" name="custID" value="Cust. ID #{{ $leadDetail['0']->customer_id }}" disabled/>
+		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $leadDetail['0']->customer_lname }}" required>
+		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $leadDetail['0']->customer_fname }}" required>
+		<?php echo Form::text('phone', $leadDetail[0]->customer_phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
+		<?php echo Form::text('alt_phone', $leadDetail[0]->customer_altphone, array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
+		<?php echo Form::text('email', $leadDetail[0]->customer_email, array('placeholder' => 'email', 'class' => 'input-small')); ?>
 	</div>
 	<div>
 		<h5><em>Customer billing information:</em></h5>
-		<input placeholder="Billing Address" class="input-small" type="text" name="billing_address" value="{{ $leads['0']->billing_address }}" >
-		<input placeholder="City" class="input-small" name="billing_city" type="text" value="{{ $leads['0']->billing_city }}" >
-		<input placeholder="State" class="input-small" name="state" type="text" value="{{ $leads['0']->billing_state }}" >
-		<input placeholder="State" class="input-small" name="billing_zip" type="text" value="{{ $leads['0']->billing_zip }}" >
+		<input placeholder="Billing Address" class="input-small" type="text" name="billing_address" value="{{ $leadDetail['0']->billing_address }}" >
+		<input placeholder="City" class="input-small" name="billing_city" type="text" value="{{ $leadDetail['0']->billing_city }}" >
+		<input placeholder="State" class="input-small" name="state" type="text" value="{{ $leadDetail['0']->billing_state }}" >
+		<input placeholder="State" class="input-small" name="billing_zip" type="text" value="{{ $leadDetail['0']->billing_zip }}" >
 	</div>
 	<hr>
 	<h4><em>Job & Jobsite Information:</em></h4>
 	<div class="row-fluid">
 		<div class="span12">
-			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="" required>
-			<?php echo Form::text('city', '', array('placeholder' => 'City', 'class' => 'input-small')); ?>
-			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="">
-			<?php echo Form::text('built', '', array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
+			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->job_address }}" required>
+			<?php echo Form::text('city', $jobs['0']->job_address, array('placeholder' => 'City', 'class' => 'input-small')); ?>
+			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->job_zip }}">
+			<?php echo Form::text('built', $jobs['0']->job_house_built, array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
@@ -86,10 +84,10 @@ Edit Lead Details
 			</div>
 		</div>
 		<div>
-			<?php echo Form::text('symptoms', '', array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
+			<?php echo Form::text('symptoms', $jobs['0']->job_symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
 		<div>
-			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note"></textarea>
+			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note">@foreach ($jobs['0']->notes as $note) {{ $note->created_at." - ".$note->note."\n" }} @endforeach</textarea>
 		</div>
 	</div>
 	<div>

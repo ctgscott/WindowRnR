@@ -112,9 +112,7 @@ class CustomersController extends BaseController {
 		{
 			try 
 			{
-				$results = DB::table('jobs')
-					->join('customers', 'jobs.customer_id', '=', 'customers.id')
-					->join('notes', 'notes.job_id', '=', 'jobs.id')
+				$results = DB::table('customers')
 					->select(
 						'customers.id as customer_id', 
 						'customers.l_name as customer_lname', 
@@ -129,7 +127,7 @@ class CustomersController extends BaseController {
 					)
 					->where('customers.id', '=', $custID)
 					->get();
-					
+				
 				return $results;
 			}
 			catch (Exception $e) {
@@ -193,9 +191,17 @@ class CustomersController extends BaseController {
 		else
 		{
 			try {
-				$results['leads'] = CustomersController::leadByCustID($id);
+				$results['leadDetail'] = CustomersController::leadByCustID($id);
 				$results['jobs'] = JobsController::jobDetailByCustID($id, 1, 0);
-				return View::make('customers.edit')->with($results);
+				foreach ($results['jobs'] as $job) {
+					$job->notes = NotesController::notesByJobID($job->job_id);
+				};
+				
+/*				echo "<pre>".var_dump($results['leadDetail'])."</pre>";
+				echo "<pre>".var_dump($results['jobs'])."</pre>";
+				echo "<pre>".var_dump($results['jobs']['0']->notes)."</pre>";
+				echo "<pre>".print_r($results['jobs'])."</pre>";
+*/				return View::make('customers.edit')->with($results);
 			}
 			catch (Exception $e) {
 				Session::flash('error', 'There was a problem: '.$e);

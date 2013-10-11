@@ -43,6 +43,33 @@ class NotesController extends BaseController {
 		}
 	}
 
+	public static function notesByJobID($job_id)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('notes')
+					->select('user_id', 'note', 'created_at')
+					->where('job_id', '=', $job_id)
+					->get();
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
