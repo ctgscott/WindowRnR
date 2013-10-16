@@ -13,6 +13,7 @@
 		<link href="{{ asset('css/bootstrap-responsive.css') }}" rel="stylesheet">
 		<link href="{{ asset('css/bootstrapSwitch.css') }}" rel="stylesheet"><!-- Bootstrap switch from https://github.com/nostalgiaz/bootstrap-switch.git -->
 		
+		
 		@section('styles')
 		@show
 		<style>
@@ -83,10 +84,9 @@
 
 		<!-- Javascripts
 		================================================== -->
-		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('js/bootstrap.js') }}"></script>
 		<script src="{{ asset('js/restfulizer.js') }}"></script> <!-- Thanks to Zizaco for this script:  http://zizaco.net  -->
 		<script src="{{ asset('js/bootstrapSwitch.js') }}"></script> <!-- Bootstrap switch from https://github.com/nostalgiaz/bootstrap-switch.git -->
-
 		@section('scripts')
 		@show
 

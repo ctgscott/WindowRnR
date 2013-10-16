@@ -9,6 +9,7 @@ Edit Lead Details
 <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
 @stop
 
 {{-- Content --}}
@@ -22,7 +23,7 @@ Edit Lead Details
 	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input class="input-small" type="text" name="custID" value="Cust. ID #{{ $leadDetail['0']->customer_id }}" disabled/>
+		<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $leadDetail['0']->customer_id }}" disabled/>
 		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $leadDetail['0']->customer_lname }}" required>
 		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $leadDetail['0']->customer_fname }}" required>
 		<?php echo Form::text('phone', $leadDetail[0]->customer_phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
@@ -47,23 +48,25 @@ Edit Lead Details
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
-				<div id="checkbox_label">Window Type(s):</div>
-				<div>
-					<input type="checkbox" id="typeCheckbox1" value="Wood" name="type[]"> Wood&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox2" value="Steel" name="type[]"> Steel&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox3" value="Aluminum" name="type[]"> Aluminum&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox4" value="Vinyl" name="type[]"> Vinyl&nbsp;&nbsp;
+				<div id="window_type" class="style">Window Material & Style(s)
+					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
-				<div id="checkbox_middle">
-					<input type="checkbox" id="typeCheckbox5" value="Double Hung" name="type[]"> Double Hung&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox7" value="Casement" name="type[]"> Casement&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox8" value="Slider" name="type[]"> Slider&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox9" value="Awning" name="type[]"> Awning&nbsp;&nbsp;
-				</div>
-				<div>
-					<input type="checkbox" id="typeCheckbox6" value="" name="type[]"> Other:
-					<?php echo Form::text('type_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'type_other', 'id' => 'type_other', 'disabled' => 'disabled')); ?>
-				</div>
+				<ul id="style_group_1" class="clonedSection">
+					<select class="styleSelect">
+						<option selected="selected">Material</option>
+						<option>Wood</option>
+						<option>Aluminum</option>
+						<option>Vinyl</option>
+					</select>
+					<select class="styleSelect">
+						<option selected="selected">Style</option>
+						<option>Double Hung</option>
+						<option>Casement</option>
+						<option>Slider</option>
+						<option>Awning</option>
+						<option>Transom</option>
+					</select>									
+				</ul>
 			</div>
 			<div class="span6 well well-small" name="source">
 				<em>Source:&nbsp;&nbsp;</em>
@@ -100,7 +103,7 @@ Edit Lead Details
 @stop
 
 @section('scripts')
-	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<!--	<script src="{{ asset('js/bootstrap.min.js') }}"></script> -->
 	<script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script src="{{ asset('js/maskedinput.js') }}"></script>
 	<script src="{{ asset('js/customer.js') }}"></script>

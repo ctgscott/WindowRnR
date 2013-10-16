@@ -1,3 +1,27 @@
+.btnAdd {
+	text-align:right;
+	margin-left: 25px;
+	font-style:	normal;
+	font-weight:normal;
+	cursor: pointer;
+}
+
+.clonedSection {
+	margin-left: 0px;
+	margin-bottom: 5px;
+}
+
+.style {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight:	bold;
+	font-style:	italic;
+}
+
+.styleSelect {
+	width: 125px;
+}
+
 .ui-dialog,
 .ui-dialog-buttonpane,
 .ui-dialog-content ,
