@@ -162,6 +162,7 @@ em {
 	margin-top: 5px;
 	padding-right: 0px;
 	resize: none;
+	text-align: left;
 }
 
 .well {
