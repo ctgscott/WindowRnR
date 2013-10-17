@@ -10,6 +10,10 @@ class CustomersController extends BaseController {
 	 */
 	public function index()
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -26,35 +30,63 @@ class CustomersController extends BaseController {
 			if (isset($_GET['code'])) {
 				$client->authenticate($_GET['code']);
 				$_SESSION['token'] = $client->getAccessToken();
-				header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+
+				return Redirect::to('/customers');
 			}
 
 			if (isset($_SESSION['token'])) {
 				$client->setAccessToken($_SESSION['token']);
-			}
-			
-			$results['customers'] = DB::table('jobs')
-				->join('customers', 'jobs.customer_id', '=', 'customers.id')
-				->select(
-					'customers.id as customer_id', 
-					'customers.l_name as customer_lname', 
-					'customers.f_name as customer_fname', 
-					'customers.phone as customer_phone', 
-					'customers.alt_phone as customer_altphone', 
-					'customers.email as customer_email', 
-					'jobs.id as job_id', 
-					'jobs.created_at as job_created_at', 
-					'jobs.created_by as job_created_by', 
-					'jobs.address as job_address', 
-					'jobs.city as job_city', 
-					'jobs.zip as job_zip', 
-					'jobs.built as job_house_built'
-				)
-				->where('jobs.status', '=', 1)
-				->where('jobs.archive', '=', 0)
-				->get();
 
-			return View::make('customers.index')->with($results);
+				try 
+				{
+					$leadCheck = file_get_contents('http://www.windowrnr.com/LeadCheck.php');
+					$firephp->log($leadCheck, 'leadCheck');
+					if (is_numeric($leadCheck)) {
+						if ($leadCheck == '0') {
+							Session::flash('info', 'No new leads have been received from our Web Contact Form.');
+						} else if ($leadCheck > 0) {
+							Session::flash('success', $leadCheck.' new Contact Form leads were added');
+						}
+					} else {
+						Session::flash('error', 'Lead check failed with the following error: <br/>'.$leadCheck);
+					}
+				}
+				catch (Exception $e) {
+					Session::flash('error', 'There was a problem: '.$e);
+					return $e;
+				}
+
+				try 
+				{
+					$results['customers'] = DB::table('jobs')
+						->join('customers', 'jobs.customer_id', '=', 'customers.id')
+						->select(
+							'customers.id as customer_id', 
+							'customers.l_name as customer_lname', 
+							'customers.f_name as customer_fname', 
+							'customers.phone as customer_phone', 
+							'customers.alt_phone as customer_altphone', 
+							'customers.email as customer_email', 
+							'jobs.id as job_id', 
+							'jobs.created_at as job_created_at', 
+							'jobs.created_by as job_created_by', 
+							'jobs.address as job_address', 
+							'jobs.city as job_city', 
+							'jobs.zip as job_zip', 
+							'jobs.built as job_house_built'
+						)
+						->where('jobs.status', '=', 1)
+						->where('jobs.archive', '=', 0)
+						->get();
+					$firephp->log($results, 'Results');
+
+					return View::make('customers.index')->with($results);
+				}
+				catch (Exception $e) {
+					Session::flash('error', 'There was a problem: '.$e);
+					return $e;
+				}
+			}
 		}
 	}
 
@@ -547,62 +579,128 @@ class CustomersController extends BaseController {
 		return Redirect::to('customers#tab2');
 	}
 	
-	public function store()
+	public function newLead()
 	{
-		$customer = new customer;
-		$customer->f_name = Input::get('f_name');
-		$customer->l_name = Input::get('l_name');
-		$customer->phone = Input::get('phone');
-		$customer->email = Input::get('email');
-		
-		$customer->save();
-		
-		$job = new job;
-		$job->customer_id = $customer->id;
-		$job->status = '1';
-		$job->archive = '0';
-		$job->address = Input::get('address');
-		$job->city = Input::get('city');
-		$job->zip = Input::get('zip');
-		$job->built = Input::get('built');
-		$job->symptoms = Input::get('symptoms');
-		$job->address = Input::get('address');
-		$job->lead_source = Input::get('lead_source');
-		$array = Input::get('type');
-		
-	
-		if(count($array) > 0) {
-			$job->type = $array[0];
-			$i = 1;
-			for($i, $n = count($array); $i < $n; $i++) {
-				$job->type .= ', '.$array[$i];
+		if (isset($_POST['scheduleNewLead'])) {
+			try {
+				$results = CustomersController::store();
+				if (is_numeric($results)) {
+					Session::flash('success', 'Lead added.');
+					return Redirect::to('customers/schedule/'.$results);
+				} else {
+					Session::flash('error', 'Error occurred: '.$results);
+					return Redirect::to('customers');
+				}
+			}
+			catch (Exception $e) {
+				Session::flash('error', 'There was a problem: '.$e);
+				return Redirect::to('customers');
+			}
+		} else {
+			CustomersController::saveNewLead();
+		}
+	}
+	public function saveNewLead()
+	{
+		try {
+			$results = CustomersController::store();
+			if (is_numeric($results)) {
+				Session::flash('success', 'Lead added.');
+				return Redirect::to('customers');
+			} else {
+				Session::flash('error', 'Error occurred: '.$results);
+				return Redirect::to('customers');
 			}
 		}
-		$job->save();
+		catch (Exception $e) {
+			Session::flash('error', 'There was a problem: '.$e);
+			return Redirect::to('customers');
+		}
+	}
+
+	public function scheduleNewLead()
+	{
+		try {
+			$results = CustomersController::store();
+			if (is_numeric($results)) {
+				Session::flash('success', 'Lead added.');
+				return Redirect::to('customers/schedule/'.$results);
+			} else {
+				Session::flash('error', 'Error occurred: '.$results);
+				return Redirect::to('customers');
+			}
+		}
+		catch (Exception $e) {
+			Session::flash('error', 'There was a problem: '.$e);
+			return Redirect::to('customers');
+		}
+	}
 	
-		$user = Sentry::getUser();
-		$timeDate = DB::table('jobs')->where('id', $job->id)->pluck('created_at');
-//var_dump($timeDate);
-//	exit;
+	public function store()
+	{
+		try {
 		
-		$noteAdd = new note;
-		$noteAdd->job_id = $job->id;
-		$noteAdd->user_id = $user->id;
-		$noteAdd->user_name = $user->first_name;
-		$noteAdd->note = 'Lead created.';
-		$noteAdd->save();	
+			$customer = new customer;
+			$customer->f_name = Input::get('f_name');
+			$customer->l_name = Input::get('l_name');
+			$customer->phone = Input::get('phone');
+			$customer->email = Input::get('email');
 			
-		$note = new note;
-		$note->job_id = $job->id;
-		$note->user_id = $user->id;
-//var_dump($user->id);
-//exit;
-		$note->note = Input::get('note');
+			$customer->save();
+			
+			$job = new job;
+			$job->customer_id = $customer->id;
+			$job->status = '1';
+			$job->archive = '0';
+			$job->address = Input::get('address');
+			$job->city = Input::get('city');
+			$job->zip = Input::get('zip');
+			$job->built = Input::get('built');
+			$job->symptoms = Input::get('symptoms');
+			$job->address = Input::get('address');
+			$array = Input::get('lead_source');
+			$array2 = Input::get('type');
+			if(count($array) > 0) {
+				$job->lead_source = $array[0];
+				$i = 1;
+				for($i, $n = count($array); $i < $n; $i++) {
+					$job->type .= ', '.$array[$i];
+				}
+			}
+			if(count($array2) > 0) {
+				$job->type = $array2[0];
+				$i = 1;
+				for($i, $n = count($array2); $i < $n; $i++) {
+					$job->type .= ', '.$array2[$i];
+				}
+			}
+			$jobArray = get_object_vars($job);
+			$resultID = DB::table('jobs')->insertGetId($jobArray);
+			//$job->save()
+			
+			$user = Sentry::getUser();
+			$timeDate = DB::table('jobs')->where('id', $job->id)->pluck('created_at');
+			
+			$noteAdd = new note;
+			$noteAdd->job_id = $job->id;
+			$noteAdd->user_id = $user->id;
+			$noteAdd->note = 'Lead created.';
+			$noteAdd->save();	
+				
+			$note = new note;
+			$note->job_id = $job->id;
+			$note->user_id = $user->id;
+			$note->note = Input::get('note');
+			
+			$note->save();
+			
+			return $resultID;
+		}
+		catch (Exception $e) {
+			Session::flash('error', 'There was a problem: '.$e);
+			return $e;
+		}
 		
-		$note->save();
-		
-		Session::flash('success', 'Customer added.');
-		return Redirect::to('customers');
 	}
 
 	/**

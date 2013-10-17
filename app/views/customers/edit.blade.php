@@ -17,7 +17,7 @@ Edit Lead Details
 <div class="well well-small">
 <?php 
 	//echo "<pre>".var_dump($leadDetail)."</pre>";
-	echo "<pre>".var_dump($jobs)."</pre>";
+	//echo "<pre>".var_dump($jobs)."</pre>";
 ?>
 	
 	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
@@ -90,7 +90,10 @@ Edit Lead Details
 			<?php echo Form::text('symptoms', $jobs['0']->job_symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
 		<div>
-			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note">@foreach($jobs['0']->notes as $note){{ $note->created_at." - ".$note->note."\n" }}@endforeach</textarea>
+			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>
+		</div>
+		<div>
+			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note" disabled>@foreach($jobs['0']->notes as $note){{ $note->created_at." - ".$note->note."\n" }}@endforeach</textarea>
 		</div>
 	</div>
 	<div>

@@ -14,7 +14,7 @@ Log In
 {{-- Content --}}
 @section('content')
 <div class="well well-small">
-	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
+	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
 		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="" required>
@@ -54,18 +54,18 @@ Log In
 			</div>
 			<div class="span6 well well-small" name="source">
 				<em>Source:&nbsp;&nbsp;</em>
-				<div id="source">
-					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="type[]"> Angies&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox2" value="Yelp" name="type[]"> Yelp&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox3" value="Google" name="type[]"> Google&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="type[]"> LA Conserv.&nbsp;&nbsp;
+				<div id="lead_source">
+					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="lead_source[]"> Angies&nbsp;&nbsp;
+					<input type="checkbox" id="sourceCheckbox2" value="Yelp" name="lead_source[]"> Yelp&nbsp;&nbsp;
+					<input type="checkbox" id="sourceCheckbox3" value="Google" name="lead_source[]"> Google&nbsp;&nbsp;
+					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="lead_source[]"> LA Conserv.&nbsp;&nbsp;
 				</div>
 				<div>
-					<input type="checkbox" id="sourceCheckbox5" value="" name="type[]"> Referral:
+					<input type="checkbox" id="sourceCheckbox5" value="" name="lead_source[]"> Referral:
 					<?php echo Form::text('source_referral', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
 				</div>
 				<div>
-					<input type="checkbox" id="sourceCheckbox6" value="" name="type[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" id="sourceCheckbox6" value="" name="lead_source[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
 					<?php echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
 				</div>
 			</div>
@@ -78,8 +78,8 @@ Log In
 		</div>
 	</div>
 	<div>
-		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary']);?>
-		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
+		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead']);?>
+		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead']);?>
 		<?php echo Form::close(); ?>
 	</div>
 </div>

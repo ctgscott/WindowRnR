@@ -27,6 +27,7 @@ Route::get('customers/estimateschedule', 'CustomersController@EstimateSchedule')
 Route::post('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
 Route::get('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
 Route::post('customers/postGoogleInsert', 'CustomersController@postGoogleInsert');
+Route::post('customers/newLead', 'CustomersController@newLead');
 
 
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
