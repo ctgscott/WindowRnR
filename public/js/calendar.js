@@ -281,17 +281,13 @@ $(document).ready(function() {
 */				color: 'blue',    // an option!
 				textColor: 'white',  // an option!
 				error: function() {
-					alert('there was an error while fetching estimageschedule!');
+					alert('there was an error while fetching estimateschedule!');
 				}
 			},
 			{
 				url: '/customers/estimateschedule2',
 				type: 'GET',
-/*				data: {
-					basstart: 'start',
-					blah: 'end'
-				},
-*/				color: 'green',    // an option!
+				color: 'green',    // an option!
 				textColor: 'white',  // an option!
 				error: function() {
 					alert('there was an error while fetching estimageschedule2!');

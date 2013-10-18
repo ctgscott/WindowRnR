@@ -79,6 +79,7 @@ class CustomersController extends BaseController {
 						->where('jobs.archive', '=', 0)
 						->get();
 					$firephp->log($results, 'Results');
+					$firephp->log($_SESSION, '_SESSION');
 
 					return View::make('customers.index')->with($results);
 				}
@@ -372,21 +373,34 @@ class CustomersController extends BaseController {
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
 
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		$client = new Google_Client();
 		$client->setApplicationName("Google Calendar PHP Starter Application");
 		$cal = new Google_CalendarService($client);
 
 		$start = date('c',$_GET['start']);
-
+		$end = date('c',$_GET['end']);
+		
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
 		}
 
 		if ($client->getAccessToken()) {
+			
+			//while(true) {
+				//foreach ($calendarList->getItems() as $calendarListEntry) {
+		
+		
 			$calList = $cal->calendarList->listCalendarList();
+			$firephp->log($calList, 'calList');
 			$rightNow = date('c');
-			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
+			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
 			$calList2 = $cal->events->listEvents('primary', $params);
+			$firephp->log($calList2, 'calList2');
+
 			$events = array();
 			foreach ($calList2['items'] as $event)
 			{
@@ -581,50 +595,15 @@ class CustomersController extends BaseController {
 	
 	public function newLead()
 	{
-		if (isset($_POST['scheduleNewLead'])) {
-			try {
-				$results = CustomersController::store();
-				if (is_numeric($results)) {
-					Session::flash('success', 'Lead added.');
+		try {
+			$results = CustomersController::store();
+			if (is_numeric($results)) {
+				Session::flash('success', 'Lead added.');
+				if (isset($_POST['scheduleNewLead'])) {
 					return Redirect::to('customers/schedule/'.$results);
 				} else {
-					Session::flash('error', 'Error occurred: '.$results);
 					return Redirect::to('customers');
 				}
-			}
-			catch (Exception $e) {
-				Session::flash('error', 'There was a problem: '.$e);
-				return Redirect::to('customers');
-			}
-		} else {
-			CustomersController::saveNewLead();
-		}
-	}
-	public function saveNewLead()
-	{
-		try {
-			$results = CustomersController::store();
-			if (is_numeric($results)) {
-				Session::flash('success', 'Lead added.');
-				return Redirect::to('customers');
-			} else {
-				Session::flash('error', 'Error occurred: '.$results);
-				return Redirect::to('customers');
-			}
-		}
-		catch (Exception $e) {
-			Session::flash('error', 'There was a problem: '.$e);
-			return Redirect::to('customers');
-		}
-	}
-
-	public function scheduleNewLead()
-	{
-		try {
-			$results = CustomersController::store();
-			if (is_numeric($results)) {
-				Session::flash('success', 'Lead added.');
-				return Redirect::to('customers/schedule/'.$results);
 			} else {
 				Session::flash('error', 'Error occurred: '.$results);
 				return Redirect::to('customers');
@@ -674,9 +653,10 @@ class CustomersController extends BaseController {
 					$job->type .= ', '.$array2[$i];
 				}
 			}
-			$jobArray = get_object_vars($job);
-			$resultID = DB::table('jobs')->insertGetId($jobArray);
-			//$job->save()
+
+			$job->save();
+			//$resultID = DB::getPdo()->lastInsertId();
+			$resultID = $job->id;
 			
 			$user = Sentry::getUser();
 			$timeDate = DB::table('jobs')->where('id', $job->id)->pluck('created_at');
