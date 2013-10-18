@@ -21,11 +21,11 @@ Route::get('/', function()
 Route::get('/', 'UserController@getIndex');
 Route::get('customers/estimateschedule', 'CustomersController@EstimateSchedule');
 Route::get('customers/estimateschedule2', 'CustomersController@EstimateSchedule2');
-Route::get('customers/{id}', 'CustomersController@getDetailID');
 Route::get('customers/archive/{id}', 'CustomersController@archive');
 Route::get('customers/schedule/{id}', 'CustomersController@getScheduleID');
 Route::post('customers/postGoogleInsert', 'CustomersController@postGoogleInsert');
 Route::post('customers/newLead', 'CustomersController@newLead');
+Route::get('customers/{id}', 'CustomersController@getDetailID');
 
 
 Route::controller('users', 'UserController');
