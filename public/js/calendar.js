@@ -257,7 +257,7 @@ $(document).ready(function() {
 		
 /*		events: {
 			url: '/customers/estimateschedule',
-			type: 'POST',
+			type: 'GET',
 			data: {
 				//custom_param1: 'something',
 				//custom_param2: 'somethingelse'
@@ -265,14 +265,14 @@ $(document).ready(function() {
 			error: function() {
 				alert('there was an error while fetching events!');
 			},
-			//color: 'yellow',   // a non-ajax option
-			//textColor: 'black' // a non-ajax option
+			color: 'yellow',   // a non-ajax option
+			textColor: 'black' // a non-ajax option
 			
 		},
 */		
 		eventSources: [
 			{
-				url: '/customers/estimateschedule',
+				url: 'http://localhost:8000/customers/estimateschedule',
 				type: 'GET',
 /*				data: {
 				start: startParam, //	custom_param1: 'something',

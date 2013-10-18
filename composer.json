@@ -9,8 +9,7 @@
 		"components/jquery": "2.0.*",
 		"egeloen/google-map": "1.0.*@dev",
 		"willdurand/geocoder": "2.0.*@dev",
-		"kriswallsmith/buzz": "dev-master",
-		"hybridauth/hybridauth": "*"
+		"kriswallsmith/buzz": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

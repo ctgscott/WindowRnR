@@ -32,7 +32,7 @@ Schedule Appointments
 	<div class="container-fluid">
 		<div id="calendar"></div>
 	</div>
-<div>&nbsp;</div>
+
 
 <DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">
 	<FORM id=scheduleformID method=post>
