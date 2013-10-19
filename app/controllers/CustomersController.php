@@ -243,6 +243,38 @@ class CustomersController extends BaseController {
 		}
 	}
 	
+	public function autocomplete()
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$term = Input::get('term');
+		$data = array();
+		
+/*		$query = DB::table('customers')
+					//->where(DB::raw('MATCH(l_name)'), 'AGAINST', DB::raw('("+'.$term.'" IN BOOLEAN MODE)'))
+					->where(DB::raw('MATCH(`l_name`)'), 'AGAINST', 'sanch')
+					->get();
+*/		
+		$query = DB::table("
+			SELECT l_name FROM customers 
+			WHERE MATCH (`l_name`) 
+			AGAINST('+".$term."*' IN BOOLEAN MODE)
+			");
+
+		$firephp->log($query, 'query');
+
+		foreach ($query as $results => $customer) {
+			$firephp->log($results, 'customer');
+			$data[] = array(
+				'id' => $customer->id,
+				'value' => $customer->l_name
+			);
+		}
+		return json_encode($data);
+	}
+	
 	public function getScheduleID($id)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	

@@ -83,6 +83,12 @@ Log In
 		<?php echo Form::close(); ?>
 	</div>
 </div>
+
+<div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags" />
+</div>
+
 <div class="well well-small">
 	<h4><em>Existing leads</em></h4>
 	<table class="table table-condensed table-striped">
