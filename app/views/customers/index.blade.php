@@ -17,7 +17,7 @@ Log In
 	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="" required>
+		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" data-provide="typeahead" data-minLength="2" autocomplete="off" data-items="4" data-source='["Alabama","Alaska"]' required>
 		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="" required>
 		<?php echo Form::text('phone', '', array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone')); ?>
 		<?php echo Form::text('alt_phone', '', array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>

@@ -89,5 +89,13 @@ $(document).ready(function(){
 				$(".ui-autocomplete").css("z-index", 1000);
 			}
 		});
+		
+		$('.typeahead').typeahead({
+			source: function (query, process) {
+				return $.get('/customers/autocomplete', { query: query }, function (data) {
+					return process(data.options);
+				});
+			}
+		});
 	});	
 });

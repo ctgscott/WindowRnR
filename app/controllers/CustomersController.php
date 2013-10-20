@@ -251,22 +251,12 @@ class CustomersController extends BaseController {
 
 		$term = Input::get('term');
 		$data = array();
-		
-/*		$query = DB::table('customers')
-					//->where(DB::raw('MATCH(l_name)'), 'AGAINST', DB::raw('("+'.$term.'" IN BOOLEAN MODE)'))
-					->where(DB::raw('MATCH(`l_name`)'), 'AGAINST', 'sanch')
-					->get();
-*/		
-		$query = DB::table("
-			SELECT l_name FROM customers 
-			WHERE MATCH (`l_name`) 
-			AGAINST('+".$term."*' IN BOOLEAN MODE)
-			");
+
+		$query = DB::select("SELECT * FROM customers WHERE MATCH(l_name) AGAINST('+".$term."*' IN BOOLEAN MODE) LIMIT 5");
 
 		$firephp->log($query, 'query');
 
 		foreach ($query as $results => $customer) {
-			$firephp->log($results, 'customer');
 			$data[] = array(
 				'id' => $customer->id,
 				'value' => $customer->l_name
