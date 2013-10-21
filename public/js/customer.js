@@ -90,12 +90,23 @@ $(document).ready(function(){
 			}
 		});
 		
-		$('.typeahead').typeahead({
-			source: function (query, process) {
-				return $.get('/customers/autocomplete', { query: query }, function (data) {
-					return process(data.options);
-				});
-			}
+		$('#l_name').typeahead({
+			name: 'l_name',
+			remote: 'customers/typeahead?term=%QUERY',
+			template: [                                                                 
+				'<p class="">{{jobAddress}}</p>',                              
+				'<p class="">{{jobTown}}</p>',                                      
+				'<p class="">{{map}}</p>'                         
+			].join(''), 
+			engine: Hogan
+		});
+		
+		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
+			alert(JSON.stringify(obj)); // object
+			// outputs, e.g., {"type":"typeahead:selected","timeStamp":1371822938628,"jQuery19105037956037711017":true,"isTrigger":true,"namespace":"","namespace_re":null,"target":{"jQuery19105037956037711017":46},"delegateTarget":{"jQuery19105037956037711017":46},"currentTarget":
+			alert(JSON.stringify(datum)); // contains datum value, tokens and custom fields
+			// outputs, e.g., {"redirect_url":"http://localhost/test/topic/test_topic","image_url":"http://localhost/test/upload/images/t_FWnYhhqd.jpg","description":"A test description","value":"A test value","tokens":["A","test","value"]}
+			// in this case I created custom fields called 'redirect_url', 'image_url', 'description'       
 		});
 	});	
 });

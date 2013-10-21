@@ -265,6 +265,36 @@ class CustomersController extends BaseController {
 		return json_encode($data);
 	}
 	
+	public function typeahead()
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$term = Input::get('term');
+		$data = array();
+
+		$query = DB::select("SELECT id, l_name, f_name FROM customers WHERE MATCH(l_name) AGAINST('+".$term."*' IN BOOLEAN MODE) LIMIT 5");
+
+		$firephp->log($query, 'query');
+
+		foreach ($query as $results => $customer) {
+			$jobs = JobsController::jobDetailByCustID($customer->id, 1, 0);
+			$data[] = array(
+				'id' => $customer->id,
+				'value' => $customer->l_name.", ".$customer->f_name." - 123 Main Street",
+				'jobs' => $jobs
+			);
+		}
+		$test = json_encode($data); 
+		$test2 = json_encode($jobs); 
+
+		$firephp->log($test, 'test');
+		$firephp->log($test2, 'jobs');
+
+		return json_encode($data);
+	}
+
 	public function getScheduleID($id)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	

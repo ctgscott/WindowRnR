@@ -17,7 +17,7 @@ Log In
 	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" data-provide="typeahead" data-minLength="2" autocomplete="off" data-items="4" data-source='["Alabama","Alaska"]' required>
+		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" data-provide="typeahead" data-minLength="2" autocomplete="off" data-items="4" required>
 		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="" required>
 		<?php echo Form::text('phone', '', array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone')); ?>
 		<?php echo Form::text('alt_phone', '', array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
@@ -125,8 +125,10 @@ Log In
 @stop
 
 @section('scripts')
-	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
-	<script src="{{ asset('js/maskedinput.js') }}"></script>
-	<script src="{{ asset('js/customer.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script>
+	<script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
+	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/customer.js') }}"></script>
 @stop

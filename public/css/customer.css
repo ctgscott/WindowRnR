@@ -1,3 +1,9 @@
+.tt-dropdown-menu {
+	z-index: 100;
+	background-color: #f0f0f0;
+	opacity:0.8;
+}
+
 /* highlight results */
 .ui-autocomplete span.hl_results {
     background-color: #ffff66;
