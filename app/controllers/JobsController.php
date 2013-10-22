@@ -13,6 +13,33 @@ class JobsController extends BaseController {
 		//
 	}
 	
+	public function postJobDetailByCustID()
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$firephp->log(print_r(array_keys($_POST)), '$_POST');
+
+		try 
+		{
+			if (isset($_POST["id"])) {
+				$custID = $_POST["id"];
+			} 
+			else {
+				return "POST failed";
+			}
+			$status = "1 or 2 or 3";
+			$archive = "1 or 2";
+		
+			$results = JobsController::jobDetailByCustID($custID, $status, $archive);
+			
+			return $results;
+		}
+		catch (Exception $e) {
+			return $e;
+		}
+	}
 	public static function jobDetailByCustID($custID, $status, $archive)
 	{
 		if ( ! Sentry::check())
@@ -28,6 +55,15 @@ class JobsController extends BaseController {
 		{
 			try 
 			{
+				if (isset($_POST["id"])) {
+					$custID = $_POST["id"];
+				}
+				if(!isset($status)) {
+					$status = "1 or 2 or 3";
+				}
+				if(!isset($archive)) {
+					$archive = "1 or 2";
+				}
 				$results = DB::table('jobs')
 				//	->join('notes', 'notes.job_id', '=', 'jobs.id')
 					->select(

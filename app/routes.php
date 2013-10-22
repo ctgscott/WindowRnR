@@ -27,6 +27,7 @@ Route::post('customers/postGoogleInsert', 'CustomersController@postGoogleInsert'
 Route::post('customers/newLead', 'CustomersController@newLead');
 Route::get('customers/autocomplete', 'CustomersController@autocomplete');
 Route::get('customers/typeahead', 'CustomersController@typeahead');
+Route::post('customers/jobDetail', 'JobsController@postJobDetailByCustID');
 Route::get('customers/{id}', 'CustomersController@getDetailID');
 
 

@@ -1,7 +1,33 @@
 .tt-dropdown-menu {
 	z-index: 100;
-	background-color: #f0f0f0;
-	opacity:0.8;
+	background-color: #d8d8d8;
+	opacity: .95;
+	border: 1px solid #bdbdbd;
+	border-radius: 4px 4px 4px 4px;
+	width: 400px;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+input.tt-hint {
+	width: 115px;
+	margin-bottom: 10px;
+}
+.tt-suggestion  > p{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	line-height: 25px;
+}
+
+div.tt-is-under-cursor, p:hover {
+	background-color: #c3c3c3;
 }
 
 /* highlight results */
@@ -140,7 +166,7 @@ em {
 	margin-right: 10px;
 	margin-bottom: 10px;
 	display: table-cell;
-    vertical-align: middle;
+    vertical-align: bottom;
 }
 
 .form-inline .input-small[name=f_name] {
