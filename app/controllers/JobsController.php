@@ -19,7 +19,7 @@ class JobsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$firephp->log(print_r(array_keys($_POST)), '$_POST');
+		//$firephp->log(print_r(array_keys($_POST)), '$_POST');
 
 		try 
 		{
@@ -32,7 +32,14 @@ class JobsController extends BaseController {
 			$status = "1 or 2 or 3";
 			$archive = "1 or 2";
 		
-			$results = JobsController::jobDetailByCustID($custID, $status, $archive);
+			$results = DB::table('jobs')
+					//->select (*)
+					->where('jobs.customer_id', '=', $custID)
+					->get();
+
+//			$results = JobsController::jobDetailByCustID($custID, $status, $archive);
+	
+		//	$firephp->log(print_r($results), '$results');
 			
 			return $results;
 		}

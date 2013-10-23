@@ -107,10 +107,10 @@ $(document).ready(function(){
 			$.ajax({
 				type: "POST",
 				url: "/customers/jobDetail",
-				data: id,
+				data: datum,
 				success: function(data) {
 					//$("#calendar").fullCalendar("refetchEvents");
-					alert(data)
+					alert(data.toSource())
 				//	alert(datum.id)
 				//	window.location.reload();
 				}
