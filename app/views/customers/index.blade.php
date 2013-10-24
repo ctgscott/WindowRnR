@@ -18,10 +18,35 @@ Log In
 	<div>
 		<h4><em>Customer Information:</em></h4>
 		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" autocomplete="off" required>
-		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="" required>
+		<input placeholder="First Name" id="f_name" class="input-small" name="f_name" type="text" value="" required>
 		<?php echo Form::text('phone', '', array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone')); ?>
 		<?php echo Form::text('alt_phone', '', array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
-		<?php echo Form::text('email', '', array('placeholder' => 'email', 'class' => 'input-small')); ?>
+		<?php echo Form::text('email', '', array('placeholder' => 'email', 'class' => 'input-small', 'id' => 'email')); ?>
+	</div>
+	<div id="jobList" style="display: none">
+		<h4><em>Prior Jobs</em></h4><button class="btn-small btn" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customers['0']->job_id}}'">Copy</button> 
+		<table class="table table-condensed table-striped">
+			<thead>
+				<th>Select one&nbsp;&nbsp;</th>
+				<th>Job ID&nbsp;</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>Est. Scheduled</th>
+				<th>Job Scheduled</th>
+				<th>Job Completed</th>
+			</thead>
+			<tbody id="jobs_table">
+				<tr>
+					<td><input type="radio" name="optionsRadios" id="radio" value=""></td>
+					<td id="job_id"><a id="a_job_id"></a></td>
+					<td id="job_address"></td>
+					<td id="job_city"></td>
+					<td id="est_sched"></td>
+					<td id="job_sched"></td>
+					<td id="job_complete"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<hr>
 	<h4><em>Job & Jobsite Information:</em></h4>

@@ -27,6 +27,9 @@ class CreateJobsTable extends Migration {
 			$table->text('symptoms');
 			$table->string('lead_source');
 			$table->timestamps();
+			$table->timestamp('lead_scheduled');
+			$table->timestamp('job_scheduled');
+			$table->timestamp('job_completed');
 		});
 	}
 

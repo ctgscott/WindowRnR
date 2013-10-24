@@ -274,19 +274,23 @@ class CustomersController extends BaseController {
 		$term = Input::get('term');
 		$data = array();
 
-		$query = DB::select("SELECT id, l_name, f_name, billing_address, billing_city FROM customers WHERE MATCH(l_name) AGAINST('+".$term."*' IN BOOLEAN MODE) LIMIT 5");
+		$query = DB::select("SELECT id, l_name, f_name, billing_address, billing_city, phone, email FROM customers WHERE MATCH(l_name) AGAINST('+".$term."*' IN BOOLEAN MODE) LIMIT 5");
 
-		$firephp->log($query, 'query');
+		//$firephp->log($query, 'query');
 
 		foreach ($query as $results => $customer) {
 			$data[] = array(
 				'id' => $customer->id,
 				'value' => $customer->l_name.", ".$customer->f_name." - ".$customer->billing_address.", ".$customer->billing_city,
+				'l_name' => $customer->l_name,
+				'f_name' => $customer->f_name,
+				'phone' => $customer->phone,
+				'email' => $customer->email,
 			);
 		}
 		$test = json_encode($data); 
 
-		$firephp->log($test, 'test');
+		//$firephp->log($test, 'test');
 
 		return json_encode($data);
 	}

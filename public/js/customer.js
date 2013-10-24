@@ -96,23 +96,28 @@ $(document).ready(function(){
 		});
 		
 		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
-		//	alert(JSON.stringify(obj)); // object
-			// outputs, e.g., {"type":"typeahead:selected","timeStamp":1371822938628,"jQuery19105037956037711017":true,"isTrigger":true,"namespace":"","namespace_re":null,"target":{"jQuery19105037956037711017":46},"delegateTarget":{"jQuery19105037956037711017":46},"currentTarget":
-		//	alert(JSON.stringify(datum));
-		//	alert(datum);// contains datum value, tokens and custom fields
-			// outputs, e.g., {"redirect_url":"http://localhost/test/topic/test_topic","image_url":"http://localhost/test/upload/images/t_FWnYhhqd.jpg","description":"A test description","value":"A test value","tokens":["A","test","value"]}
-			// in this case I created custom fields called 'redirect_url', 'image_url', 'description'  
-			var id = datum.id;
 			//alert(id);
 			$.ajax({
 				type: "POST",
 				url: "/customers/jobDetail",
 				data: datum,
 				success: function(data) {
-					//$("#calendar").fullCalendar("refetchEvents");
-					alert(data.toSource())
-				//	alert(datum.id)
-				//	window.location.reload();
+					//alert(datum.toSource())
+					//alert(data.toSource())
+					//alert(Object.keys(data).length)
+					document.getElementById("l_name").value = datum.l_name;
+					document.getElementById("f_name").value = datum.f_name;
+					document.getElementById("phone").value = datum.phone;
+					document.getElementById("email").value = datum.email;
+					
+					var i=0;
+					var n=Object.keys(data).length;
+					
+					while (i<n)
+					{
+						alert(data[i].toSource());
+						i++;
+					}
 				}
 			});
 			
