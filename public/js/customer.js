@@ -115,6 +115,7 @@ $(document).ready(function(){
 						radio.type = "radio";
 						radio.name = "job_radios";
 						radio.id = i;
+						radio.val = i;
 						td.appendChild(radio);
 
 						var td = document.createElement("td");
@@ -175,12 +176,18 @@ $(document).ready(function(){
 						i++;
 					}
 					
-					$("#jobList").collapse('show')
+					$("#jobList").collapse('show');
 					
 					document.getElementById("copyButton").onclick=function(){
-						var radio = $('input[name=job_radios]:checked').attr('name');
-						var radioID = $('input[name=job_radios]:checked').attr('id');
-						alert(radio);
+						var radioID = $('input[name=job_radios]:checked').attr('id')
+						var radioVal = $('input[name=job_radios]:checked').val() 
+						//alert(radioID)
+						
+						document.getElementById("job_address").value = data[radioID].address;
+						document.getElementById("job_city").value = data[radioID].city;
+						document.getElementById("zip").value = data[radioID].zip;
+						document.getElementById("built").value = data[radioID].built;
+						
 						$("#jobList").collapse('hide')
 					};
 				}
