@@ -75,20 +75,6 @@ $(document).ready(function(){
 	});
 
 	$(function() {
-		$("#tags").autocomplete({
-			source: "customers/autocomplete",
-			minLength: 2,
-			select: function( event, ui ) {
-					
-			},
-			
-			html: true, // optional (jquery.ui.autocomplete.html.js required)
-	 
-		  // optional (if other layers overlap autocomplete list)
-			open: function(event, ui) {
-				$(".ui-autocomplete").css("z-index", 1000);
-			}
-		});
 		
 		$('#l_name').typeahead({
 			name: 'l_name',
@@ -112,15 +98,93 @@ $(document).ready(function(){
 					
 					var i=0;
 					var n=Object.keys(data).length;
+						
+					//document.getElementById("jobList").style.display = "block";
 					
 					while (i<n)
 					{
-						alert(data[i].toSource());
+						//alert(data[i].toSource());
+						
+						var jobs_table = document.getElementById("jobs_table");
+						var tr = document.createElement("tr");
+						jobs_table.appendChild(tr);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var radio = document.createElement("input");
+						radio.type = "radio";
+						radio.name = "job_radios";
+						radio.id = i;
+						td.appendChild(radio);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].id;
+						input.id = "jobListID";
+						input.className = "input-mini";
+						input.disabled = true;
+						td.appendChild(input);
+						
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].address;
+						input.className = "input-medium";
+						input.disabled = true;
+						td.appendChild(input);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].city;
+						input.className = "input-small";
+						input.disabled = true;
+						td.appendChild(input);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].lead_scheduled;
+						input.className = "input-small";
+						input.disabled = true;
+						td.appendChild(input);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].job_scheduled;
+						input.className = "input-small";
+						input.disabled = true;
+						td.appendChild(input);
+
+						var td = document.createElement("td");
+						tr.appendChild(td);
+						var input = document.createElement("input");
+						input.type = "text";
+						input.value = data[i].job_completed;
+						input.className = "input-small";
+						input.disabled = true;
+						td.appendChild(input);
+
 						i++;
 					}
+					
+					$("#jobList").collapse('show')
+					
+					document.getElementById("copyButton").onclick=function(){
+						var radio = $('input[name=job_radios]:checked').attr('name');
+						var radioID = $('input[name=job_radios]:checked').attr('id');
+						alert(radio);
+						$("#jobList").collapse('hide')
+					};
 				}
 			});
-			
 		});
 	});	
 });

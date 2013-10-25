@@ -23,12 +23,12 @@ Log In
 		<?php echo Form::text('alt_phone', '', array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
 		<?php echo Form::text('email', '', array('placeholder' => 'email', 'class' => 'input-small', 'id' => 'email')); ?>
 	</div>
-	<div id="jobList" style="display: none">
-		<h4><em>Prior Jobs</em></h4><button class="btn-small btn" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customers['0']->job_id}}'">Copy</button> 
+	<div id="jobList" class="accordion-body collapse" >
+		<h4><em>Prior Jobs</em></h4>
 		<table class="table table-condensed table-striped">
 			<thead>
-				<th>Select one&nbsp;&nbsp;</th>
-				<th>Job ID&nbsp;</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>Job ID</th>
 				<th>Address</th>
 				<th>City</th>
 				<th>Est. Scheduled</th>
@@ -36,17 +36,9 @@ Log In
 				<th>Job Completed</th>
 			</thead>
 			<tbody id="jobs_table">
-				<tr>
-					<td><input type="radio" name="optionsRadios" id="radio" value=""></td>
-					<td id="job_id"><a id="a_job_id"></a></td>
-					<td id="job_address"></td>
-					<td id="job_city"></td>
-					<td id="est_sched"></td>
-					<td id="job_sched"></td>
-					<td id="job_complete"></td>
-				</tr>
 			</tbody>
 		</table>
+		<button class="btn-small btn" onClick="copyButton()" id="copyButton">Copy info to new job</button>
 	</div>
 	<hr>
 	<h4><em>Job & Jobsite Information:</em></h4>
@@ -109,11 +101,6 @@ Log In
 	</div>
 </div>
 
-<div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags" />
-</div>
-
 <div class="well well-small">
 	<h4><em>Existing leads</em></h4>
 	<table class="table table-condensed table-striped">
@@ -152,7 +139,6 @@ Log In
 @section('scripts')
 	<script type='text/javascript' src="{{ asset('js/bootstrap.min.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script>
-	<script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
 	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/customer.js') }}"></script>
