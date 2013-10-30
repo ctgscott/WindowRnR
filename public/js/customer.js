@@ -133,7 +133,8 @@ $(document).ready(function(){
 						var input = document.createElement("input");
 						input.type = "text";
 						input.value = data[i].address;
-						input.className = "input-medium";
+						input.className = "input-medium prior_address";
+						input.style.width = "100px";
 						input.disabled = true;
 						td.appendChild(input);
 

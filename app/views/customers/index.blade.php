@@ -114,12 +114,12 @@ Log In
 			<th>Phone</th>
 			<th>email</th>
 		</thead>
-		<tbody>
+		<tbody class="existing">
 			@foreach ($customers as $customer)
 				<tr>
 					<td>{{ $customer->job_id }}</td>
 					<td>{{ date("n/j/y", strtotime($customer->job_created_at)) }}</td>
-					<td><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
+					<td class="cust_name"><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
 					<td>{{ $customer->job_address }}</a></td>
 					<td>{{ $customer->job_city }}</td>
 					<td>{{ $customer->job_house_built }}</td>

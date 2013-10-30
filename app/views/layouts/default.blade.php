@@ -44,6 +44,7 @@
 						<ul class="nav">
 							<li {{ (Request::is('/') ? 'class="active"' : '') }}><a href="{{ URL::to('') }}">Home</a></li>
 							@if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
+								<li {{ (Request::is('users*') ? 'class="active"' : '') }}><a href="{{ URL::to('/customers') }}">Leads</a></li>
 								<li {{ (Request::is('users*') ? 'class="active"' : '') }}><a href="{{ URL::to('/users') }}">Users</a></li>
 								<li {{ (Request::is('groups*') ? 'class="active"' : '') }}><a href="{{ URL::to('/groups') }}">Groups</a></li>
 							@endif

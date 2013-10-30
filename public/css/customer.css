@@ -1,3 +1,13 @@
+.prior_address {
+	width: 125px;
+}
+
+.existing .cust_name {
+	padding: 0p;
+	margin: 0p;
+	width: 125px;
+}
+
 #jobListID {
 	text-align: center;
 	width: 30px;

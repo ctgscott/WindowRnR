@@ -93,6 +93,10 @@ class CustomersController extends BaseController {
 
 	public function leadByJobID($jobID)
 	{
+			require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -125,6 +129,8 @@ class CustomersController extends BaseController {
 				->where('jobs.archive', '=', 0)
 				->where('jobs.id', '=', $jobID)
 				->get();
+
+				$firephp->log($results, 'Results');
 				
 			return $results;
 		}
