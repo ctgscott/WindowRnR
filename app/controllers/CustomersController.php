@@ -93,7 +93,7 @@ class CustomersController extends BaseController {
 
 	public function leadByJobID($jobID)
 	{
-			require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
@@ -138,6 +138,12 @@ class CustomersController extends BaseController {
 	
 	public function leadByCustID($custID)
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$firephp->log($custID, '$id2');
+	
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -216,8 +222,14 @@ class CustomersController extends BaseController {
 		}
 	}
 
-	public function getDetailID($id)
+	public static function getDetailID($id)
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$firephp->log($id, '$id');
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -229,13 +241,20 @@ class CustomersController extends BaseController {
 		}
 		else
 		{
+			$firephp->log('test', '$results');
+
 			try {
+				$firephp->log('test2', '$results2');
 				$results['leadDetail'] = CustomersController::leadByCustID($id);
+				$firephp->log(var_dump($results['leadDetail']), '$results3');
 				$results['jobs'] = JobsController::jobDetailByCustID($id, 1, 0);
+				$firephp->log(var_dump($results), '$results4');
 				foreach ($results['jobs'] as $job) {
 					$job->notes = NotesController::notesByJobID($job->job_id);
 				};
-				
+
+				$firephp->log($results, '$results');
+	
 /*				echo "<pre>".var_dump($results['leadDetail'])."</pre>";
 				echo "<pre>".var_dump($results['jobs'])."</pre>";
 				echo "<pre>".var_dump($results['jobs']['0']->notes)."</pre>";
@@ -243,6 +262,7 @@ class CustomersController extends BaseController {
 */				return View::make('customers.edit')->with($results);
 			}
 			catch (Exception $e) {
+				$firephp->log('fail', 'catch');
 				Session::flash('error', 'There was a problem: '.$e);
 				return $e;
 			}

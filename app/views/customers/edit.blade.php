@@ -41,7 +41,7 @@ Edit Lead Details
 	<h4><em>Job & Jobsite Information:</em></h4>
 	<div class="row-fluid">
 		<div class="span12">
-
+			<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $leadDetail['0']->customer_id }}" disabled/>
 			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->job_address }}" required>
 			<?php echo Form::text('city', $jobs['0']->job_address, array('placeholder' => 'City', 'class' => 'input-small')); ?>
 			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->job_zip }}">
