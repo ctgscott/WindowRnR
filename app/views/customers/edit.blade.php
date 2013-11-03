@@ -23,29 +23,29 @@ Edit Lead Details
 	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $leadDetail['0']->customer_id }}" disabled/>
-		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $leadDetail['0']->customer_lname }}" required>
-		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $leadDetail['0']->customer_fname }}" required>
-		<?php echo Form::text('phone', $leadDetail[0]->customer_phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
-		<?php echo Form::text('alt_phone', $leadDetail[0]->customer_altphone, array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
-		<?php echo Form::text('email', $leadDetail[0]->customer_email, array('placeholder' => 'email', 'class' => 'input-small')); ?>
+		<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $custDetail['0']->id }}" disabled/>
+		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $custDetail['0']->l_name }}" required>
+		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $custDetail['0']->f_name }}" required>
+		<?php echo Form::text('phone', $custDetail[0]->phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
+		<?php echo Form::text('alt_phone', $custDetail[0]->alt_phone, array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
+		<?php echo Form::text('email', $custDetail[0]->email, array('placeholder' => 'email', 'class' => 'input-small')); ?>
 	</div>
 	<div>
 		<h5><em>Customer billing information:</em></h5>
-		<input placeholder="Billing Address" class="input-small" type="text" name="billing_address" value="{{ $leadDetail['0']->billing_address }}" >
-		<input placeholder="City" class="input-small" name="billing_city" type="text" value="{{ $leadDetail['0']->billing_city }}" >
-		<input placeholder="State" class="input-small" name="state" type="text" value="{{ $leadDetail['0']->billing_state }}" >
-		<input placeholder="State" class="input-small" name="billing_zip" type="text" value="{{ $leadDetail['0']->billing_zip }}" >
+		<input placeholder="Billing Address" class="input-small" type="text" name="billing_address" value="{{ $custDetail['0']->billing_address }}" >
+		<input placeholder="City" class="input-small" name="billing_city" type="text" value="{{ $custDetail['0']->billing_city }}" >
+		<input placeholder="State" class="input-small" name="state" type="text" value="{{ $custDetail['0']->billing_state }}" >
+		<input placeholder="State" class="input-small" name="billing_zip" type="text" value="{{ $custDetail['0']->billing_zip }}" >
 	</div>
 	<hr>
 	<h4><em>Job & Jobsite Information:</em></h4>
 	<div class="row-fluid">
 		<div class="span12">
-			<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $leadDetail['0']->customer_id }}" disabled/>
-			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->job_address }}" required>
-			<?php echo Form::text('city', $jobs['0']->job_address, array('placeholder' => 'City', 'class' => 'input-small')); ?>
-			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->job_zip }}">
-			<?php echo Form::text('built', $jobs['0']->job_house_built, array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
+			<input class="input-small" type="text" name="custID" value="Job ID: {{ $jobs['0']->id }}" disabled/>
+			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->address }}" required>
+			<?php echo Form::text('city', $jobs['0']->address, array('placeholder' => 'City', 'class' => 'input-small')); ?>
+			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->zip }}">
+			<?php echo Form::text('built', $jobs['0']->built, array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
@@ -72,10 +72,39 @@ Edit Lead Details
 			<div class="span6 well well-small" name="source">
 				<em>Source:&nbsp;&nbsp;</em>
 				<div id="source">
-					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="type[]"> Angies&nbsp;&nbsp;
+					<?php 
+						if (isset($jobs['0']->lead_source)) {
+							if (strpos($jobs['0']->lead_source, 'Angies') !==false) {
+								echo Form::checkbox('type[]', 'Angies', true).' Angies&nbsp;&nbsp;';
+							} else {
+								echo Form::checkbox('type[]', 'Angies').' Angies&nbsp;&nbsp;';
+							}
+							if (strpos($jobs['0']->lead_source, 'Yelp') !==false) {
+								echo Form::checkbox('type[]', 'Yelp', true).' Yelp&nbsp;&nbsp;';
+							} else {
+								echo Form::checkbox('type[]', 'Yelp').' Yelp&nbsp;&nbsp;';
+							}
+							if (strpos($jobs['0']->lead_source, 'Google') !==false) {
+								echo Form::checkbox('type[]', 'Google', true).' Google&nbsp;&nbsp;';
+							} else {
+								echo Form::checkbox('type[]', 'Google').' Google&nbsp;&nbsp;';
+							}
+							if (strpos($jobs['0']->lead_source, 'LA') !==false) {
+								echo Form::checkbox('type[]', 'LA Conservancy', true).' LA Conserv.&nbsp;&nbsp;';
+							} else {
+								echo Form::checkbox('type[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
+							}
+						} else {
+							echo Form::checkbox('type[]', 'Angies').' Angies&nbsp;&nbsp;';
+							echo Form::checkbox('type[]', 'Yelp').' Yelp&nbsp;&nbsp;';
+							echo Form::checkbox('type[]', 'Google').' Google&nbsp;&nbsp;';
+							echo Form::checkbox('type[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
+						}
+					?>
+<!--					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="type[]"> 
 					<input type="checkbox" id="sourceCheckbox2" value="Yelp" name="type[]"> Yelp&nbsp;&nbsp;
 					<input type="checkbox" id="sourceCheckbox3" value="Google" name="type[]"> Google&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="type[]"> LA Conserv.&nbsp;&nbsp;
+					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="type[]"> LA Conserv.&nbsp;&nbsp;-->
 				</div>
 				<div>
 					<input type="checkbox" id="sourceCheckbox5" value="" name="type[]"> Referral:
@@ -88,7 +117,7 @@ Edit Lead Details
 			</div>
 		</div>
 		<div>
-			<?php echo Form::text('symptoms', $jobs['0']->job_symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
+			<?php echo Form::text('symptoms', $jobs['0']->symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
 		<div>
 			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>

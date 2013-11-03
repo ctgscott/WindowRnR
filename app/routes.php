@@ -28,11 +28,7 @@ Route::post('customers/newLead', 'CustomersController@newLead');
 Route::get('customers/autocomplete', 'CustomersController@autocomplete');
 Route::get('customers/typeahead', 'CustomersController@typeahead');
 Route::post('customers/jobDetail', 'JobsController@postJobDetailByCustID');
-Route::get('customers/{id}', function($id) 
-	{
-		CustomersController::getDetailID($id);
-	});
-
+Route::get('customers/{id}', 'CustomersController@getDetailID');
 
 Route::controller('users', 'UserController');
 Route::controller('customers/schedule', 'CustomersController'); 

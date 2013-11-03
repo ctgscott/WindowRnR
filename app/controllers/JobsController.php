@@ -47,8 +47,13 @@ class JobsController extends BaseController {
 			return $e;
 		}
 	}
+	
 	public static function jobDetailByCustID($custID, $status, $archive)
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -93,6 +98,8 @@ class JobsController extends BaseController {
 					->where('jobs.archive', '=', $archive)
 					->where('jobs.customer_id', '=', $custID)
 					->get();
+				
+				$firephp->log(print_r(var_dump($results)), '$results(jobs)');				
 					
 				return $results;
 			}

@@ -136,7 +136,7 @@ class CustomersController extends BaseController {
 		}
 	}
 	
-	public function leadByCustID($custID)
+	public static function leadByCustID($custID)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
 		ob_start();
@@ -228,8 +228,6 @@ class CustomersController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$firephp->log($id, '$id');
-
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -241,28 +239,21 @@ class CustomersController extends BaseController {
 		}
 		else
 		{
-			$firephp->log('test', '$results');
-
 			try {
-				$firephp->log('test2', '$results2');
-				$results['leadDetail'] = CustomersController::leadByCustID($id);
-				$firephp->log(var_dump($results['leadDetail']), '$results3');
-				$results['jobs'] = JobsController::jobDetailByCustID($id, 1, 0);
-				$firephp->log(var_dump($results), '$results4');
+				$results['jobs'] = DB::table('jobs')->where('id', $id)->get();
+				$results['custDetail'] = DB::table('customers')->where('id', $results['jobs']['0']->customer_id)->get();
+
 				foreach ($results['jobs'] as $job) {
-					$job->notes = NotesController::notesByJobID($job->job_id);
+					$job->notes = NotesController::notesByJobID($job->id);
 				};
 
-				$firephp->log($results, '$results');
+				$firephp->log($results, '$resultstotal');
 	
-/*				echo "<pre>".var_dump($results['leadDetail'])."</pre>";
-				echo "<pre>".var_dump($results['jobs'])."</pre>";
-				echo "<pre>".var_dump($results['jobs']['0']->notes)."</pre>";
-				echo "<pre>".print_r($results['jobs'])."</pre>";
-*/				return View::make('customers.edit')->with($results);
+				return View::make('customers.edit')->with($results);
 			}
 			catch (Exception $e) {
-				$firephp->log('fail', 'catch');
+				$firephp->log($e, 'catch');
+				
 				Session::flash('error', 'There was a problem: '.$e);
 				return $e;
 			}
