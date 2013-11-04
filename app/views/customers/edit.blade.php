@@ -43,7 +43,7 @@ Edit Lead Details
 		<div class="span12">
 			<input class="input-small" type="text" name="custID" value="Job ID: {{ $jobs['0']->id }}" disabled/>
 			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->address }}" required>
-			<?php echo Form::text('city', $jobs['0']->address, array('placeholder' => 'City', 'class' => 'input-small')); ?>
+			<?php echo Form::text('city', $jobs['0']->city, array('placeholder' => 'City', 'class' => 'input-small')); ?>
 			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->zip }}">
 			<?php echo Form::text('built', $jobs['0']->built, array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
 		</div>
@@ -101,10 +101,6 @@ Edit Lead Details
 							echo Form::checkbox('type[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
 						}
 					?>
-<!--					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="type[]"> 
-					<input type="checkbox" id="sourceCheckbox2" value="Yelp" name="type[]"> Yelp&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox3" value="Google" name="type[]"> Google&nbsp;&nbsp;
-					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="type[]"> LA Conserv.&nbsp;&nbsp;-->
 				</div>
 				<div>
 					<input type="checkbox" id="sourceCheckbox5" value="" name="type[]"> Referral:
@@ -128,7 +124,7 @@ Edit Lead Details
 	</div>
 	<div>
 		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary']);?>
-		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
+		<?php echo Form::button('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
 		<?php echo Form::close(); ?>
 	</div>
 </div>
