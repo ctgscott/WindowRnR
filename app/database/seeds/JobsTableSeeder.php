@@ -20,10 +20,10 @@ class JobsTableSeeder extends Seeder {
 			'symptoms' => 'DHs need TLC, CMs need weather stripping.',
 			'lead_source' => 'Google',
 			'created_at' => new DateTime, 
-			'updated_at' => new DateTime],
+			'updated_at' => new DateTime,
 			'lead_scheduled' => null,
 			'job_scheduled' => null,
-			'job_completed' => null
+			'job_completed' => null],
 
 			['customer_id' => '2', 
 			'status' => '1',
@@ -37,10 +37,10 @@ class JobsTableSeeder extends Seeder {
 			'symptoms' => 'DHs need TLC, CMs need weather stripping.',
 			'lead_source' => 'Angies',
 			'created_at' => new DateTime, 
-			'updated_at' => new DateTime],
+			'updated_at' => new DateTime,
 			'lead_scheduled' => null,
 			'job_scheduled' => null,
-			'job_completed' => null
+			'job_completed' => null]
 		);
 
 		// Uncomment the below to run the seeder
