@@ -18,6 +18,9 @@ class CreateCustomersTable extends Migration {
 			$table->string('billing_state');
 			$table->integer('billing_zip');
 			$table->timestamps();
+		//	$table->timestamps()->default('CURRENT_TIMESTAMP');
+			//$table->dateTime('created_at')->default("CURRENT_TIMESTAMP");
+			//$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
 		});
 	}
 

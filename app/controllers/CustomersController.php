@@ -688,11 +688,15 @@ class CustomersController extends BaseController {
 	{
 		try {
 		
+			$now = date("Y-m-d H:i:s");
+		
 			$customer = new customer;
 			$customer->f_name = Input::get('f_name');
 			$customer->l_name = Input::get('l_name');
 			$customer->phone = Input::get('phone');
 			$customer->email = Input::get('email');
+			$customer->created_at = $now;
+			$customer->updated_at = $now;
 			
 			$customer->save();
 			
@@ -706,6 +710,8 @@ class CustomersController extends BaseController {
 			$job->built = Input::get('built');
 			$job->symptoms = Input::get('symptoms');
 			$job->address = Input::get('address');
+			$job->created_at = $now;
+			$job->updated_at = $now;
 			$array = Input::get('lead_source');
 			$array2 = Input::get('type');
 			if(count($array) > 0) {
@@ -724,7 +730,6 @@ class CustomersController extends BaseController {
 			}
 
 			$job->save();
-			//$resultID = DB::getPdo()->lastInsertId();
 			$resultID = $job->id;
 			
 			$user = Sentry::getUser();
@@ -734,13 +739,16 @@ class CustomersController extends BaseController {
 			$noteAdd->job_id = $job->id;
 			$noteAdd->user_id = $user->id;
 			$noteAdd->note = 'Lead created.';
+			$noteAdd->created_at = $now;
+			$noteAdd->updated_at = $now;
 			$noteAdd->save();	
 				
 			$note = new note;
 			$note->job_id = $job->id;
 			$note->user_id = $user->id;
 			$note->note = Input::get('note');
-			
+			$note->created_at = $now;
+			$note->updated_at = $now;
 			$note->save();
 			
 			return $resultID;
