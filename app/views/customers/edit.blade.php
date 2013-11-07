@@ -20,7 +20,7 @@ Edit Lead Details
 	//echo "<pre>".var_dump($jobs)."</pre>";
 ?>
 	
-	{{ Form::open(array('action' => 'CustomersController@store', 'class' => 'form-inline')) }}		
+	{{ Form::open(array('action' => 'CustomersController@update', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
 		<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $custDetail['0']->id }}" disabled/>
@@ -123,7 +123,7 @@ Edit Lead Details
 		</div>
 	</div>
 	<div>
-		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary']);?>
+		<?php echo Form::submit('Update', ['class' => 'btn btn-small btn-primary']);?>
 		<?php echo Form::button('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
 		<?php echo Form::close(); ?>
 	</div>

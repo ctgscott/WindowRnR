@@ -95,8 +95,8 @@ Log In
 		</div>
 	</div>
 	<div>
-		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead']);?>
-		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead']);?>
+		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
+		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead', 'id' => 'scheduleNewLead']);?>
 		<?php echo Form::close(); ?>
 	</div>
 </div>
@@ -127,7 +127,7 @@ Log In
 					<td>{{ $customer->customer_email }}</td>
 					<td>
 						<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
-						<button class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
+						<button id="scheduleBtn" class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
 					</td>
 				</tr>
 			@endforeach

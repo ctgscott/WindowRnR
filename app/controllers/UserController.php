@@ -73,7 +73,8 @@ class UserController extends BaseController {
 			    } 
 
 			    //return View::make('customers')->with($data);
-				return View::make('users.login');
+				//return View::make('users.login');
+				echo "hello world!";
 				//return Redirect::to('customers')->with($data);
 			} else {
 				Session::flash('error', 'You are not logged in.');
@@ -344,7 +345,10 @@ class UserController extends BaseController {
 		if (isset($_SESSION['token'])) {
 		  unset($_SESSION['token']);
 		}
-		return Redirect::to('/');
+		//return Redirect::to('/');
+		//return Redirect::to('users.login');
+		return View::make('users.login');
+
 	}
 
 

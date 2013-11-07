@@ -789,9 +789,43 @@ class CustomersController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update()
 	{
-		//
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			try {
+				$now = date("Y-m-d H:i:s");
+
+				DB::table('customers')
+					->where('id', Input::get('customer_id'))
+					->update(array(
+						'f_name' => Input::get('f_name'),
+						'l_name' => Input::get('l_name'),
+						'phone' => Input::get('phone'),
+						'email' => Input::get('email'),
+						'alt_phone' => Input::get('alt_phone'),
+						'updated_at' => $now)
+					);
+			}
+			catch (Exception $e) {
+				Session::flash('error', 'There was a problem: '.$e);
+				return $e;
+			}
+		}
+
 	}
 
 	/**

@@ -1,5 +1,19 @@
 
 $(document).ready(function(){
+	$("#alert").collapse('show');
+
+	$('#saveNewLead').click(function(){
+		$("#alert").collapse('hide')
+	});
+
+	$('#scheduleBtn').click(function(){
+		$("#alert").collapse('hide')
+	});
+
+	$('#scheduleNewLead').click(function(){
+		$("#alert").collapse('hide')
+	});
+		
     $('#typeCheckbox6').click(function(){
 		if (this.checked) {
 			$('#type_other').removeAttr("disabled");
