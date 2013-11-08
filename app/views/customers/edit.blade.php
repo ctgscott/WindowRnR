@@ -10,6 +10,7 @@ Edit Lead Details
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
+<script type='text/javascript' src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 @stop
 
 {{-- Content --}}
@@ -23,7 +24,8 @@ Edit Lead Details
 	{{ Form::open(array('action' => 'CustomersController@update', 'class' => 'form-inline')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input class="input-small" type="text" name="custID" value="Cust. ID: {{ $custDetail['0']->id }}" disabled/>
+		<input class="input-small" name="cust" type="text" value="Cust. ID: {{ $custDetail['0']->id }}" disabled/>
+		<input class="input-small" name="custID" type="hidden" value="{{ $custDetail['0']->id }}" />
 		<input placeholder="Last Name" class="input-small" name="l_name" type="text" value="{{ $custDetail['0']->l_name }}" required>
 		<input placeholder="First Name" class="input-small" name="f_name" type="text" value="{{ $custDetail['0']->f_name }}" required>
 		<?php echo Form::text('phone', $custDetail[0]->phone, array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone' )); ?>
@@ -41,7 +43,8 @@ Edit Lead Details
 	<h4><em>Job & Jobsite Information:</em></h4>
 	<div class="row-fluid">
 		<div class="span12">
-			<input class="input-small" type="text" name="custID" value="Job ID: {{ $jobs['0']->id }}" disabled/>
+			<input class="input-small" name="job" type="text" value="Job ID: {{ $jobs['0']->id }}" disabled/>
+			<input class="input-small" name="jobID" type="hidden" value="{{ $jobs['0']->id }}" />
 			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->address }}" required>
 			<?php echo Form::text('city', $jobs['0']->city, array('placeholder' => 'City', 'class' => 'input-small')); ?>
 			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->zip }}">
@@ -119,8 +122,15 @@ Edit Lead Details
 			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>
 		</div>
 		<div>
-			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note" disabled>@foreach($jobs['0']->notes as $note){{ $note->created_at." - ".$note->note."\n" }}@endforeach</textarea>
+			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note" disabled>@foreach($jobs['0']->notes as $note){{ "<em>".date('M. d, Y \(g:ia\)', strtotime($note->created_at)).":</em> <strong>".$note->note."</strong></br>\r\n" }}@endforeach</textarea>
 		</div>
+		<script>
+			CKEDITOR.replace('note', {
+				toolbar: [{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] }],
+				removePlugins: 'elementspath' 
+			});
+			CKEDITOR.replace('newNote');
+		</script>
 	</div>
 	<div>
 		<?php echo Form::submit('Update', ['class' => 'btn btn-small btn-primary']);?>

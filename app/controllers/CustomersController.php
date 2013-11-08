@@ -809,21 +809,73 @@ class CustomersController extends BaseController {
 			try {
 				$now = date("Y-m-d H:i:s");
 
+				$custID = Input::get('custID');
+				$custUpdate = array(
+					'f_name' => Input::get('f_name'),
+					'l_name' => Input::get('l_name'),
+					'phone' => Input::get('phone'),
+					'email' => Input::get('email'),
+					'alt_phone' => Input::get('alt_phone'),
+					'billing_address' => Input::get('billing_address'),
+					'billing_city' => Input::get('billing_city'),
+					'billing_zip' => Input::get('billing_zip'),
+					'updated_at' => $now);
+						
+				$jobID = Input::get('jobID');
+				$jobUpdate = array(
+					'address' => Input::get('address'),
+					'city' => Input::get('city'),
+					'state' => Input::get('state'),
+					'zip' => Input::get('billing_zip'),
+					'built' => Input::get('built'),
+					'symptoms' => Input::get('symptoms'),
+					'updated_at' => $now);
+					
+/*				echo "<pre>custUpdate = ".var_dump($custUpdate)."</pre>";
+				echo "</br></br>";
+				echo "<pre>jobUpdate = ".var_dump($jobUpdate)."</pre>";
+				echo "</br></br>";
+				echo "Cust ID = ".$custID;
+				echo "</br></br>";
+				echo "Job ID = ".$jobID;
+				echo "</br></br>";
+				echo "<pre>".var_dump($_POST)."</pre>";
+*/				
 				DB::table('customers')
-					->where('id', Input::get('customer_id'))
-					->update(array(
-						'f_name' => Input::get('f_name'),
-						'l_name' => Input::get('l_name'),
-						'phone' => Input::get('phone'),
-						'email' => Input::get('email'),
-						'alt_phone' => Input::get('alt_phone'),
-						'updated_at' => $now)
-					);
+					->where('id', $custID)
+					->update($custUpdate);
+
+				DB::table('jobs')
+					->where('id', $jobID)
+					->update($jobUpdate);
+					
+				$userID = Sentry::getUser();
+				$note = "Lead detail updated";
+				$noteResult = NotesController::create($jobID, $userID, $note);
+				
+				$newNote = Input::get('newNote');
+				if ($newNote != '') {
+					$noteResult2 = NotesController::create($jobID, $userID, $newNote);
+					if ($noteResult && $noteResult2 == 'Success') {
+						Session::flash('success', 'Lead updated successfully.1');
+					} else {
+						Session::flash('error', 'There was a problem with the lead update.');
+					}
+				} else {
+					if ($noteResult == 'Success') {
+						Session::flash('success', 'Lead updated successfully.2');
+					} else {
+						Session::flash('error', 'There was a problem with the lead update.');
+					}
+				}
+//				echo $noteResult."</br></br>";
+//				echo "<pre>".var_dump($_SESSION)."</pre>";
 			}
 			catch (Exception $e) {
 				Session::flash('error', 'There was a problem: '.$e);
 				return $e;
 			}
+			return Redirect::to('customers');
 		}
 
 	}

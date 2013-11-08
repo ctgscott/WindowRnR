@@ -33,8 +33,9 @@ class NotesController extends BaseController {
 		{
 			// User is logged in
 			try {
+				$now = date("Y-m-d H:i:s");
 				DB::table('notes')
-					->insert(array('job_id' => $job_id, 'user_id' => $user_id, 'note' => $note));
+					->insert(array('job_id' => $job_id, 'user_id' => $user_id, 'note' => $note, 'created_at' => $now));
 				return 'Success';
 			}
 			catch (Exception $e) {
