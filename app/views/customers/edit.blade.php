@@ -44,7 +44,7 @@ Edit Lead Details
 	<div class="row-fluid">
 		<div class="span12">
 			<input class="input-small" name="job" type="text" value="Job ID: {{ $jobs['0']->id }}" disabled/>
-			<input class="input-small" name="jobID" type="hidden" value="{{ $jobs['0']->id }}" />
+			<input class="input-small" name="jobID" type="hidden" value="{{ $jobs['0']->id }}" id="jobID" />
 			<input placeholder="Jobsite Address" class="input-small" name="address" type="text" value="{{ $jobs['0']->address }}" required>
 			<?php echo Form::text('city', $jobs['0']->city, array('placeholder' => 'City', 'class' => 'input-small')); ?>
 			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="{{ $jobs['0']->zip }}">
@@ -119,23 +119,22 @@ Edit Lead Details
 			<?php echo Form::text('symptoms', $jobs['0']->symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
 		<div>
+			<h4><em>Add Notes:</em></h4>
 			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>
 		</div>
 		<div>
-			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note" disabled>@foreach($jobs['0']->notes as $note){{ "<em>".date('M. d, Y \(g:ia\)', strtotime($note->created_at)).":</em> <strong>".$note->note."</strong></br>\r\n" }}@endforeach</textarea>
+			<h4><em>File Notes:</em></h4>
+			<ul>
+				@foreach($jobs['0']->notes as $note){{ "<li class='oldNote'><em>".date('M. d, Y \(g:ia\)', strtotime($note->created_at)).":</em> <strong>".$note->note."</strong></li>" }}@endforeach
+			</ul>
 		</div>
 		<script>
-			CKEDITOR.replace('note', {
-				toolbar: [{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] }],
-				removePlugins: 'elementspath' 
-			});
 			CKEDITOR.replace('newNote');
 		</script>
 	</div>
 	<div>
 		<?php echo Form::submit('Update', ['class' => 'btn btn-small btn-primary']);?>
-		<?php echo Form::button('Schedule Appt.', ['class' => 'btn btn-small btn-success']);?>
-		<?php echo Form::close(); ?>
+		<?php echo Form::button('Schedule Appt.', ['class' => 'btn btn-small btn-success btn-schedule', 'id' => 'btnSchedule']);?>
 	</div>
 </div>
 

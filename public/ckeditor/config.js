@@ -15,10 +15,10 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'links' },
 		{ name: 'insert' },
 		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others' },
-		'/',
+		//{ name: 'tools' },
+		//{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		//{ name: 'others' },
+		//'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
@@ -35,4 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+	
+	// Get rid of bottom status bar
+	config.removePlugins = 'elementspath';
 };

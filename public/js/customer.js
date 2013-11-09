@@ -1,5 +1,9 @@
 
 $(document).ready(function(){
+	$("#btnSchedule").click(function(){
+		window.location.href = '/customers/schedule/' + document.getElementById("jobID").value;
+	});
+	
 	$("#alert").collapse('show');
 
 	$('#saveNewLead').click(function(){

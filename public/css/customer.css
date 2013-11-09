@@ -1,3 +1,20 @@
+button.btn-schedule {
+	margin-top: 10px;
+	width: 120px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	line-height: 15px;
+}
+
+li.oldNote > em {
+	font-weight: normal;
+	line-height: 10px;
+}
+
+li.oldNote > strong {
+	font-size: 100%;
+}
+
 .prior_address {
 	width: 125px;
 }
