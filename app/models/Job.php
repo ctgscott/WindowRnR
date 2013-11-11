@@ -10,4 +10,19 @@ class Job extends Eloquent {
 	{
 		return $this->belongsTo('Customer');
 	}
+	
+	public function notes()
+	{
+		return $this->hasMany('Note');
+	}
+	
+	public function window_totals()
+	{
+		return $this->hasMany('Window_total');
+	}
+	
+	public function windows()
+	{
+		return $this->hasMany('Window');
+	}
 }

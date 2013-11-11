@@ -29,9 +29,10 @@ $(document).ready(function () {
     $('#btnDel').prop('disabled', 'disabled');
 });
 
-$('#changeMe').on('submit', function (e) {
+$('#newLeadForm').on('submit', function (e) {
     //prevent the default submithandling
+	alert("hello world");
     e.preventDefault();
     //send the data of 'this' (the matched form) to yourURL
-    $.post('changeMeToo.php', $(this).serialize());
+    $.post('customers/newLead', $(this).serialize());
 });

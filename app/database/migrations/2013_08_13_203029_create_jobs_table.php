@@ -24,7 +24,6 @@ class CreateJobsTable extends Migration {
 			$table->string('zip');
 			$table->string('built');
 			$table->string('type');
-			$table->text('symptoms');
 			$table->string('lead_source');
 			$table->timestamps();
 			$table->timestamp('lead_scheduled');

@@ -61,3 +61,5 @@ Route::resource('notes', 'NotesController');
 Route::resource('statuses', 'StatusesController');
 
 Route::resource('photos', 'PhotosController');
+
+Route::resource('window_totals', 'Window_totalsController');

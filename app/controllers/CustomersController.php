@@ -664,6 +664,14 @@ class CustomersController extends BaseController {
 	
 	public function newLead()
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$firephp->log($_POST, '$_POST');
+		echo var_dump($_POST);
+		exit;
+		
 		try {
 			$results = CustomersController::store();
 			if (is_numeric($results)) {
@@ -686,8 +694,14 @@ class CustomersController extends BaseController {
 	
 	public function store()
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$firephp->log($_POST, '$_POST');
+
 		try {
-		
+
 			$now = date("Y-m-d H:i:s");
 		
 			$customer = new customer;
@@ -708,7 +722,7 @@ class CustomersController extends BaseController {
 			$job->city = Input::get('city');
 			$job->zip = Input::get('zip');
 			$job->built = Input::get('built');
-			$job->symptoms = Input::get('symptoms');
+		//	$job->symptoms = Input::get('symptoms');
 			$job->address = Input::get('address');
 			$job->created_at = $now;
 			$job->updated_at = $now;
@@ -828,7 +842,7 @@ class CustomersController extends BaseController {
 					'state' => Input::get('state'),
 					'zip' => Input::get('billing_zip'),
 					'built' => Input::get('built'),
-					'symptoms' => Input::get('symptoms'),
+		//			'symptoms' => Input::get('symptoms'),
 					'updated_at' => $now);
 					
 /*				echo "<pre>custUpdate = ".var_dump($custUpdate)."</pre>";

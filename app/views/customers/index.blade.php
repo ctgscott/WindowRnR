@@ -9,12 +9,13 @@ Log In
 <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
 @stop
 
 {{-- Content --}}
 @section('content')
 <div class="well well-small">
-	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline')) }}		
+	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline', 'id' => 'newLeadForm')) }}		
 	<div>
 		<h4><em>Customer Information:</em></h4>
 		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" autocomplete="off" required>
@@ -51,7 +52,34 @@ Log In
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
-				<div id="checkbox_label">Window Type(s):</div>
+				<div id="window_type" class="style">Window Material & Style(s)
+					<a id="btnAdd" class="btnAdd">Add'l Style</a>
+				</div>
+				<ul id="style_group_1" class="clonedSection">
+					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
+					<select class="styleSelect" >
+						<option selected="selected">Material</option>
+						<option>Wood</option>
+						<option>Steel</option>
+						<option>Aluminum</option>
+						<option>Vinyl</option>
+					</select>
+					<select class="styleSelect">
+						<option selected="selected">Style</option>
+						<option>Double Hung</option>
+						<option>Casement</option>
+						<option>Slider</option>
+						<option>Awning</option>
+						<option>Hopper</option>
+						<option>Transom</option>
+						<option>Picture</option>
+						<option>Other</option>
+					</select>
+					<a id="btnDel" class="btnAdd">Delete row</a>
+				</ul>
+			</div>
+<!--			<div class="span6 well well-small" name="checkbox">
+				<div id="checkbox_label"><em>Window Type(s):</em></div>
 				<div>
 					<input type="checkbox" id="typeCheckbox1" value="Wood" name="type[]"> Wood&nbsp;&nbsp;
 					<input type="checkbox" id="typeCheckbox2" value="Steel" name="type[]"> Steel&nbsp;&nbsp;
@@ -66,10 +94,10 @@ Log In
 				</div>
 				<div>
 					<input type="checkbox" id="typeCheckbox6" value="" name="type[]"> Other:
-					<?php echo Form::text('type_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'type_other', 'id' => 'type_other', 'disabled' => 'disabled')); ?>
+					<?php //echo Form::text('type_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'type_other', 'id' => 'type_other', 'disabled' => 'disabled')); ?>
 				</div>
 			</div>
-			<div class="span6 well well-small" name="source">
+-->			<div class="span6 well well-small" name="source">
 				<em>Source:&nbsp;&nbsp;</em>
 				<div id="lead_source">
 					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="lead_source[]"> Angies&nbsp;&nbsp;
@@ -78,19 +106,19 @@ Log In
 					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="lead_source[]"> LA Conserv.&nbsp;&nbsp;
 				</div>
 				<div>
-					<input type="checkbox" id="sourceCheckbox5" value="" name="lead_source[]"> Referral:
-					<?php echo Form::text('source_referral', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
+					<input type="checkbox" id="sourceCheckbox5" value="" name="lead_source[]"> Referral or Other:
+					<?php echo Form::text('source_referral', '', array('placeholder' => 'Note Referral or Other', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
 				</div>
-				<div>
+<!--				<div>
 					<input type="checkbox" id="sourceCheckbox6" value="" name="lead_source[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
-					<?php echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
+					<?php //echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
 				</div>
-			</div>
+-->			</div>
 		</div>
-		<div>
-			<?php echo Form::text('symptoms', '', array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
+<!--		<div>
+			<?php //echo Form::text('symptoms', '', array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
-		<div>
+-->		<div>
 			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note"></textarea>
 		</div>
 	</div>

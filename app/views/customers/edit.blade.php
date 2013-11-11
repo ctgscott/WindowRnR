@@ -56,9 +56,11 @@ Edit Lead Details
 					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
 				<ul id="style_group_1" class="clonedSection">
+					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
 					<select class="styleSelect">
 						<option selected="selected">Material</option>
 						<option>Wood</option>
+						<option>Steel</option>
 						<option>Aluminum</option>
 						<option>Vinyl</option>
 					</select>
@@ -68,7 +70,10 @@ Edit Lead Details
 						<option>Casement</option>
 						<option>Slider</option>
 						<option>Awning</option>
+						<option>Hopper</option>
 						<option>Transom</option>
+						<option>Picture</option>
+						<option>Other</option>
 					</select>									
 				</ul>
 			</div>
@@ -115,10 +120,10 @@ Edit Lead Details
 				</div>
 			</div>
 		</div>
-		<div>
-			<?php echo Form::text('symptoms', $jobs['0']->symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
+<!--		<div>
+			<?php //echo Form::text('symptoms', $jobs['0']->symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
 		</div>
-		<div>
+-->		<div>
 			<h4><em>Add Notes:</em></h4>
 			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>
 		</div>
