@@ -56,7 +56,7 @@ Log In
 				<div id="window_type" class="style">Window Material & Style(s)
 					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
-				<ul id="style_group_1" class="clonedSection"> 
+				<ul id="style_group_1" class="clonedSection">
 					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
 					<select class="styleSelect" >
 						<option selected="selected">Material</option>
