@@ -15,7 +15,8 @@ Log In
 {{-- Content --}}
 @section('content')
 <div class="well well-small">
-	{{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline', 'id' => 'newLeadForm')) }}		
+	<!--{//{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline', 'id' => 'newLeadForm')) }}-->
+	<form id="newLeadForm" class="form-inline" action="/customers/newLead" method="POST">
 	<div>
 		<h4><em>Customer Information:</em></h4>
 		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" autocomplete="off" required>
@@ -55,7 +56,7 @@ Log In
 				<div id="window_type" class="style">Window Material & Style(s)
 					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
-				<ul id="style_group_1" class="clonedSection">
+				<ul id="style_group_1" class="clonedSection"> 
 					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
 					<select class="styleSelect" >
 						<option selected="selected">Material</option>
@@ -123,7 +124,7 @@ Log In
 		</div>
 	</div>
 	<div>
-		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
+		<?php echo Form::button('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
 		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead', 'id' => 'scheduleNewLead']);?>
 		<?php echo Form::close(); ?>
 	</div>
