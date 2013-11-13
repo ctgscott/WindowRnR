@@ -57,26 +57,28 @@ Log In
 					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
 				<ul id="style_group_1" class="clonedSection">
-					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
-					<select class="styleSelect" >
-						<option selected="selected">Material</option>
-						<option>Wood</option>
-						<option>Steel</option>
-						<option>Aluminum</option>
-						<option>Vinyl</option>
-					</select>
-					<select class="styleSelect">
-						<option selected="selected">Style</option>
-						<option>Double Hung</option>
-						<option>Casement</option>
-						<option>Slider</option>
-						<option>Awning</option>
-						<option>Hopper</option>
-						<option>Transom</option>
-						<option>Picture</option>
-						<option>Other</option>
-					</select>
-					<a id="btnDel" class="btnAdd">Delete row</a>
+					<div>
+						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
+						<select class="materialSelect" >
+							<option selected="selected">Material</option>
+							<option>Wood</option>
+							<option>Steel</option>
+							<option>Aluminum</option>
+							<option>Vinyl</option>
+						</select>
+						<select class="styleSelect">
+							<option selected="selected">Style</option>
+							<option>Double Hung</option>
+							<option>Casement</option>
+							<option>Slider</option>
+							<option>Awning</option>
+							<option>Hopper</option>
+							<option>Transom</option>
+							<option>Picture</option>
+							<option>Other</option>
+						</select>
+						<a id="btnDel" class="btnAdd btnDel" name="btnDel"><i class="icon-remove"></i>Delete row</a>
+					</div>
 				</ul>
 			</div>
 <!--			<div class="span6 well well-small" name="checkbox">

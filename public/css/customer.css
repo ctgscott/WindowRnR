@@ -1,3 +1,21 @@
+.styles {
+	margin-right: 4px;
+	margin-top: 6px;
+}
+
+.icon-remove {
+	border-radius: 3px;
+	border: 1px solid rgba(255,0,0,.25);
+}
+
+i.icon-remove {
+	margin-right: 2px;
+}
+
+a#btnDel {
+	margin-left: 0px;
+}
+
 button.btn-schedule {
 	margin-top: 10px;
 	width: 120px;
@@ -114,6 +132,10 @@ div.tt-is-under-cursor, p:hover {
 }
 
 .styleSelect {
+	width: 125px;
+}
+
+.materialSelect {
 	width: 125px;
 }
 
