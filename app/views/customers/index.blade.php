@@ -56,8 +56,8 @@ Log In
 				<div id="window_type" class="style">Window Material & Style(s)
 					<a id="btnAdd" class="btnAdd">Add'l Style</a>
 				</div>
-				<ul id="style_group_1" class="clonedSection">
-					<div>
+				<div id="parent">
+					<div id="style_group_1" class="clonedSection">
 						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
 						<select class="materialSelect" >
 							<option selected="selected">Material</option>
@@ -77,9 +77,9 @@ Log In
 							<option>Picture</option>
 							<option>Other</option>
 						</select>
-						<a id="btnDel_1" class="btnAdd btnDel" name="btnDel"><i class="icon-remove"></i>Delete row</a>
+						<a id="btnDel1" class="btnAdd btnDel"><i id="close1" class="icon-remove"></i>Delete row</a>-->
 					</div>
-				</ul>
+				</div>
 			</div>
 <!--			<div class="span6 well well-small" name="checkbox">
 				<div id="checkbox_label"><em>Window Type(s):</em></div>

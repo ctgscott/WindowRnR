@@ -2,15 +2,11 @@ $(document).ready(function () {
     $('#btnAdd').click(function () {
         var num = $('.clonedSection').length;
         var newNum = new Number(num + 1);
-	//	alert("num = "+num);
-	//	alert("newNum = "+newNum);
 		
-        //var newSection = $('#style_group_' + num).clone().attr('id', 'style_group_' + newNum);
-		var parentUl = document.getElementById("style_group_1");
+		var parentDiv = document.getElementById("parent");
 		var div = document.createElement("div");
 		div.className = "clonedSection style_group_" + newNum;
-		parentUl.appendChild(div);
-	//	alert("#3");
+		parentDiv.appendChild(div);
 	
 		var input = document.createElement("input");
 		input.type = "text";
@@ -48,35 +44,42 @@ $(document).ready(function () {
 		option2 += '<option>Picture</option>';
 		option2 += '<option>Other</option>';
 		$("#style_" + newNum).append(option2);
-
-        var deleteRow = $('#btnDel_1').clone();
-		deleteRow.id = "btnDel_" + newNum;
-		select2.appendChild(deleteRow);
 		
-/*        newSection.children(':first').children(':first').attr('id', 'window_qty_' + newNum).attr('name', 'window_qty_' + newNum);
-        newSection.children(':nth-child(2)').children(':first').attr('id', 'material_' + newNum).attr('name', 'material_' + newNum);
-		newSection.children(':nth-child(3)').children(':first').attr('id', 'style_' + newNum).attr('name', 'style_' + newNum);
+		var close = document.createElement("a");
+		close.id = "close"+newNum;
+		close.className = "icon-remove";
+		close.click(function() {
+			$(this).closest('.clonedSection').remove();
+		});
+		div.appendChild(close);
 
-        newSection.insertAfter('#style_group_' + num).last();
-		div.insertAfter('#style_group_' + num).last();
-*/
-//        $('#btnDel').prop('disabled', '');
+        var $deleteRow = $('#btnDel1').clone();
+		$deleteRow[0].id = "btnDel" + newNum;
+		$deleteRow.appendTo(div);
 
         if (newNum == 5) $('#btnAdd').prop('disabled', 'disabled');
 	});
 
-    $('btnDel').click(function () {
+    //$("[id^=btnDel]").click(function () {
+	$("#close2").click(function(e) {
+	//$("[id^=btnDel]").live('click', function (e) {
+	
+		alert("close clicked!");
+		var idClicked = e.target.id;
+		alert("id clicked = "+idClicked);
         var num = $('.clonedSection').length; // how many "duplicatable" input fields we currently have
-        $('#style_group_' + num).remove(); // remove the last element
-
+		alert("num = "+num);
+        //$('.style_group_' + num).remove(); // remove the last element
+		$(this).closest('.clonedSection').remove();
+		
         // enable the "add" button
         $('#btnAdd').prop('disabled', '');
 
         // if only one element remains, disable the "remove" button
-        if (num - 1 == 1) $('#btnDel').prop('disabled', 'disabled');
-    });
+/*        if (num - 1 == 1) $("[id^=btnDel]").prop('disabled', 'disabled');
+*/    });
 
-    $('#btnDel').prop('disabled', 'disabled');
+    //$('#btnDel').prop('disabled', 'disabled');
 
 	$('#saveNewLead').click(function () {
 		var num = $('.clonedSection').length;		
