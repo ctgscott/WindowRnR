@@ -77,7 +77,7 @@ Log In
 							<option>Picture</option>
 							<option>Other</option>
 						</select>
-						<a id="btnDel" class="btnAdd btnDel" name="btnDel"><i class="icon-remove"></i>Delete row</a>
+						<a id="btnDel_1" class="btnAdd btnDel" name="btnDel"><i class="icon-remove"></i>Delete row</a>
 					</div>
 				</ul>
 			</div>

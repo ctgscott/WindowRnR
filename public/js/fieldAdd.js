@@ -2,19 +2,21 @@ $(document).ready(function () {
     $('#btnAdd').click(function () {
         var num = $('.clonedSection').length;
         var newNum = new Number(num + 1);
-		alert("num = "+num);
-		alert("newNum = "+newNum);
+	//	alert("num = "+num);
+	//	alert("newNum = "+newNum);
 		
         //var newSection = $('#style_group_' + num).clone().attr('id', 'style_group_' + newNum);
 		var parentUl = document.getElementById("style_group_1");
 		var div = document.createElement("div");
+		div.className = "clonedSection style_group_" + newNum;
 		parentUl.appendChild(div);
 	//	alert("#3");
+	
 		var input = document.createElement("input");
 		input.type = "text";
 		input.id = "window_qty_" + newNum;
-		input.placeholder = "Qty";
-		input.className = "input-mini styles";
+		input.placeholder = "Qty: (#)";
+		input.className = "input-mini styles ";
 		div.appendChild(input);
 
 		var select = document.createElement("select");
@@ -47,14 +49,17 @@ $(document).ready(function () {
 		option2 += '<option>Other</option>';
 		$("#style_" + newNum).append(option2);
 
+        var deleteRow = $('#btnDel_1').clone();
+		deleteRow.id = "btnDel_" + newNum;
+		select2.append(deleteRow);
 		
 /*        newSection.children(':first').children(':first').attr('id', 'window_qty_' + newNum).attr('name', 'window_qty_' + newNum);
         newSection.children(':nth-child(2)').children(':first').attr('id', 'material_' + newNum).attr('name', 'material_' + newNum);
 		newSection.children(':nth-child(3)').children(':first').attr('id', 'style_' + newNum).attr('name', 'style_' + newNum);
 
         newSection.insertAfter('#style_group_' + num).last();
-*/		div.insertAfter('#style_group_' + num).last();
-
+		div.insertAfter('#style_group_' + num).last();
+*/
 //        $('#btnDel').prop('disabled', '');
 
         if (newNum == 5) $('#btnAdd').prop('disabled', 'disabled');
@@ -62,7 +67,7 @@ $(document).ready(function () {
 
     $('btnDel').click(function () {
         var num = $('.clonedSection').length; // how many "duplicatable" input fields we currently have
-        $('#pq_entry_' + num).remove(); // remove the last element
+        $('#style_group_' + num).remove(); // remove the last element
 
         // enable the "add" button
         $('#btnAdd').prop('disabled', '');
