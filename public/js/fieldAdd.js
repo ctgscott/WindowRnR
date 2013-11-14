@@ -51,7 +51,7 @@ $(document).ready(function () {
 
         var deleteRow = $('#btnDel_1').clone();
 		deleteRow.id = "btnDel_" + newNum;
-		select2.append(deleteRow);
+		select2.appendChild(deleteRow);
 		
 /*        newSection.children(':first').children(':first').attr('id', 'window_qty_' + newNum).attr('name', 'window_qty_' + newNum);
         newSection.children(':nth-child(2)').children(':first').attr('id', 'material_' + newNum).attr('name', 'material_' + newNum);
