@@ -26,7 +26,7 @@ $(document).ready(function () {
 		option += '<option>Steel</option>';
 		option += '<option>Aluminum</option>';
 		option += '<option>Vinyl</option>';
-		$("#material_" + newNum).append(option);
+		$(select).append(option);
 
 		var select2 = document.createElement("select");
 		select2.id = "style_" + newNum;
@@ -43,7 +43,7 @@ $(document).ready(function () {
 		option2 += '<option>Transom</option>';
 		option2 += '<option>Picture</option>';
 		option2 += '<option>Other</option>';
-		$("#style_" + newNum).append(option2);
+		$(select2).append(option2);
 		
 		var close = document.createElement("a");
 		close.id = "close"+newNum;
@@ -52,36 +52,13 @@ $(document).ready(function () {
 			$(this).closest('.clonedSection').remove();
 		});
 		div.appendChild(close);
-
-        var $deleteRow = $('#btnDel1').clone();
-		$deleteRow[0].id = "btnDel" + newNum;
-		$deleteRow.appendTo(div);
-
-        if (newNum == 5) $('#btnAdd').prop('disabled', 'disabled');
 	});
 
-    //$("[id^=btnDel]").click(function () {
-	$("#close2").click(function(e) {
-	//$("[id^=btnDel]").live('click', function (e) {
-	
-		alert("close clicked!");
-		var idClicked = e.target.id;
-		alert("id clicked = "+idClicked);
-        var num = $('.clonedSection').length; // how many "duplicatable" input fields we currently have
-		alert("num = "+num);
-        //$('.style_group_' + num).remove(); // remove the last element
+	$('body').on('click','[id^=close]',function (e) {
 		$(this).closest('.clonedSection').remove();
-		
-        // enable the "add" button
-        $('#btnAdd').prop('disabled', '');
+    });
 
-        // if only one element remains, disable the "remove" button
-/*        if (num - 1 == 1) $("[id^=btnDel]").prop('disabled', 'disabled');
-*/    });
-
-    //$('#btnDel').prop('disabled', 'disabled');
-
-	$('#saveNewLead').click(function () {
+/*	$('#saveNewLead').click(function () {
 		var num = $('.clonedSection').length;		
 		alert("hello world1");
 		for (var i=0; i<num; i++)
@@ -92,25 +69,26 @@ $(document).ready(function () {
 			alert(input);
 		}
 
-	});
+	}); */
 });
 
-//$('#newLeadForm').on('submit',function (e) {
+$('#saveNewLead').on('click',function (e) {
 //$('form.form-inline').submit(function (e) {
-/*$(document).on('submit',function (e) {
+//$(document).on('submit',function (e) {
 	//prevent the default submit handling
 	e.preventDefault();
 	alert("hello world3");
-	for (var i=0; i<5; i++)
+/*	for (var i=0; i<5; i++)
 	{
 		x=x + "The number is " + i + "<br>";
 	}
-	var input = $("test", { type: "hidden", name: "mydata", value: "bla" }); 
+*/	var input = $("test", { type: "hidden", name: "mydata", value: "bla" }); 
 	$('#newLeadForm').append($(input));
 	alert(input.toSource());
 
 	//send the data of 'this' (the matched form) to yourURL
-	//$.post('customers/newLead', $(this).serialize());
+	$.post('customers/newLead', $(this).serialize(), function(data,status){
+		alert("Data: " + data + "\nStatus: " + status);
+	});
 	//$('.form-inline').submit();
 });
-*/

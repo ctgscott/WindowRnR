@@ -53,8 +53,8 @@ Log In
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
-				<div id="window_type" class="style">Window Material & Style(s)
-					<a id="btnAdd" class="btnAdd">Add'l Style</a>
+				<div id="window_type" class="style">Window Material(s) & Style(s)
+					<a id="btnAdd" class="btnAdd">Add'l Group <i class="icon-plus" id="add"></i></a>
 				</div>
 				<div id="parent">
 					<div id="style_group_1" class="clonedSection">
@@ -77,7 +77,7 @@ Log In
 							<option>Picture</option>
 							<option>Other</option>
 						</select>
-						<a id="btnDel1" class="btnAdd btnDel"><i id="close1" class="icon-remove"></i>Delete row</a>-->
+						<!--<a id="btnDel1" class="btnAdd btnDel"><i id="close1" class="icon-remove"></i>Delete row</a>-->
 					</div>
 				</div>
 			</div>
@@ -101,7 +101,9 @@ Log In
 				</div>
 			</div>
 -->			<div class="span6 well well-small" name="source">
-				<em>Source:&nbsp;&nbsp;</em>
+				<div class="sourceTitle">
+					<em>Lead Source:</em>
+				</div>
 				<div id="lead_source">
 					<input type="checkbox" id="sourceCheckbox1" value="Angies" name="lead_source[]"> Angies&nbsp;&nbsp;
 					<input type="checkbox" id="sourceCheckbox2" value="Yelp" name="lead_source[]"> Yelp&nbsp;&nbsp;
@@ -115,8 +117,8 @@ Log In
 <!--				<div>
 					<input type="checkbox" id="sourceCheckbox6" value="" name="lead_source[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
 					<?php //echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
-				</div>
--->			</div>
+-->				</div>
+			</div>
 		</div>
 <!--		<div>
 			<?php //echo Form::text('symptoms', '', array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
