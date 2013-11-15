@@ -669,8 +669,8 @@ class CustomersController extends BaseController {
 		$firephp = FirePHP::getInstance(true);
 
 		$firephp->log($_POST, '$_POST');
-		echo var_dump($_POST);
-		exit;
+	//	echo var_dump($_POST);
+	//	exit;
 		
 		try {
 			$results = CustomersController::store();

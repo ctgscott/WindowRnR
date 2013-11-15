@@ -58,15 +58,15 @@ Log In
 				</div>
 				<div id="parent">
 					<div id="style_group_1" class="clonedSection">
-						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
-						<select class="materialSelect" >
+						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name="qty" value="">
+						<select class="materialSelect" name="material">
 							<option selected="selected">Material</option>
 							<option>Wood</option>
 							<option>Steel</option>
 							<option>Aluminum</option>
 							<option>Vinyl</option>
 						</select>
-						<select class="styleSelect">
+						<select class="styleSelect" name="style">
 							<option selected="selected">Style</option>
 							<option>Double Hung</option>
 							<option>Casement</option>
@@ -128,7 +128,7 @@ Log In
 		</div>
 	</div>
 	<div>
-		<?php echo Form::button('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
+		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
 		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead', 'id' => 'scheduleNewLead']);?>
 		<?php echo Form::close(); ?>
 	</div>

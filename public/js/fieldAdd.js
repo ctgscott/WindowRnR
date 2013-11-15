@@ -12,11 +12,13 @@ $(document).ready(function () {
 		input.type = "text";
 		input.id = "window_qty_" + newNum;
 		input.placeholder = "Qty: (#)";
+		input.name = "qty"+newNum;
 		input.className = "input-mini styles ";
 		div.appendChild(input);
 
 		var select = document.createElement("select");
 		select.id = "material_" + newNum;
+		select.name = "material"+newNum;
 		select.className = "materialSelect styles";
 		div.appendChild(select);
 
@@ -31,6 +33,7 @@ $(document).ready(function () {
 		var select2 = document.createElement("select");
 		select2.id = "style_" + newNum;
 		select2.className = "styleSelect styles";
+		select2.name = "style"+newNum;
 		div.appendChild(select2);
 
 		var option2 = document.createElement("option");
@@ -70,25 +73,26 @@ $(document).ready(function () {
 		}
 
 	}); */
+
+//		$('#saveNewLead').on('click',function (e) {
+	//$('form.form-inline').submit(function (e) {
+	//$(document).on('submit',function (e) {
+		//prevent the default submit handling
+		//alert("hello world");
+/*		e.preventDefault();
+		for (var i=0; i<5; i++)
+		{
+			x=x + "The number is " + i + "<br>";
+		}
+		var input = $("test", { type: "hidden", name: "mydata", value: "bla" }); 
+		$('#newLeadForm').append($(input));
+		alert(input.toSource());
+*/
+		//send the data of 'this' (the matched form) to yourURL
+	/*	$.post('customers/newLead', $(this).serialize(), function(data,status){
+			alert("Data: " + data + "\nStatus: " + status);
+		});
+		$('.form-inline').submit();
+	}); */
 });
 
-$('#saveNewLead').on('click',function (e) {
-//$('form.form-inline').submit(function (e) {
-//$(document).on('submit',function (e) {
-	//prevent the default submit handling
-	e.preventDefault();
-	alert("hello world3");
-/*	for (var i=0; i<5; i++)
-	{
-		x=x + "The number is " + i + "<br>";
-	}
-*/	var input = $("test", { type: "hidden", name: "mydata", value: "bla" }); 
-	$('#newLeadForm').append($(input));
-	alert(input.toSource());
-
-	//send the data of 'this' (the matched form) to yourURL
-	$.post('customers/newLead', $(this).serialize(), function(data,status){
-		alert("Data: " + data + "\nStatus: " + status);
-	});
-	//$('.form-inline').submit();
-});
