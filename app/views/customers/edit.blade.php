@@ -56,12 +56,13 @@ Edit Lead Details
 					<a id="btnAdd" class="btnAdd">Add'l Group <i class="icon-plus" id="add"></i></a>
 				</div>
 				<div id="parent">
+					<?php  $i=0; ?>
 					@foreach ($window_totals as $total)
-					<?php echo(var_dump($total)); ?>
-						<div id="style_group_1" class="clonedSection">
-							<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name="qty1" value="{{ $total->qty }}">
-							{{ Form::select('Material', array('Wood' => 'Wood', 'Steel' => 'Steel', 'Aluminum' => 'Aluminum', 'Vinyl' => 'Vinyl'), $total->material, array('class' => 'materialSelect')) }}
-							{{ Form::select('Style', array('Double Hung', 'Casement', 'Slider', 'Awning', 'Hopper', 'Transom', 'Picture', 'Other'), $total->style, array('class' => 'styleSelect')) }}						
+					<?php $i++; ?>
+						<div id='{{ "style_group_".$i }}' class="clonedSection">
+							<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name='{{ "qty".$i }}' value="{{ $total->qty }}">
+							{{ Form::select('Material'.$i, array('Wood' => 'Wood', 'Steel' => 'Steel', 'Aluminum' => 'Aluminum', 'Vinyl' => 'Vinyl'), $total->material, array('class' => 'materialSelect')) }}
+							{{ Form::select('Style'.$i, array('Double Hung' => 'Double Hung', 'Casement' => 'Casement', 'Slider' => 'Slider', 'Awning' => 'Awning', 'Hopper' => 'Hopper', 'Transom' => 'Transom', 'Picture' => 'Picture', 'Other' => 'Other'), $total->style, array('class' => 'styleSelect')) }}						
 						</div>
 					@endforeach
 <!--						<select class="materialSelect" name="material1">
