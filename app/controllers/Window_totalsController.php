@@ -12,6 +12,33 @@ class Window_totalsController extends BaseController {
         return View::make('window_totals.index');
 	}
 
+	public static function totalsByJobID($job_id)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('window_totals')
+					->select('qty', 'material', 'style')
+					->where('job_id', '=', $job_id)
+					->get();
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

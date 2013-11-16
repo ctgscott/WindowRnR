@@ -52,30 +52,38 @@ Edit Lead Details
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
-				<div id="window_type" class="style">Window Material & Style(s)
-					<a id="btnAdd" class="btnAdd">Add'l Style</a>
+				<div id="window_type" class="style">Window Material(s) & Style(s)
+					<a id="btnAdd" class="btnAdd">Add'l Group <i class="icon-plus" id="add"></i></a>
 				</div>
-				<ul id="style_group_1" class="clonedSection">
-					<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" value="">
-					<select class="styleSelect">
-						<option selected="selected">Material</option>
-						<option>Wood</option>
-						<option>Steel</option>
-						<option>Aluminum</option>
-						<option>Vinyl</option>
-					</select>
-					<select class="styleSelect">
-						<option selected="selected">Style</option>
-						<option>Double Hung</option>
-						<option>Casement</option>
-						<option>Slider</option>
-						<option>Awning</option>
-						<option>Hopper</option>
-						<option>Transom</option>
-						<option>Picture</option>
-						<option>Other</option>
-					</select>									
-				</ul>
+				<div id="parent">
+					@foreach ($window_totals as $total)
+					<?php echo(var_dump($total)); ?>
+						<div id="style_group_1" class="clonedSection">
+							<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name="qty1" value="{{ $total->qty }}">
+							{{ Form::select('Material', array('Wood' => 'Wood', 'Steel' => 'Steel', 'Aluminum' => 'Aluminum', 'Vinyl' => 'Vinyl'), $total->material, array('class' => 'materialSelect')) }}
+							{{ Form::select('Style', array('Double Hung', 'Casement', 'Slider', 'Awning', 'Hopper', 'Transom', 'Picture', 'Other'), $total->style, array('class' => 'styleSelect')) }}						
+						</div>
+					@endforeach
+<!--						<select class="materialSelect" name="material1">
+							<option selected="selected">Material</option>
+							<option>Wood</option>
+							<option>Steel</option>
+							<option>Aluminum</option>
+							<option>Vinyl</option>
+						</select>
+						<select class="styleSelect" name="style1">
+							<option selected="selected">Style</option>
+							<option>Double Hung</option>
+							<option>Casement</option>
+							<option>Slider</option>
+							<option>Awning</option>
+							<option>Hopper</option>
+							<option>Transom</option>
+							<option>Picture</option>
+							<option>Other</option>
+						</select> 
+					</div>-->
+				</div>
 			</div>
 			<div class="span6 well well-small" name="source">
 				<em>Source:&nbsp;&nbsp;</em>

@@ -11,17 +11,23 @@ class WindowtotalsTableSeeder extends Seeder {
 			['job_id' => '1', 
 			'qty' => '5',
 			'material' => 'wood',
-			'style' => 'double hung'],
+			'style' => 'double hung'
+			'created_at' => new DateTime, 
+			'updated_at' => new DateTime,],
 			
 			['job_id' => '1', 
 			'qty' => '2',
 			'material' => 'wood',
-			'style' => 'casement'],
+			'style' => 'casement'
+			'created_at' => new DateTime, 
+			'updated_at' => new DateTime,],
 			
 			['job_id' => '2', 
 			'qty' => '8',
 			'material' => 'wood',
-			'style' => 'double hung'],
+			'style' => 'double hung'
+			'created_at' => new DateTime, 
+			'updated_at' => new DateTime,],
 		);
 
 		// Uncomment the below to run the seeder

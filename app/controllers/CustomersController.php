@@ -242,6 +242,7 @@ class CustomersController extends BaseController {
 			try {
 				$results['jobs'] = DB::table('jobs')->where('id', $id)->get();
 				$results['custDetail'] = DB::table('customers')->where('id', $results['jobs']['0']->customer_id)->get();
+				$results['window_totals'] = Window_totalsController::totalsByJobiD($id);
 
 				foreach ($results['jobs'] as $job) {
 					$job->notes = NotesController::notesByJobID($job->id);
@@ -668,14 +669,16 @@ class CustomersController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$firephp->log($_POST, '$_POST');
-	//	echo var_dump($_POST);
-	//	exit;
+//		$firephp->log($_POST, '$_POST');
 		
 		try {
 			$results = CustomersController::store();
+
+//			echo var_dump($_POST);
+//			exit;
+
 			if (is_numeric($results)) {
-				Session::flash('success', 'Lead added.');
+				Session::flash('success', 'Lead #'.$results.' added.');
 				if (isset($_POST['scheduleNewLead'])) {
 					return Redirect::to('customers/schedule/'.$results);
 				} else {
@@ -688,6 +691,7 @@ class CustomersController extends BaseController {
 		}
 		catch (Exception $e) {
 			Session::flash('error', 'There was a problem: '.$e);
+
 			return Redirect::to('customers');
 		}
 	}
@@ -765,10 +769,37 @@ class CustomersController extends BaseController {
 			$note->updated_at = $now;
 			$note->save();
 			
+			if (isset($_POST['qty1'])) {
+				$pos = array();
+				foreach($_POST as $key => $value) {
+					if (strpos($key, "qty") !== false) {
+						$pos[] = strpos($key , "qty");
+					}
+				}
+				$num = count($pos);
+//				$firephp->log(print_r($pos), '$pos');
+//				$firephp->log($num, '$num');
+				$i = 0;
+				foreach($pos as $qty) {
+					$i++;
+//					$firephp->log($i, '$i');
+					if (isset($_POST['qty'.$i])) {
+						$style = new Window_total;
+						$style->job_id = $job->id;
+						$style->qty = Input::get('qty'.$i);
+						$style->material = Input::get('material'.$i);
+						$style->style = Input::get('style'.$i);
+						$style->save();
+
+//						$firephp->log(var_dump($style), '$style');
+					}
+				}
+			}
 			return $resultID;
 		}
 		catch (Exception $e) {
 			Session::flash('error', 'There was a problem: '.$e);
+			echo $e;
 			return $e;
 		}
 		

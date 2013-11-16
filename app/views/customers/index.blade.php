@@ -58,15 +58,15 @@ Log In
 				</div>
 				<div id="parent">
 					<div id="style_group_1" class="clonedSection">
-						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name="qty" value="">
-						<select class="materialSelect" name="material">
+						<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name="qty1" value="">
+						<select class="materialSelect" name="material1">
 							<option selected="selected">Material</option>
 							<option>Wood</option>
 							<option>Steel</option>
 							<option>Aluminum</option>
 							<option>Vinyl</option>
 						</select>
-						<select class="styleSelect" name="style">
+						<select class="styleSelect" name="style1">
 							<option selected="selected">Style</option>
 							<option>Double Hung</option>
 							<option>Casement</option>

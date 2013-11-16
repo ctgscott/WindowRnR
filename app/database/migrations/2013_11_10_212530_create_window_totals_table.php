@@ -18,6 +18,7 @@ class CreateWindowTotalsTable extends Migration {
 			$table->integer('qty');
 			$table->string('material');
 			$table->string('style');
+			$table->timestamps();
 		});
 	}
 

@@ -48,6 +48,8 @@ $(document).ready(function () {
 		option2 += '<option>Other</option>';
 		$(select2).append(option2);
 		
+		alert("qty = "+input.name+", material = "+select.name+", & style = "+select2.name);
+		
 		var close = document.createElement("a");
 		close.id = "close"+newNum;
 		close.className = "icon-remove";
