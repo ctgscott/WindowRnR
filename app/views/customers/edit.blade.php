@@ -60,30 +60,12 @@ Edit Lead Details
 					@foreach ($window_totals as $total)
 					<?php $i++; ?>
 						<div id='{{ "style_group_".$i }}' class="clonedSection">
-							<input placeholder="Qty: (#)" id="window_qty" class="input-mini" type="text" name='{{ "qty".$i }}' value="{{ $total->qty }}">
-							{{ Form::select('Material'.$i, array('Wood' => 'Wood', 'Steel' => 'Steel', 'Aluminum' => 'Aluminum', 'Vinyl' => 'Vinyl'), $total->material, array('class' => 'materialSelect')) }}
-							{{ Form::select('Style'.$i, array('Double Hung' => 'Double Hung', 'Casement' => 'Casement', 'Slider' => 'Slider', 'Awning' => 'Awning', 'Hopper' => 'Hopper', 'Transom' => 'Transom', 'Picture' => 'Picture', 'Other' => 'Other'), $total->style, array('class' => 'styleSelect')) }}						
+							<input id='{{ "windowTotalID".$i }}' class="input-mini" type="hidden" name='{{ "windowTotalID".$i }}' value="{{ $total->id }}">
+							<input placeholder="Qty: (#)" id='{{ "qty".$i }}' class="input-mini" type="text" name='{{ "qty".$i }}' value="{{ $total->qty }}">
+							{{ Form::select('material'.$i, array('Wood' => 'Wood', 'Steel' => 'Steel', 'Aluminum' => 'Aluminum', 'Vinyl' => 'Vinyl'), $total->material, array('class' => 'materialSelect')) }}
+							{{ Form::select('style'.$i, array('Double Hung' => 'Double Hung', 'Casement' => 'Casement', 'Slider' => 'Slider', 'Awning' => 'Awning', 'Hopper' => 'Hopper', 'Transom' => 'Transom', 'Picture' => 'Picture', 'Other' => 'Other'), $total->style, array('class' => 'styleSelect')) }}						
 						</div>
 					@endforeach
-<!--						<select class="materialSelect" name="material1">
-							<option selected="selected">Material</option>
-							<option>Wood</option>
-							<option>Steel</option>
-							<option>Aluminum</option>
-							<option>Vinyl</option>
-						</select>
-						<select class="styleSelect" name="style1">
-							<option selected="selected">Style</option>
-							<option>Double Hung</option>
-							<option>Casement</option>
-							<option>Slider</option>
-							<option>Awning</option>
-							<option>Hopper</option>
-							<option>Transom</option>
-							<option>Picture</option>
-							<option>Other</option>
-						</select> 
-					</div>-->
 				</div>
 			</div>
 			<div class="span6 well well-small" name="source">
@@ -92,30 +74,30 @@ Edit Lead Details
 					<?php 
 						if (isset($jobs['0']->lead_source)) {
 							if (strpos($jobs['0']->lead_source, 'Angies') !==false) {
-								echo Form::checkbox('type[]', 'Angies', true).' Angies&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Angies', true).' Angies&nbsp;&nbsp;';
 							} else {
-								echo Form::checkbox('type[]', 'Angies').' Angies&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Angies').' Angies&nbsp;&nbsp;';
 							}
 							if (strpos($jobs['0']->lead_source, 'Yelp') !==false) {
-								echo Form::checkbox('type[]', 'Yelp', true).' Yelp&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Yelp', true).' Yelp&nbsp;&nbsp;';
 							} else {
-								echo Form::checkbox('type[]', 'Yelp').' Yelp&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Yelp').' Yelp&nbsp;&nbsp;';
 							}
 							if (strpos($jobs['0']->lead_source, 'Google') !==false) {
-								echo Form::checkbox('type[]', 'Google', true).' Google&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Google', true).' Google&nbsp;&nbsp;';
 							} else {
-								echo Form::checkbox('type[]', 'Google').' Google&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'Google').' Google&nbsp;&nbsp;';
 							}
 							if (strpos($jobs['0']->lead_source, 'LA') !==false) {
-								echo Form::checkbox('type[]', 'LA Conservancy', true).' LA Conserv.&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'LA Conservancy', true).' LA Conserv.&nbsp;&nbsp;';
 							} else {
-								echo Form::checkbox('type[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
+								echo Form::checkbox('lead_source[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
 							}
 						} else {
-							echo Form::checkbox('type[]', 'Angies').' Angies&nbsp;&nbsp;';
-							echo Form::checkbox('type[]', 'Yelp').' Yelp&nbsp;&nbsp;';
-							echo Form::checkbox('type[]', 'Google').' Google&nbsp;&nbsp;';
-							echo Form::checkbox('type[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
+							echo Form::checkbox('lead_source[]', 'Angies').' Angies&nbsp;&nbsp;';
+							echo Form::checkbox('lead_source[]', 'Yelp').' Yelp&nbsp;&nbsp;';
+							echo Form::checkbox('lead_source[]', 'Google').' Google&nbsp;&nbsp;';
+							echo Form::checkbox('lead_source[]', 'LA Conservancy').' LA Conserv.&nbsp;&nbsp;';
 						}
 					?>
 				</div>

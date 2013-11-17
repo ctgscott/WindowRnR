@@ -28,7 +28,7 @@ class Window_totalsController extends BaseController {
 			// User is logged in
 			try {
 				$results = DB::table('window_totals')
-					->select('qty', 'material', 'style')
+					->select('id', 'qty', 'material', 'style')
 					->where('job_id', '=', $job_id)
 					->get();
 				return $results;

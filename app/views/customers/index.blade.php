@@ -81,26 +81,7 @@ Log In
 					</div>
 				</div>
 			</div>
-<!--			<div class="span6 well well-small" name="checkbox">
-				<div id="checkbox_label"><em>Window Type(s):</em></div>
-				<div>
-					<input type="checkbox" id="typeCheckbox1" value="Wood" name="type[]"> Wood&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox2" value="Steel" name="type[]"> Steel&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox3" value="Aluminum" name="type[]"> Aluminum&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox4" value="Vinyl" name="type[]"> Vinyl&nbsp;&nbsp;
-				</div>
-				<div id="checkbox_middle">
-					<input type="checkbox" id="typeCheckbox5" value="Double Hung" name="type[]"> Double Hung&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox7" value="Casement" name="type[]"> Casement&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox8" value="Slider" name="type[]"> Slider&nbsp;&nbsp;
-					<input type="checkbox" id="typeCheckbox9" value="Awning" name="type[]"> Awning&nbsp;&nbsp;
-				</div>
-				<div>
-					<input type="checkbox" id="typeCheckbox6" value="" name="type[]"> Other:
-					<?php //echo Form::text('type_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'type_other', 'id' => 'type_other', 'disabled' => 'disabled')); ?>
-				</div>
-			</div>
--->			<div class="span6 well well-small" name="source">
+			<div class="span6 well well-small" name="source">
 				<div class="sourceTitle">
 					<em>Lead Source:</em>
 				</div>
@@ -114,16 +95,10 @@ Log In
 					<input type="checkbox" id="sourceCheckbox5" value="" name="lead_source[]"> Referral or Other:
 					<?php echo Form::text('source_referral', '', array('placeholder' => 'Note Referral or Other', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
 				</div>
-<!--				<div>
-					<input type="checkbox" id="sourceCheckbox6" value="" name="lead_source[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
-					<?php //echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
--->				</div>
+				</div>
 			</div>
 		</div>
-<!--		<div>
-			<?php //echo Form::text('symptoms', '', array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
-		</div>
--->		<div>
+		<div>
 			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note"></textarea>
 		</div>
 	</div>

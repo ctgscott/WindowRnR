@@ -242,7 +242,7 @@ class CustomersController extends BaseController {
 			try {
 				$results['jobs'] = DB::table('jobs')->where('id', $id)->get();
 				$results['custDetail'] = DB::table('customers')->where('id', $results['jobs']['0']->customer_id)->get();
-				$results['window_totals'] = Window_totalsController::totalsByJobiD($id);
+				$results['window_totals'] = Window_totalsController::totalsByJobID($id);
 
 				foreach ($results['jobs'] as $job) {
 					$job->notes = NotesController::notesByJobID($job->id);
@@ -726,24 +726,15 @@ class CustomersController extends BaseController {
 			$job->city = Input::get('city');
 			$job->zip = Input::get('zip');
 			$job->built = Input::get('built');
-		//	$job->symptoms = Input::get('symptoms');
 			$job->address = Input::get('address');
 			$job->created_at = $now;
 			$job->updated_at = $now;
 			$array = Input::get('lead_source');
-			$array2 = Input::get('type');
 			if(count($array) > 0) {
 				$job->lead_source = $array[0];
 				$i = 1;
 				for($i, $n = count($array); $i < $n; $i++) {
-					$job->type .= ', '.$array[$i];
-				}
-			}
-			if(count($array2) > 0) {
-				$job->type = $array2[0];
-				$i = 1;
-				for($i, $n = count($array2); $i < $n; $i++) {
-					$job->type .= ', '.$array2[$i];
+					$job->lead_source .= ', '.$array[$i];
 				}
 			}
 
@@ -873,9 +864,65 @@ class CustomersController extends BaseController {
 					'state' => Input::get('state'),
 					'zip' => Input::get('billing_zip'),
 					'built' => Input::get('built'),
-		//			'symptoms' => Input::get('symptoms'),
+					'lead_source' => Input::get('lead_source'),
 					'updated_at' => $now);
+				$array = Input::get('lead_source');
+				if(count($array) > 0) {
+					$jobUpdate['lead_source'] = $array[0];
+					$i = 1;
+					for($i, $n = count($array); $i < $n; $i++) {
+						$jobUpdate['lead_source'] .= ', '.$array[$i];
+					}
+//				$firephp->log(print_r($jobUpdate), '$jobUpdate');
+//				exit;
+				}
+
+				
+				$pos = array();
+				foreach($_POST as $key => $value) {
+					if (strpos($key, "qty") !== false) {
+						$pos[] = strpos($key , "qty");
+					}
+				}
+				$num = count($pos);
+//				$firephp->log(print_r($pos), '$pos');
+//				$firephp->log($num, '$num');
+				$i = 0;
+				foreach($pos as $qty) {
+					$i++;
+					$windowTotalID = Input::get('windowTotalID'.$i);
+//					$firephp->log($i, '$i');
+					if (isset($_POST['qty'.$i])) {
+						$material = Input::get('material'.$i);
+						$style = Input::get('style'.$i);
+						$qty = Input::get('qty'.$i);
+						$windowTotalUpdate = array(
+							'qty' => $qty,
+							'material' => $material,
+							'style' => $style,
+							'updated_at' => $now
+						);
+						if (isset($_POST['windowTotalID'.$i])) {
+							DB::table('window_totals')
+								->where('id', $windowTotalID)
+								->update($windowTotalUpdate);
+						} else {
+							DB::table('window_totals')->insert(array(
+								'job_id' => $jobID,
+								'qty' => $qty,
+								'material' => $material,
+								'style' => $style,
+								'updated_at' => $now,
+								'created_at' => $now
+							));
+						}
+
 					
+//						$firephp->log(var_dump($style), '$style');
+					}
+				}
+			
+
 /*				echo "<pre>custUpdate = ".var_dump($custUpdate)."</pre>";
 				echo "</br></br>";
 				echo "<pre>jobUpdate = ".var_dump($jobUpdate)."</pre>";
@@ -913,8 +960,8 @@ class CustomersController extends BaseController {
 						Session::flash('error', 'There was a problem with the lead update.');
 					}
 				}
-//				echo $noteResult."</br></br>";
-//				echo "<pre>".var_dump($_SESSION)."</pre>";
+				echo $noteResult."</br></br>";
+				echo "<pre>".var_dump($_SESSION)."</pre>";
 			}
 			catch (Exception $e) {
 				Session::flash('error', 'There was a problem: '.$e);
