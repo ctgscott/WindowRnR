@@ -46,10 +46,10 @@ Log In
 	<h4><em>Job & Jobsite Information:</em></h4>
 	<div class="row-fluid">
 		<div class="span12">
-			<input placeholder="Jobsite Address" id="job_address" class="input-small" name="address" type="text" value="" required>
-			<?php echo Form::text('city', '', array('placeholder' => 'City', 'id' => 'job_city', 'class' => 'input-small')); ?>
-			<input placeholder="Zip" class="input-small" name="zip" type="text" id="zip" value="">
-			<?php echo Form::text('built', '', array('placeholder' => 'Year Built', 'class' => 'input-small', 'id' => 'built')); ?>
+			<input placeholder="Jobsite Address" id="job_address" class="input-small address" name="address" type="text" value="" required>
+			<?php echo Form::text('city', '', array('placeholder' => 'City', 'id' => 'job_city', 'class' => 'input-small city')); ?>
+			<input placeholder="Zip" class="input-small zip" name="zip" type="text" id="zip" value="">
+			<?php echo Form::text('built', '', array('placeholder' => 'Year Built', 'class' => 'input-small built', 'id' => 'built')); ?>
 		</div>
 		<div class="row">
 			<div class="span6 well well-small" name="checkbox">
@@ -92,7 +92,7 @@ Log In
 					<input type="checkbox" id="sourceCheckbox4" value="LA Conservancy" name="lead_source[]"> LA Conserv.&nbsp;&nbsp;
 				</div>
 				<div>
-					<input type="checkbox" id="sourceCheckbox5" value="" name="lead_source[]"> Referral or Other:
+					<input type="checkbox" id="sourceCheckbox5" value="Other" name="lead_source[]"> Referral or Other:
 					<?php echo Form::text('source_referral', '', array('placeholder' => 'Note Referral or Other', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
 				</div>
 				</div>

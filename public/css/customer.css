@@ -258,24 +258,24 @@ em {
 	width: 200px;
 }
 
-.form-inline .input-small[name=billing_address] {
+.address {
 	width: 225px;
 }
 
-.form-inline .input-small[name=address] {
-	width: 24%;
+.city {
+	width: 150px;
 }
 
-.form-inline .input-small[name=city] {
-	width: 20%;
+.state {
+	width: 50px;
 }
 
-.form-inline .input-small[name=zip] {
-	width: 12%;
+.zip {
+	width: 50px;
 }
 
-.form-inline .input-small[name=built] {
-	width: 8%;
+.built {
+	width: 70px;
 }
 
 .form-inline[name=lead_other] {
