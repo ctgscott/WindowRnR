@@ -100,7 +100,7 @@ $(document).ready(function(){
 		});
 		
 		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
-			//alert(id);
+			//alert(datum.toSource());
 			$.ajax({
 				type: "POST",
 				url: "/customers/jobDetail",
@@ -128,7 +128,8 @@ $(document).ready(function(){
 						jobs_table.appendChild(tr);
 
 						var td = document.createElement("td");
-						tr.appendChild(td);
+						td.className = "prior_jobs";
+						tr.appendChild(td);						
 						var radio = document.createElement("input");
 						radio.type = "radio";
 						radio.name = "job_radios";
@@ -137,6 +138,7 @@ $(document).ready(function(){
 						td.appendChild(radio);
 
 						var td = document.createElement("td");
+						td.className = "prior_jobs";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
@@ -147,48 +149,53 @@ $(document).ready(function(){
 						td.appendChild(input);
 						
 						var td = document.createElement("td");
+						td.className = "prior_jobs";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
 						input.value = data[i].address;
-						input.className = "input-medium prior_address";
-						input.style.width = "100px";
+						input.className = "address";
+//						input.style.width = "100px";
 						input.disabled = true;
 						td.appendChild(input);
 
 						var td = document.createElement("td");
+						td.className = "prior_jobs";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
 						input.value = data[i].city;
-						input.className = "input-small";
+						input.className = "city";
 						input.disabled = true;
 						td.appendChild(input);
 
 						var td = document.createElement("td");
+						td.className = "prior_jobs";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
-						input.value = data[i].lead_scheduled;
-						input.className = "input-small";
+						input.value = moment(data[i].lead_scheduled).format("MM/DD/YYYY, hh:mm a");
+						input.className = "timestamp";
 						input.disabled = true;
 						td.appendChild(input);
 
 						var td = document.createElement("td");
+						td.className = "prior_jobs";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
-						input.value = data[i].job_scheduled;
-						input.className = "input-small";
+						input.value = moment(data[i].job_scheduled).format("MM/DD/YYYY, hh:mm a");
+						input.className = "timestamp";
 						input.disabled = true;
 						td.appendChild(input);
 
 						var td = document.createElement("td");
+						td.className = "prior_jobs_last";
 						tr.appendChild(td);
 						var input = document.createElement("input");
 						input.type = "text";
-						input.value = data[i].job_completed;
-						input.className = "input-small";
+						input.value = moment(data[i].job_completed).format("MM/DD/YYYY, hh:mm a");
+						input.className = "timestamp";
 						input.disabled = true;
 						td.appendChild(input);
 

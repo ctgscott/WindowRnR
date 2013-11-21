@@ -1,3 +1,13 @@
+td.prior_jobs {
+	white-space:nowrap;
+	padding-top: 10px;
+}
+
+td.prior_jobs_last {
+	width: 99%;
+	padding-top: 10px;
+}
+
 .sourceTitle {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -47,10 +57,6 @@ li.oldNote > em {
 
 li.oldNote > strong {
 	font-size: 100%;
-}
-
-.prior_address {
-	width: 125px;
 }
 
 .existing .cust_name {
@@ -231,6 +237,10 @@ em {
 	font-weight: bold;
 }
 
+.form-inline td input.input-small {
+	margin-right: 0px;
+}
+
 .form-inline .input-small {
 	margin-right: 10px;
 	margin-bottom: 10px;
@@ -256,6 +266,10 @@ em {
 
 .form-inline .input-small[name=email] {
 	width: 200px;
+}
+
+.timestamp {
+	width: 140px;
 }
 
 .address {
@@ -344,6 +358,10 @@ input[name=source_referral] {
 
 input[type=checkbox] {
 	margin-bottom: 5px;
+}
+
+td input[name=job_radios], input[type=radio] {
+	margin-top: 7px;
 }
 
 #source, .form-inline .radio, input[name=lead_source], input[type=radio] {

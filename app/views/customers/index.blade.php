@@ -10,6 +10,7 @@ Log In
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
 @stop
 
 {{-- Content --}}
