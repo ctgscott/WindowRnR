@@ -96,10 +96,12 @@ $(document).ready(function(){
 		
 		$('#l_name').typeahead({
 			name: 'l_name',
-			remote: 'customers/typeahead?term=%QUERY'
+			local: ['timtrueman', 'JakeHarding', 'vskarich']
+//			remote: 'customers/typeahead?term=%QUERY',
+			//autoselect: true
 		});
 		
-		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
+/*		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
 			//alert(datum.toSource());
 			$.ajax({
 				type: "POST",
@@ -117,8 +119,6 @@ $(document).ready(function(){
 					var i=0;
 					var n=Object.keys(data).length;
 						
-					//document.getElementById("jobList").style.display = "block";
-					
 					while (i<n)
 					{
 						//alert(data[i].toSource());
@@ -155,7 +155,6 @@ $(document).ready(function(){
 						input.type = "text";
 						input.value = data[i].address;
 						input.className = "address";
-//						input.style.width = "100px";
 						input.disabled = true;
 						td.appendChild(input);
 
@@ -218,6 +217,6 @@ $(document).ready(function(){
 					};
 				}
 			});
-		});
+		});*/
 	});	
 });

@@ -147,7 +147,8 @@ Log In
 
 @section('scripts')
 	<script type='text/javascript' src="{{ asset('js/bootstrap.min.js') }}"></script>
-	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script> 
+<!--	<script type='text/javascript' src="{{ asset('js/bootstrap3-typeahead.js') }}"></script>-->
 	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/customer.js') }}"></script>
