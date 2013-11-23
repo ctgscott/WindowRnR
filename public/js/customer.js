@@ -103,10 +103,9 @@ $(document).ready(function(){
 				'<p class="repo-description">{{address}}</p>'
 			].join(''),
 			engine: Hogan
-			//autoselect: true
 		});
 		
-/*		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
+		$('#l_name').bind('typeahead:selected', function(obj, datum) {        
 			//alert(datum.toSource());
 			$.ajax({
 				type: "POST",
@@ -222,6 +221,6 @@ $(document).ready(function(){
 					};
 				}
 			});
-		});*/
+		});
 	});	
 });

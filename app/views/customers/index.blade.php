@@ -103,46 +103,45 @@ Log In
 		<div>
 			<textarea placeholder="Notes" id="note" value="" class="textarea" rows="6" name="note"></textarea>
 		</div>
+		<div class="buttons">
+			<?php echo Form::submit('Save', ['class' => 'btn btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
+			<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-success', 'name' => 'scheduleNewLead', 'id' => 'scheduleNewLead']);?>
+			<?php echo Form::close(); ?>
+		</div>
 	</div>
-	<div>
-		<?php echo Form::submit('Save', ['class' => 'btn btn-small btn-primary', 'name' => 'saveNewLead', 'id' => 'saveNewLead']);?>
-		<?php echo Form::submit('Schedule Appt.', ['class' => 'btn btn-small btn-success', 'name' => 'scheduleNewLead', 'id' => 'scheduleNewLead']);?>
-		<?php echo Form::close(); ?>
+	<div class="well well-small" id="leads">
+		<h4><em>Existing leads</em></h4>
+		<table class="table table-condensed table-striped">
+			<thead>
+				<th>#&nbsp;&nbsp;</th>
+				<th>Created</th>
+				<th>Last Name</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>Built&nbsp;</th>
+				<th>Phone</th>
+				<th>email</th>
+			</thead>
+			<tbody class="existing">
+				@foreach ($customers as $customer)
+					<tr>
+						<td>{{ $customer->job_id }}</td>
+						<td>{{ date("n/j/y", strtotime($customer->job_created_at)) }}</td>
+						<td class="cust_name"><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
+						<td>{{ $customer->job_address }}</a></td>
+						<td>{{ $customer->job_city }}</td>
+						<td>{{ $customer->job_house_built }}</td>
+						<td>{{ $customer->customer_phone }}</td>
+						<td>{{ $customer->customer_email }}</td>
+						<td>
+							<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
+							<button id="scheduleBtn" class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
+						</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
 	</div>
-</div>
-
-<div class="well well-small">
-	<h4><em>Existing leads</em></h4>
-	<table class="table table-condensed table-striped">
-		<thead>
-			<th>#&nbsp;&nbsp;</th>
-			<th>Created</th>
-			<th>Last Name</th>
-			<th>Address</th>
-			<th>City</th>
-			<th>Built&nbsp;</th>
-			<th>Phone</th>
-			<th>email</th>
-		</thead>
-		<tbody class="existing">
-			@foreach ($customers as $customer)
-				<tr>
-					<td>{{ $customer->job_id }}</td>
-					<td>{{ date("n/j/y", strtotime($customer->job_created_at)) }}</td>
-					<td class="cust_name"><a href="/customers/{{ $customer->job_id }}">{{ $customer->customer_lname }}</a></td>
-					<td>{{ $customer->job_address }}</a></td>
-					<td>{{ $customer->job_city }}</td>
-					<td>{{ $customer->job_house_built }}</td>
-					<td>{{ $customer->customer_phone }}</td>
-					<td>{{ $customer->customer_email }}</td>
-					<td>
-						<button class="btn-mini btn-danger" onClick="location.href='{{ URL::to('customers/archive') }}/{{ $customer->job_id}}'">Archive</button> 
-						<button id="scheduleBtn" class="btn-mini btn-success action_confirm radius" onClick="location.href='{{ URL::to('customers/schedule') }}/{{ $customer->job_id}}'">Schedule</button>
-					</td>
-				</tr>
-			@endforeach
-		</tbody>
-	</table>
 </div>
 @stop
 
