@@ -96,8 +96,13 @@ $(document).ready(function(){
 		
 		$('#l_name').typeahead({
 			name: 'l_name',
-			local: ['timtrueman', 'JakeHarding', 'vskarich']
-//			remote: 'customers/typeahead?term=%QUERY',
+			remote: 'customers/typeahead?term=%QUERY',
+			template: [
+				'<p class="repo-language">{{id}}</p>',
+				'<p class="repo-name">{{value}}</p>',
+				'<p class="repo-description">{{address}}</p>'
+			].join(''),
+			engine: Hogan
 			//autoselect: true
 		});
 		

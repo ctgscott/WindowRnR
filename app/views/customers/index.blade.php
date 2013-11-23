@@ -7,6 +7,7 @@ Log In
 
 @section('styles')
 <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
+<link href="{{ asset('css/examples.css') }}" rel="stylesheet">
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
@@ -20,11 +21,11 @@ Log In
 	<form id="newLeadForm" class="form-inline" action="/customers/newLead" method="POST">
 	<div>
 		<h4><em>Customer Information:</em></h4>
-		<input placeholder="Last Name" id="l_name" class="input-small" name="l_name" type="text" value="" autocomplete="off" required>
+		<input placeholder="Last Name" id="l_name" class="input-small typeahead tt-query" name="l_name" type="text" value="" autocomplete="off" required>
 		<input placeholder="First Name" id="f_name" class="input-small" name="f_name" type="text" value="" required>
 		<?php echo Form::text('phone', '', array('placeholder' => 'Phone', 'class' => 'input-small', 'id' => 'phone')); ?>
 		<?php echo Form::text('alt_phone', '', array('placeholder' => 'Alt. Phone', 'class' => 'input-small', 'id' => 'phone2')); ?>
-		<?php echo Form::text('email', '', array('placeholder' => 'email', 'class' => 'input-small', 'id' => 'email')); ?>
+		<?php echo Form::text('email', '', array('placeholder' => 'EMail', 'class' => 'input-small', 'id' => 'email')); ?>
 	</div>
 	<div id="jobList" class="accordion-body collapse" >
 		<h4><em>Prior Jobs</em></h4>
@@ -152,4 +153,5 @@ Log In
 	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/customer.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/hogan-2.0.0.js') }}"></script>
 @stop

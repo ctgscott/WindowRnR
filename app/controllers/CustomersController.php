@@ -299,9 +299,10 @@ class CustomersController extends BaseController {
 		foreach ($query as $results => $customer) {
 			$data[] = array(
 				'id' => $customer->id,
-				'value' => $customer->l_name.", ".$customer->f_name." - ".$customer->billing_address.", ".$customer->billing_city,
+				'value' => $customer->l_name,
 				'l_name' => $customer->l_name,
 				'f_name' => $customer->f_name,
+				'address' => $customer->billing_address,
 				'phone' => $customer->phone,
 				'email' => $customer->email,
 			);

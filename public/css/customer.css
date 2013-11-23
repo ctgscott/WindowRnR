@@ -90,7 +90,9 @@ li.oldNote > strong {
 input.tt-hint {
 	width: 115px;
 	margin-bottom: 10px;
+	color: #999999;
 }
+
 .tt-suggestion  > p{
 	margin-top: 0px;
 	margin-bottom: 0px;
