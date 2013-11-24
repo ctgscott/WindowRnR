@@ -303,13 +303,14 @@ class CustomersController extends BaseController {
 				'l_name' => $customer->l_name,
 				'f_name' => $customer->f_name,
 				'address' => $customer->billing_address,
+				'city' => $customer->billing_city,
 				'phone' => $customer->phone,
 				'email' => $customer->email,
 			);
 		}
 		$test = json_encode($data); 
 
-		//$firephp->log($test, 'test');
+		$firephp->log($test, 'test');
 
 		return json_encode($data);
 	}

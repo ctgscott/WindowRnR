@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	$("#btnSchedule").click(function(){
 		window.location.href = '/customers/schedule/' + document.getElementById("jobID").value;
@@ -98,9 +97,9 @@ $(document).ready(function(){
 			name: 'l_name',
 			remote: 'customers/typeahead?term=%QUERY',
 			template: [
-				'<p class="repo-language">{{id}}</p>',
-				'<p class="repo-name">{{value}}</p>',
-				'<p class="repo-description">{{address}}</p>'
+				'<p class="tt-name">{{l_name}}, {{f_name}}',
+				'<span class="tt-custID">Cust. ID: {{id}}</span></p>',
+				'<p class="tt-address">{{address}}, {{city}}</p>'
 			].join(''),
 			engine: Hogan
 		});

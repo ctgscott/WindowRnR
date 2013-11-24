@@ -116,6 +116,7 @@ p {
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
+/*
 .tt-suggestion {
   padding: 3px 20px;
   font-size: 18px;
@@ -124,10 +125,10 @@ p {
 
 .tt-suggestion.tt-is-under-cursor {
   color: #fff;
-  background-color: #0097cf;
+  background-color: #D9EDF7;
 
 }
-
+*/
 .tt-suggestion p {
   margin: 0;
 }
@@ -146,7 +147,7 @@ p {
 .example-twitter-oss .tt-suggestion + .tt-suggestion {
   border-top: 1px solid #ccc;
 }
-
+/*
 .example-twitter-oss .repo-language {
   float: right;
   font-style: italic;
@@ -169,3 +170,4 @@ p {
 .example-arabic .tt-dropdown-menu {
   text-align: right;
 }
+*/

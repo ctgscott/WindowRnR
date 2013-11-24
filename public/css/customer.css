@@ -86,6 +86,12 @@ li.oldNote > strong {
 	width: 30px;
 }
 
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
 .tt-dropdown-menu {
 	z-index: 100;
 	background-color: #d8d8d8;
@@ -103,10 +109,36 @@ li.oldNote > strong {
   border: 2px solid #0097cf;
 }
 
+.tt-name {
+	font-weight: bold;
+}
+
+input.tt-query {
+	font-size: 18px;
+}
+
 input.tt-hint {
 	width: 115px;
+	font-size: 18px;
 	margin-bottom: 10px;
 	color: #999999;
+}
+
+.tt-custID {
+	font-style: italic;
+	font-weight: normal;
+	float: right;
+	font-size: 14px;
+}
+
+.tt-address {
+  font-size: 14px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #3A87AD;
+  background-color: #D9EDF7;
+
 }
 
 .tt-suggestion  > p{
@@ -116,10 +148,10 @@ input.tt-hint {
 	line-height: 25px;
 }
 
-div.tt-is-under-cursor, p:hover {
+/*div.tt-is-under-cursor, p:hover {
 	background-color: #c3c3c3;
 }
-
+*/
 /* highlight results */
 .ui-autocomplete span.hl_results {
     background-color: #ffff66;
