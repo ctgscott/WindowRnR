@@ -7,7 +7,6 @@ Log In
 
 @section('styles')
 <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
-<link href="{{ asset('css/examples.css') }}" rel="stylesheet">
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fieldAdd.js') }}"></script>
@@ -17,7 +16,6 @@ Log In
 {{-- Content --}}
 @section('content')
 <div class="well well-small">
-	<!--{//{ Form::open(array('action' => 'CustomersController@newLead', 'class' => 'form-inline', 'id' => 'newLeadForm')) }}-->
 	<form id="newLeadForm" class="form-inline" action="/customers/newLead" method="POST">
 	<div>
 		<h4><em>Customer Information:</em></h4>
@@ -42,7 +40,7 @@ Log In
 			<tbody id="jobs_table">
 			</tbody>
 		</table>
-		<button class="btn-small btn" onClick="copyButton()" id="copyButton">Copy info to new job</button>
+		<button class="btn-small btn" type="button" onClick="copyButton()" id="copyButton">Copy info to new job</button>
 	</div>
 	<hr>
 	<h4><em>Job & Jobsite Information:</em></h4>
@@ -79,7 +77,6 @@ Log In
 							<option>Picture</option>
 							<option>Other</option>
 						</select>
-						<!--<a id="btnDel1" class="btnAdd btnDel"><i id="close1" class="icon-remove"></i>Delete row</a>-->
 					</div>
 				</div>
 			</div>
@@ -148,7 +145,6 @@ Log In
 @section('scripts')
 	<script type='text/javascript' src="{{ asset('js/bootstrap.min.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script> 
-<!--	<script type='text/javascript' src="{{ asset('js/bootstrap3-typeahead.js') }}"></script>-->
 	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>
 	<script type='text/javascript' src="{{ asset('js/customer.js') }}"></script>

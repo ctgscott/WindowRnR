@@ -138,11 +138,18 @@ $(document).ready(function() {
 				create: function(event, ui) { 
 					var widget = $(this).dialog("widget");
 					$(".ui-dialog-titlebar-close", widget).addClass("ui-icon-closethick");
+				//	$(".ui-dialog-titlebar-close", widget).addClass("icon-remove");
+					$(".ui-dialog-titlebar-close", widget).attr('id', 'titlebar');
+					
+					var insertTime = $(this).dialog("widget");
+					$("#startTime", insertTime).append(moment(start).format("MM/DD/YYYY, hh:mm a"));
+					$("#endTime", insertTime).append(moment(end).format("MM/DD/YYYY, hh:mm a"));
 				},
 				autoOpen: false,
-				height: 550,
+				height: 600,
 				width: 600,
-				title: 'Reserve meeting room on ' + date + ' @ ' + start,
+				title: 'Lead Scheduler',
+				//title: 'Lead Scheduler on ' + date + ' @ ' + start,
 				modal: true,
 				position: "center",
 				draggable: false,

@@ -17,6 +17,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
 @stop
 
 {{-- Content --}}
@@ -38,19 +39,13 @@ Schedule Appointments
 	<FORM id=scheduleformID method=post>
 		<DIV class=sysdesc>&nbsp;</DIV>
 		<DIV class="row" id="timeSelected">Time Selected for Lead id #<span id="job_id" name="job_id"><?php echo $lead['0']->job_id ?></span>&nbsp;</div> 
+		<DIV class="row">Starting:&nbsp;<span id="startTime"></span></div>
+		<DIV class="row">Ending:&nbsp;<span id="endTime"></span><br/><br/></div>
 		<DIV class="row">
-<!--			<div class="span2 field">
-				<LABEL class="scheduleLabel">Arrival Window</LABEL> 
-				<SELECT id=arrivalWindow name=arrivalWindow> 
-					<OPTION selected value=.5>1/2 hour</OPTION>
-					<OPTION value=1>1 hour</OPTION>
-				</SELECT>
-			</div>
--->			<div class="span2 calendar">
+			<div class="span2 calendar">
 				<LABEL class="scheduleLabel">Calendar</LABEL> 
 				<SELECT id=calendarName name=calendarName> 
 					<OPTION selected value="windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com">Norm's</OPTION>
-					<!--<OPTION value="Ed">Ed's</OPTION>-->
 					<OPTION value="primary">Scott's</OPTION>
 				</SELECT>
 			</div>
@@ -64,12 +59,12 @@ Schedule Appointments
 		<div class="row">
 			<div class="span4 field">
 				<LABEL class="scheduleLabel">Location:</LABEL>
-				<TEXTAREA id=location rows=1 cols=43 name=location disabled>{{ $lead[0]->job_address }}, {{ $lead[0]->job_city }}, {{ $lead[0]->job_zip }}</TEXTAREA>
+				<TEXTAREA id="location" rows=1 cols=43 name="location" disabled>{{ $lead[0]->job_address }}, {{ $lead[0]->job_city }}, {{ $lead[0]->job_zip }}</TEXTAREA>
 			</div>
 		</div>
-		<DIV class=rowElem>
+		<DIV class="rowElem"><br/><br/>
 			<LABEL class="scheduleLabel">Notes:</LABEL>
-			<TEXTAREA id=notes rows=4 cols=43 name=notes disabled>@foreach ($notes as $note)*{{ $note->note }} [{{ $note->user_name }}: {{ date("g:i a, m/d/Y", strtotime($note->created_at)) }}]{{ "\n" }}@endforeach</TEXTAREA>
+			<TEXTAREA id="notes" rows=4 cols=43 name="notes" disabled>@foreach ($notes as $note)*{{ $note->note }} [{{ $note->user_name }}: {{ date("g:i a, m/d/Y", strtotime($note->created_at)) }}]{{ "\n" }}@endforeach</TEXTAREA>
 		</DIV>
 	</FORM>
 </DIV>

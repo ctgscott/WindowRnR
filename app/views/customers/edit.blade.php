@@ -16,10 +16,6 @@ Edit Lead Details
 {{-- Content --}}
 @section('content')
 <div class="well well-small">
-<?php 
-	//echo "<pre>".var_dump($leadDetail)."</pre>";
-	//echo "<pre>".var_dump($jobs)."</pre>";
-?>
 	
 	{{ Form::open(array('action' => 'CustomersController@update', 'class' => 'form-inline')) }}		
 	<div>
@@ -119,23 +115,10 @@ Edit Lead Details
 							}
 						}
 					?>
-			<!--		<input type="checkbox" id="sourceCheckbox5" value="Other" name="lead_source[]"> Referral or Other: -->
-					<?php //echo Form::text('source_referral', '', array('placeholder' => 'Note Referral or Other', 'class' => 'input-large', 'name' => 'lead_source[]', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
 				</div>
-<!--				<div>
-					<input type="checkbox" id="sourceCheckbox5" value="" name="type[]"> Referral:
-					<?php// echo Form::text('source_referral', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_referral', 'id' => 'source_referral', 'disabled' => 'disabled')); ?>
-				</div>
-				<div>
-					<input type="checkbox" id="sourceCheckbox6" value="" name="type[]"> Other:&nbsp;&nbsp;&nbsp;&nbsp;
-					<?php //echo Form::text('source_other', '', array('placeholder' => 'Note if "Other"', 'class' => 'input-large', 'name' => 'source_other', 'id' => 'source_other', 'disabled' => 'disabled')); ?>
-				</div>
--->			</div>
+			</div>
 		</div>
-<!--		<div>
-			<?php //echo Form::text('symptoms', $jobs['0']->symptoms, array('placeholder' => 'Symptoms', 'class' => 'input-small', 'name' => 'symptoms')); ?>
-		</div>
--->		<div>
+		<div>
 			<h4><em>Add Notes:</em></h4>
 			<textarea placeholder="New Notes" id="newNote" value="" class="textarea" rows="2" name="newNote"></textarea>
 		</div>
@@ -158,9 +141,8 @@ Edit Lead Details
 @stop
 
 @section('scripts')
-<!--	<script src="{{ asset('js/bootstrap.min.js') }}"></script> -->
 	<script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 	<script src="{{ asset('js/maskedinput.js') }}"></script>
-	<script src="{{ asset('js/customer.js') }}"></script>
+	<script src="{{ asset('js/leadDetail.js') }}"></script>
 @stop
 

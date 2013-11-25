@@ -127,6 +127,7 @@ $(document).ready(function(){
 						//alert(data[i].toSource());
 						
 						var jobs_table = document.getElementById("jobs_table");
+						$("tr", jobs_table).remove();
 						var tr = document.createElement("tr");
 						jobs_table.appendChild(tr);
 
