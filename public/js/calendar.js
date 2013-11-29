@@ -216,7 +216,7 @@ $(document).ready(function() {
 			day: 'dddd, MMM d, yyyy'
 		},
 		url:'http://localhost:8000/customers/estimateschedule/',
-		allDayText: 'Map',
+		allDayText: 'All Day',
 		minTime: 7,
 		maxTime: 19,
 		header: {

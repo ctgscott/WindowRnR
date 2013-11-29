@@ -10,6 +10,7 @@ Schedule Appointments
 <link rel='stylesheet' type='text/css' href="{{ asset('css/jquery-ui-1.10.3.custom.min.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/validationEngine.jquery.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/customer.css') }}" >
+<link rel='stylesheet' type='text/css' href="{{ asset('css/schedule.css') }}" >
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
@@ -18,6 +19,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
+<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 @stop
 
 {{-- Content --}}
@@ -26,13 +28,96 @@ Schedule Appointments
 
 <h4>Estimates Appointments</h4>
 
-<?php 
-	//echo "<pre>".var_dump(CustomersController::EstimateSchedule(26))."</pre>";
-?>
+<div class="container-fluid mapContainer">
+	<span class="maps" id="map1">1</span>
+	<span class="maps" id="map2">2</span>
+	<span class="maps" id="map3">3</span>
+	<span class="maps" id="map4">4</span>
+	<span class="maps" id="map5">5</span>
+	<?php
+		use Ivory\GoogleMap\Map;
+		use Ivory\GoogleMap\Helper\MapHelper;
+		use Ivory\GoogleMap\Overlays\Animation;
+		use Ivory\GoogleMap\Overlays\Marker;
+		use Ivory\GoogleMap\Overlays\InfoWindow;
+		use Ivory\GoogleMap\Events\MouseEvent;
 
-	<div class="container-fluid">
-		<div id="calendar"></div>
-	</div>
+		$map = new Map();
+		
+		//$trafficLayer = new TrafficLayer();
+		//$trafficLayer.setMap(map);
+
+		$map->setAutoZoom(true);
+		$map->setStylesheetOptions(array(
+			'width'  => '100%',
+			'height' => '300px',
+			'border-radius' => '8px',
+			'-webkit-box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
+			'-moz-box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
+			'box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
+		));
+		//$map->setCenter(34.03004,-118.304986, true);
+		//$map->setMapOption('zoom', 8);
+		
+		$marker = new Marker();
+		$marker->setPrefixJavascriptVariable('marker_');
+		$marker->setPosition(34.03004,-118.304986, true);
+		$marker->setAnimation(Animation::DROP);
+		$marker->setAnimation('drop');
+		$marker->setOptions(array(
+			'clickable' => true,
+			'flat'      => true,
+		));
+		$infoWindow = new InfoWindow();
+		$infoWindow->setPrefixJavascriptVariable('info_window_');
+		$infoWindow->setPosition(34.03004,-118.304986, true);
+		$infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+		$infoWindow->setContent('<p>Customer #1</p>');
+		$infoWindow->setOpen(false);
+		$infoWindow->setAutoOpen(true);
+		$infoWindow->setOpenEvent(MouseEvent::CLICK);
+		$infoWindow->setAutoClose(true);
+		$infoWindow->setOptions(array(
+			'disableAutoPan' => true,
+			'zIndex'         => 10,
+		));
+		$marker->setInfoWindow($infoWindow);
+		
+		$marker2 = new Marker();
+		$marker2->setPrefixJavascriptVariable('marker_');
+		$marker2->setPosition(33.822684,-118.111446, true);
+		$marker2->setAnimation(Animation::DROP);
+		$marker2->setAnimation('drop');
+		$marker2->setOptions(array(
+			'clickable' => true,
+			'flat'      => true,
+		));
+		$infoWindow2 = new InfoWindow();
+		$infoWindow2->setPrefixJavascriptVariable('info_window_');
+		$infoWindow2->setPosition(33.822684,-118.111446, true);
+		$infoWindow2->setPixelOffset(1.1, 2.1, 'px', 'pt');
+		$infoWindow2->setContent('<p>Customer #2</p>');
+		$infoWindow2->setOpen(false);
+		$infoWindow2->setAutoOpen(true);
+		$infoWindow2->setOpenEvent(MouseEvent::CLICK);
+		$infoWindow2->setAutoClose(true);
+		$infoWindow2->setOptions(array(
+			'disableAutoPan' => true,
+			'zIndex'         => 10,
+		));
+		$marker2->setInfoWindow($infoWindow2);
+		
+		$map->addMarker($marker);
+		$map->addMarker($marker2);
+		
+		$mapHelper = new MapHelper();
+
+		echo $mapHelper->render($map);
+	?>					
+</div>
+<div class="container-fluid">
+	<div id="calendar"></div>
+</div>
 
 
 <DIV style="DISPLAY: none" id=schedulebox title="Schedule Appointment">

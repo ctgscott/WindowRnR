@@ -1,0 +1,10 @@
+.mapContainer {
+	margin-bottom: 20px;
+}
+
+.maps {
+	border: 1px;
+	border-radius: 8px;
+	width: 20%;
+	height: 300px;
+}
