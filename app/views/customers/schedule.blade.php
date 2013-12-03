@@ -29,7 +29,7 @@ Schedule Appointments
 <h4>Estimates Appointments</h4>
 
 <div class="container-fluid mapContainer">
-	<span class="maps" id="map1">1</span>
+	<span class="maps" id="map1"></span>
 	<span class="maps" id="map2">2</span>
 	<span class="maps" id="map3">3</span>
 	<span class="maps" id="map4">4</span>
