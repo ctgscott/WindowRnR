@@ -29,11 +29,11 @@ Schedule Appointments
 <h4>Estimates Appointments</h4>
 
 <div class="container-fluid mapContainer">
-	<span class="maps" id="map1"></span>
-	<span class="maps" id="map2">2</span>
-	<span class="maps" id="map3">3</span>
-	<span class="maps" id="map4">4</span>
-	<span class="maps" id="map5">5</span>
+	<span class="maps" id="map_1"></span>
+	<span class="maps" id="map_2">2</span>
+	<span class="maps" id="map_3">3</span>
+	<span class="maps" id="map_4">4</span>
+	<span class="maps" id="map_5">5</span>
 	<?php
 		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;
