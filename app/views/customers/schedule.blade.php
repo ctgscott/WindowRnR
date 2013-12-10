@@ -11,7 +11,8 @@ Schedule Appointments
 <link rel='stylesheet' type='text/css' href="{{ asset('css/validationEngine.jquery.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/customer.css') }}" >
 <link rel='stylesheet' type='text/css' href="{{ asset('css/schedule.css') }}" >
-<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+<!--<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>-->
+<script type='text/javascript' src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>
@@ -20,6 +21,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
 <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script type='text/javascript' src="{{ asset('js/gomap-1.3.2.js') }}"></script>
 @stop
 
 {{-- Content --}}

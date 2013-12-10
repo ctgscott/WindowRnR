@@ -1,0 +1,28 @@
+{ "version" : "1.0",
+  "positions" : [
+    { "device_key" : "7421824838593",
+      "device_label" : "Puff-Vef",
+      "timestamp" : 1306617110,
+      "latitude" : 56.99613,
+      "longitude" : 24.22553,
+      "altitude" : 34.3,
+      "speed" : 1.3,
+      "heading" : 339 },
+    { "device_key" : "2174465298291",
+      "device_label" : "pittss",
+      "timestamp" : 1306617083,
+      "latitude" : 56.99604,
+      "longitude" : 24.27560,
+      "altitude" : 31.0,
+      "speed" : 0.0,
+      "heading" : 165 },
+    { "device_key" : "3276022573297",
+      "device_label" : "Marat",
+      "timestamp" : 1306608137,
+      "latitude" : 56.94498,
+      "longitude" : 24.09286,
+      "altitude" : 24.0,
+      "speed" : 6.2,
+      "heading" : 280 }
+  ]
+}
