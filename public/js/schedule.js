@@ -58,7 +58,8 @@ function initMap(id) {
 		for (var n in LocationData[i])
 		{
 			alert('p['+n+'] = '+p[n]);
-			var latlng = codeAddress(p[0]);
+			var latlng = new google.maps.LatLng(0,0);
+			latlng = codeAddress(p[0]);
 			alert('latlng = '+latlng);
 			bounds.extend(latlng);
 
