@@ -36,6 +36,11 @@ Schedule Appointments
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>
+	<input type="hidden" id="marker_1" value=""/>
+	<input type="hidden" id="marker_2" value=""/>
+	<input type="hidden" id="marker_3" value=""/>
+	<input type="hidden" id="marker_4" value=""/>
+	<input type="hidden" id="marker_5" value=""/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;

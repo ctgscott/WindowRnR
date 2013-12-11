@@ -367,6 +367,18 @@ class CustomersController extends BaseController {
 				->where('jobs.status', '=', 1)
 				->where('jobs.archive', '=', 0)
 				->get();
+				
+			for($i=0 ; $i < 5; $i++) {
+				$string = file_get_contents("/positions".$i.".json");
+				$json_a = json_decode($string, true);
+				
+				foreach ($json_a as $marker => $marker_i) {
+					echo $marker_i['address'];
+				}
+
+				$results['markers'][$i]
+			}
+			
 
 			$firephp->log($results, 'getScheduleID($id)');
 			

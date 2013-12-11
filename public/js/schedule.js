@@ -35,22 +35,49 @@
 
 
 
-/*$(document).ready(function(){
+$(document).ready(function(){
 	initMap(1);  
 	initMap(2);  
 	initMap(3);  
 	initMap(4);  
 	initMap(5);  
+	
+	addMarkers(1);
+	addMarkers(2);
 });
 
 function initMap(id) {
 
 	$("#map_"+id).goMap({
-		zoom:6,
+		zoom:9,
+		address: 'Los Angeles, CA',
 		maptype: 'ROADMAP',
 		scaleControl: true
 	});
+};
 
+function addMarkers(id) {
+	$("#map_"+id).goMap({});
+	
+	$.get('/positions'+id+'.json', function(data) {
+		for(var i = 0, l = data.positions.length; i < l; i++) {
+			var marker = data.positions[i];
+
+			$.goMap.createMarker({
+				latitude: marker.latitude,
+				longitude: marker.longitude,
+				title: marker.device_label
+			});
+			
+			$.goMap.fitBounds();
+		}
+		
+//			alert(n);
+	}, 'json');
+};
+
+
+/*
 	$.get('/positions.json', function(data) {
 		for(var i = 0, l = data.positions.length; i < l; i++) {
 			var marker = data.positions[i];
@@ -69,14 +96,18 @@ function initMap(id) {
 };
 */
 
+/*
+var myMaps = [];
+
+
 $(document).ready(function(){
-	var myMaps = [];
 	
 	function buildMap(n) {
 	//	alert(n);
-		return function() {
+		return function(n) {
 			$("#map_"+n).goMap({
-				zoom:6,
+				zoom:9,
+				address: 'Los Angeles, CA',
 				maptype: 'ROADMAP',
 				scaleControl: true
 			});
@@ -96,9 +127,11 @@ $(document).ready(function(){
 				
 		//			alert(n);
 			}, 'json');
+
 			
 			//$(this).attr("disabled","disabled");
 		};
+		console.log('myMaps #'+n+' '+myMaps[n]);
 	}
 	
 	for (n = 1; n < 6; n++) {
@@ -106,7 +139,7 @@ $(document).ready(function(){
 	}
 	
 	for (var j = 1; j < 6; j++) {
-		myMaps[j]();
+		myMaps[j](j);
 	}
 });
 
