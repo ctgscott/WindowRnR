@@ -24,5 +24,9 @@
       "altitude" : 24.0,
       "speed" : 6.2,
       "heading" : 280 }
-  ]
+  ],
+  "markers" : [
+	"2544 3rd Street, Santa Monica, CA  90405",
+	"2612 Via Campesina, Palos Verdes Estates, CA  90274"
+  ]		
 }

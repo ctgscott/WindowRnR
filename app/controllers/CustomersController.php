@@ -367,16 +367,16 @@ class CustomersController extends BaseController {
 				->where('jobs.status', '=', 1)
 				->where('jobs.archive', '=', 0)
 				->get();
-				
+			
 			for($i=0 ; $i < 5; $i++) {
-				$string = file_get_contents("/positions".$i.".json");
+				$string = file_get_contents(public_path()."\positions".$i.".json");
 				$json_a = json_decode($string, true);
 				
-				foreach ($json_a as $marker => $marker_i) {
-					echo $marker_i['address'];
+				foreach ($json_a as $marker => $markers) {
+					echo var_dump($marker);
 				}
 
-				$results['markers'][$i]
+				$results['markers'][$i][]=$marker;
 			}
 			
 
