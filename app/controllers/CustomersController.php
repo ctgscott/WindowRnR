@@ -373,7 +373,7 @@ class CustomersController extends BaseController {
 				$json_a = json_decode($string, true);
 				
 				foreach ($json_a as $marker => $markers) {
-					echo var_dump($marker);
+					//echo var_dump($marker);
 				}
 
 				$results['markers'][$i][]=$marker;

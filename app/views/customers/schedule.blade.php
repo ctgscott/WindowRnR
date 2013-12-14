@@ -20,8 +20,9 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
-<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 <script type='text/javascript' src="{{ asset('js/gomap-1.3.2.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/jquery.ui.map.full.min.js') }}"></script>
 @stop
 
 {{-- Content --}}
@@ -36,11 +37,11 @@ Schedule Appointments
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>
-	<input type="hidden" id="marker_1" value=""/>
-	<input type="hidden" id="marker_2" value=""/>
-	<input type="hidden" id="marker_3" value=""/>
-	<input type="hidden" id="marker_4" value=""/>
-	<input type="hidden" id="marker_5" value=""/>
+	<input type="hidden" id="marker1" value="Los Angeles, CA"/>
+	<input type="hidden" id="marker2" value="Russia"/>
+	<input type="hidden" id="marker3" value="Brasil"/>
+	<input type="hidden" id="marker4" value="England"/>
+	<input type="hidden" id="marker5" value="China"/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;

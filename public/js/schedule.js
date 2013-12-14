@@ -32,9 +32,176 @@
 	]
 ];*/
 
+$(document).ready(function(){
+	$('#map_1').gmap().bind('init', function() { 
+	// This URL won't work on your localhost, so you need to change it
+	// see http://en.wikipedia.org/wiki/Same_origin_policy
+		$.getJSON( '/test.json', function(data) { 
+			$.each( data.markers, function(i, marker) {
+				$('#map_1').gmap('addMarker', { 
+					'position': new google.maps.LatLng(marker.latitude, marker.longitude), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_1').gmap('openInfoWindow', { 'content': marker.content }, this);
+				});
+			});
+		});
+	});
+
+	$('#map_2').gmap().bind('init', function() { 
+	// This URL won't work on your localhost, so you need to change it
+	// see http://en.wikipedia.org/wiki/Same_origin_policy
+		$.getJSON( '/test2.json', function(data) { 
+			$.each( data.markers, function(i, marker) {
+//				console.log(marker.address);
+				var address = encodeURIComponent(marker.address);
+				var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+				$.get( url+address+"&sensor=false", function( data ) {
+//					alert(url+address+"&sensor=false");
+//					console.log(data);
+					$('#map_2').gmap('addMarker', { 
+						'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+						'bounds': true 
+					}).click(function() {
+						$('#map_2').gmap('openInfoWindow', { 'content': marker.content }, this);
+					});
+				});
+			});
+		});
+	});
+
+	$('#map_3').gmap().bind('init', function() { 
+	// This URL won't work on your localhost, so you need to change it
+	// see http://en.wikipedia.org/wiki/Same_origin_policy
+		$.getJSON( '/test3.json', function(data) { 
+			$.each( data.markers, function(i, marker) {
+//				console.log(marker.address);
+				var address = encodeURIComponent(marker.address);
+				var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+				$.get( url+address+"&sensor=false", function( data ) {
+//					alert(url+address+"&sensor=false");
+//					console.log(data);
+					$('#map_3').gmap('addMarker', { 
+						'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+						'bounds': true 
+					}).click(function() {
+						$('#map_3').gmap('openInfoWindow', { 'content': marker.content }, this);
+					});
+				});
+			});
+		});
+	});
+	
+	$('#map_4').gmap().bind('init', function() { 
+	// This URL won't work on your localhost, so you need to change it
+	// see http://en.wikipedia.org/wiki/Same_origin_policy
+		$.getJSON( '/test.json', function(data) { 
+			$.each( data.markers, function(i, marker) {
+				$('#map_4').gmap('addMarker', { 
+					'position': new google.maps.LatLng(marker.latitude, marker.longitude), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_4').gmap('openInfoWindow', { 'content': marker.content }, this);
+				});
+			});
+		});
+	});
+	
+	$('#map_5').gmap().bind('init', function() { 
+	// This URL won't work on your localhost, so you need to change it
+	// see http://en.wikipedia.org/wiki/Same_origin_policy
+		$.getJSON( '/test.json', function(data) { 
+			$.each( data.markers, function(i, marker) {
+				$('#map_5').gmap('addMarker', { 
+					'position': new google.maps.LatLng(marker.latitude, marker.longitude), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_5').gmap('openInfoWindow', { 'content': marker.content }, this);
+				});
+			});
+		});
+	});
+});
 
 
+/*$(document).ready(function(){
 
+	function mapOptions(markers) {
+		var options = {
+//			zoom: 9,
+			address: markers,
+//			markers: [markers],
+			maptype: 'ROADMAP',
+			scaleControl: true
+		};
+		return options;
+	};
+	
+	var markers1 = {};
+	var markers1 = document.getElementById("marker1").value;
+	//alert(markers1);
+	var markers2 = document.getElementById("marker2").value;
+	var markers3 = document.getElementById("marker3").value;
+	var markers4 = document.getElementById("marker4").value;
+	var markers5 = document.getElementById("marker5").value;
+console.log(mapOptions(markers1));
+
+	var yourStartLatLng = new google.maps.LatLng(59.3426606750, 18.0736160278);
+    $('#map_canvas').gmap({'center': yourStartLatLng});
+
+	$("#map_1").goMap(mapOptions(markers1)
+		function() {
+			$.goMap.createMarker({
+				address: markers1
+			});
+			alert(mapOptions(markers1));			
+			$.goMap.fitBounds();
+		}
+	);
+
+	$("#map_2").goMap(mapOptions(markers2),
+		function() {
+			$.goMap.createMarker({
+				address: markers2
+			});
+			
+			$.goMap.fitBounds();
+		}
+	);
+
+	$("#map_3").goMap(mapOptions(markers3),
+		function() {
+			$.goMap.createMarker({
+				address: markers3
+			});
+			
+			$.goMap.fitBounds();
+		}
+	);
+
+	$("#map_4").goMap(mapOptions(markers4),
+		function() {
+			$.goMap.createMarker({
+				address: markers4
+			});
+			
+			$.goMap.fitBounds();
+		}
+	);
+
+	$("#map_5").goMap(mapOptions(markers5),
+		function() {
+			$.goMap.createMarker({
+				address: markers5
+			});
+			
+			$.goMap.fitBounds();
+		}
+	);
+	
+});
+*/
+/*
 $(document).ready(function(){
 	initMap(1);  
 	initMap(2);  
@@ -75,7 +242,7 @@ function addMarkers(id) {
 //			alert(n);
 	}, 'json');
 };
-
+*/
 
 /*
 	$.get('/positions.json', function(data) {
