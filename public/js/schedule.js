@@ -37,7 +37,7 @@ $(document).ready(function(){
 	// This URL won't work on your localhost, so you need to change it
 	// see http://en.wikipedia.org/wiki/Same_origin_policy
 		var markers = $('#marker1').val()
-		console.log(markers);
+//		console.log(markers);
 		//function(data) { 
 //			$.each( markers, function(i, marker) {
 //				console.log(marker.address);
@@ -117,20 +117,18 @@ $(document).ready(function(){
 	});
 	
 	$('#map_5').gmap().bind('init', function() { 
-		$.getJSON( $('#marker5').val(), function(data) { 
-			$.each( data.location, function(i, marker) {
-				console.log(marker);
-//		var markers = $('#marker5').val()
-//		console.log(JSON.parse(markers));
-				var address = encodeURIComponent(marker);
-				var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-				$.get( url+address+"&sensor=false", function( data ) {
-					$('#map_5').gmap('addMarker', { 
-						'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-						'bounds': true 
-					}).click(function() {
-						$('#map_5').gmap('openInfoWindow', { 'content': marker.content }, this);
-					});
+		var markers = jQuery.parseJSON( $('#marker5').val());
+		console.log(markers);
+		$.each( markers.scott, function(i, marker) {
+			console.log(marker);
+			var address = encodeURIComponent(marker.location);
+			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+			$.get( url+address+"&sensor=false", function( data ) {
+				$('#map_5').gmap('addMarker', { 
+					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_5').gmap('openInfoWindow', { 'content': marker.content }, this);
 				});
 			});
 		});
