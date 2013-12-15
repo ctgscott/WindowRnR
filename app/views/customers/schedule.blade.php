@@ -17,8 +17,8 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
-<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
-<script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>
+<!--<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
 <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 <script type='text/javascript' src="{{ asset('js/gomap-1.3.2.js') }}"></script>
@@ -41,7 +41,7 @@ Schedule Appointments
 	<input type="hidden" id="marker2" value="Russia"/>
 	<input type="hidden" id="marker3" value="Brasil"/>
 	<input type="hidden" id="marker4" value="England"/>
-	<input type="hidden" id="marker5" value="China"/>
+	<input type="hidden" id="marker5" value='{{ json_encode($events) }}'/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;

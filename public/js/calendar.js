@@ -253,7 +253,7 @@ $(document).ready(function() {
 
 			$("body").append(layer);
 
-			console.log(jsEvent);
+			//console.log(jsEvent);
         },
 
         eventMouseout: function(calEvent, domEvent) {
