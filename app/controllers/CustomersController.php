@@ -370,6 +370,22 @@ class CustomersController extends BaseController {
 				
 			$results['events']['scott'] = CustomersController::EstSchedScott();
 			
+			$ts = strtotime("now");
+			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
+			$monday = date('c', $init);
+			$id = [
+//				'birgit@windowrnr.com',
+				'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
+				'scott@windowrnr.com',
+//				'edwindowrepair@gmail.com',
+				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
+/*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
+				'en.usa#holiday@group.v.calendar.google.com'
+*/			];
+			foreach ($id as $id) {
+				$results['events'][$id] = CustomersController::EstSchedByIDByDay($id, $monday);
+			};
+			
 			$firephp->log($results, 'getScheduleID($id)');
 			
 //			exit;			
@@ -430,28 +446,19 @@ class CustomersController extends BaseController {
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
-		//session_start();
 		
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		
 		$start = date('c',$_GET['start']);
-		
-		$firephp->log($start, 'EstimateSchedule2, $start)');
-		$firephp->log($_SESSION, 'EstimateSchedule2, $_SESSION)');
-
 		
 		$client = new Google_Client();
 		$client->setApplicationName("Google Calendar PHP Starter Application");
 
 		// Visit https://code.google.com/apis/console?api=calendar to generate your
 		// client id, client secret, and to register your redirect uri.
-//		$client->setClientId('9824738942-4g6mv5siudqkgb9768662jad4qhb5lir.apps.googleusercontent.com');
-//		$client->setClientSecret('3hbp4TiSn_kAjlgw36IvB3_4');
 		$client->setRedirectUri('http://Localhost:8000/customers/schedule');
-//		$client->setDeveloperKey('AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8');
 		$cal = new Google_CalendarService($client);
 		if (isset($_GET['logout'])) {
 		  unset($_SESSION['token']);
@@ -467,7 +474,7 @@ class CustomersController extends BaseController {
 		  $client->setAccessToken($_SESSION['token']);
 		}
 
-		$firephp->log($client, 'EstimateSchedule2, $client)');
+//		$firephp->log($client, 'EstimateSchedule2, $client)');
 
 		if ($client->getAccessToken()) {
 			$calList = $cal->calendarList->listCalendarList();
@@ -483,21 +490,19 @@ class CustomersController extends BaseController {
 					"start" => $event['start']['dateTime'],
 					"end" => $event['end']['dateTime'],
 					"url" => $event['htmlLink'],
-					//"url" => 'http://www.google.com',
-					"allDay" => false
-//					"location" => $event['location'],
-//					"description" => $event['description']
+					"allDay" => false,
+					"location" => $event['location'],
+					"description" => $event['description']
 				);
 			}
 
 			$_SESSION['token'] = $client->getAccessToken();
 		$firephp->log($events, 'getScheduleID($events)');
-		$firephp->log($_SESSION, 'getScheduleID($_SESSION)');
+//		$firephp->log($_SESSION, 'getScheduleID($_SESSION)');
 
 			return $events;
 		} else {
 			$authUrl = $client->createAuthUrl();
-			//print "<a class='login' href='$authUrl'>Connect Me!</a>";
 			echo '<script type="text/javascript">
 				window.location.href="'.$authUrl.'";
 				</script>';
@@ -515,13 +520,14 @@ class CustomersController extends BaseController {
 		$firephp = FirePHP::getInstance(true);
 
 		$client = new Google_Client();
-		$client->setApplicationName("Google Calendar PHP Starter Application");
+		$client->setApplicationName("Window R & R");
 		$cal = new Google_CalendarService($client);
  
 		$ts = strtotime("now");
-		$init = (date('w', $ts) == 0) ? $ts : strtotime('last Monday', $ts);
+		$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 		$start_date = date('c', $init);
 		$end_date = date('c', strtotime('this Friday', $init));
+		$firephp->log($init, 'now');
 		$firephp->log($start_date, 'start_date');
 		$firephp->log($end_date, 'end_date');
 /*
@@ -541,7 +547,7 @@ class CustomersController extends BaseController {
 			$rightNow = date('c');
 */			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
 			$calList2 = $cal->events->listEvents('primary', $params);
-			$firephp->log($calList2, 'calList2');
+			$firephp->log($calList2, 'EstSchedScott - calList2');
 
 			$events = array();
 			foreach ($calList2['items'] as $event)
@@ -556,6 +562,60 @@ class CustomersController extends BaseController {
 					"location" => $event['location'],
 				);
 			}
+			return $events;
+		}
+	}
+
+	public static function EstSchedByIDByDay($id, $monday)
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
+		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$client = new Google_Client();
+		$client->setApplicationName("Window R & R");
+		$cal = new Google_CalendarService($client);
+
+		$ts = strtotime("now");
+		$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
+		$start_date = date('c', $init);
+		$end_date = date('c', strtotime('this Friday', $init));
+
+		if (isset($_SESSION['token'])) {
+			$client->setAccessToken($_SESSION['token']);
+		}
+
+		if ($client->getAccessToken()) {
+			$events = array();
+			for($i = 0; $i < 5; $i++) {
+				$n = $i + 1;
+				$start_date = date('c', strtotime($monday.' + '.$i.'day'));
+				$end_date = date('c', strtotime($monday." + ".$n."day"));
+/*				$firephp->log($start_date, 'start_date');
+				$firephp->log($end_date, 'end_date');
+*/				
+				$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
+
+				$calList = $cal->events->listEvents($id, $params);
+				$firephp->log($calList, 'EstSchedByIDByDay - calList');
+
+				
+				foreach ($calList['items'] as $event)
+				{
+					$events[$i][] = array(
+						"title" => $event['summary'],
+						"start" => $event['start']['dateTime'],
+						"end" => $event['end']['dateTime'],
+						"url" => $event['htmlLink'],
+						"allDay" => false,
+					//	"description" => $event['description'],
+					//	"location" => $event['location'],
+					);
+				}
+			}
+			$firephp->log($events, 'EstSchedByIDByDay = ');
 			return $events;
 		}
 	}

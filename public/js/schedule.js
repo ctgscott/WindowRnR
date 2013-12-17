@@ -120,7 +120,7 @@ $(document).ready(function(){
 		var markers = jQuery.parseJSON( $('#marker5').val());
 		console.log(markers);
 		$.each( markers.scott, function(i, marker) {
-			console.log(marker);
+			console.log("marker = "+marker);
 			var address = encodeURIComponent(marker.location);
 			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 			$.get( url+address+"&sensor=false", function( data ) {

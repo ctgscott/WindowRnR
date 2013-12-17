@@ -56,7 +56,7 @@ $apiConfig = array(
       'calendar' => array(
           'scope' => array(
               "https://www.googleapis.com/auth/calendar",
-              //"https://www.googleapis.com/auth/calendar.readonly",
+              "https://www.googleapis.com/auth/calendar.readonly",
           )
       ),
       'books' => array('scope' => 'https://www.googleapis.com/auth/books'),
