@@ -368,22 +368,23 @@ class CustomersController extends BaseController {
 				->where('jobs.archive', '=', 0)
 				->get();
 				
-			$results['events']['scott'] = CustomersController::EstSchedScott();
+//			$results['events']['scott'] = CustomersController::EstSchedScott();
 			
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 			$monday = date('c', $init);
+			$cal = 'scott';
 			$id = [
 //				'birgit@windowrnr.com',
-				'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
+//				'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
 				'scott@windowrnr.com',
 //				'edwindowrepair@gmail.com',
-				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
+//				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
 /*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
 				'en.usa#holiday@group.v.calendar.google.com'
 */			];
 			foreach ($id as $id) {
-				$results['events'][$id] = CustomersController::EstSchedByIDByDay($id, $monday);
+				$results['events'] = CustomersController::EstSchedByIDByDay($cal, $id, $monday);
 			};
 			
 			$firephp->log($results, 'getScheduleID($id)');
@@ -527,10 +528,10 @@ class CustomersController extends BaseController {
 		$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 		$start_date = date('c', $init);
 		$end_date = date('c', strtotime('this Friday', $init));
-		$firephp->log($init, 'now');
+/*		$firephp->log($init, 'now');
 		$firephp->log($start_date, 'start_date');
 		$firephp->log($end_date, 'end_date');
-/*
+
 		$start = date('c',$start_date);
 		$end = date('c',$end_date);
 		$firephp->log($start, 'start');
@@ -546,11 +547,11 @@ class CustomersController extends BaseController {
 			$firephp->log($calList, 'calList');
 			$rightNow = date('c');
 */			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
-			$calList2 = $cal->events->listEvents('primary', $params);
-			$firephp->log($calList2, 'EstSchedScott - calList2');
+			$calList = $cal->events->listEvents('primary', $params);
+			$firephp->log($calList, 'EstSchedScott - calList');
 
 			$events = array();
-			foreach ($calList2['items'] as $event)
+			foreach ($calList['items'] as $event)
 			{
 				$events[] = array(
 					"title" => $event['summary'],
@@ -566,7 +567,7 @@ class CustomersController extends BaseController {
 		}
 	}
 
-	public static function EstSchedByIDByDay($id, $monday)
+	public static function EstSchedByIDByDay($name, $calID, $monday)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
@@ -578,42 +579,80 @@ class CustomersController extends BaseController {
 		$client->setApplicationName("Window R & R");
 		$cal = new Google_CalendarService($client);
 
-		$ts = strtotime("now");
-		$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
-		$start_date = date('c', $init);
-		$end_date = date('c', strtotime('this Friday', $init));
-
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
 		}
 
 		if ($client->getAccessToken()) {
-			$events = array();
-			for($i = 0; $i < 5; $i++) {
+
+			$ts = strtotime("now");
+			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
+			$start_date = date('c', $init);
+			$end_date = date('c', strtotime('this Friday', $init));			$events = array();
+
+/*			for($i = 0; $i < 5; $i++) {
 				$n = $i + 1;
 				$start_date = date('c', strtotime($monday.' + '.$i.'day'));
 				$end_date = date('c', strtotime($monday." + ".$n."day"));
-/*				$firephp->log($start_date, 'start_date');
+				$firephp->log($start_date, 'start_date');
 				$firephp->log($end_date, 'end_date');
 */				
-				$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
+			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
 
-				$calList = $cal->events->listEvents($id, $params);
-				$firephp->log($calList, 'EstSchedByIDByDay - calList');
+			$calList = $cal->events->listEvents($calID, $params);
+			$firephp->log($calList, 'EstSchedByIDByDay - calList');
 
 				
-				foreach ($calList['items'] as $event)
-				{
-					$events[$i][] = array(
-						"title" => $event['summary'],
-						"start" => $event['start']['dateTime'],
-						"end" => $event['end']['dateTime'],
-						"url" => $event['htmlLink'],
-						"allDay" => false,
-					//	"description" => $event['description'],
-					//	"location" => $event['location'],
-					);
+			foreach ($calList['items'] as $event)
+			{
+				if(isset($event['start']['dateTime'])) {
+					$n = date('w', strtotime($event['start']['dateTime']));
+				}else{
+					$n = date('w', $event['start']['dateTime']);
 				}
+				$firephp->log($event['start']['dateTime'], 'EstSchedByIDByDay - dateTime = ');
+				$firephp->log($n, 'EstSchedByIDByDay - $n = ');
+				
+				
+/*				if(!isset($event['description'])) {
+					$events[$name][]['descriptions'] = 'none';
+				}
+				if(isset($event['start']['dateTime'])) {
+					$events[$name][]['allDay'] = false;
+					$events[$name][]['start'] = $event['start']['dateTime'];
+					$events[$name][]['end'] = $event['end']['dateTime'];
+				} else {
+					$events[$name][]['allDay'] = true;
+					$events[$name][]['start'] = $event['start']['date'];
+					$events[$name][]['end'] = $event['end']['date'];
+				}
+*/				
+				$events[$n][$name][] = array(
+					"title" => $event['summary'],
+					"start" => $event['start']['dateTime'],
+					"end" => $event['end']['dateTime'],
+					"url" => $event['htmlLink'],
+					"allDay" => false,
+					
+					"description" => $event['description'],
+					"location" => $event['location'],
+				);
+			}
+//			}
+			if(!isset($events[1])) {
+				$events[1]['scott'] = null;
+			}
+			if(!isset($events[2])) {
+				$events[2]['scott'] = null;
+			}
+			if(!isset($events[3])) {
+				$events[3]['scott'] = null;
+			}
+			if(!isset($events[4])) {
+				$events[4]['scott'] = null;
+			}
+			if(!isset($events[5])) {
+				$events[5]['scott'] = null;
 			}
 			$firephp->log($events, 'EstSchedByIDByDay = ');
 			return $events;

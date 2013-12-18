@@ -34,27 +34,22 @@
 
 $(document).ready(function(){
 	$('#map_1').gmap().bind('init', function() { 
-	// This URL won't work on your localhost, so you need to change it
-	// see http://en.wikipedia.org/wiki/Same_origin_policy
-		var markers = $('#marker1').val()
-//		console.log(markers);
-		//function(data) { 
-//			$.each( markers, function(i, marker) {
-//				console.log(marker.address);
-				var address = encodeURIComponent(markers);
-				var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-				$.get( url+address+"&sensor=false", function( data ) {
-//					alert(url+address+"&sensor=false");
-//					console.log(data);
-					$('#map_1').gmap('addMarker', { 
-						'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-						'bounds': true 
-					}).click(function() {
-						$('#map_1').gmap('openInfoWindow', { 'content': marker.content }, this);
-					});
+		var markers = jQuery.parseJSON( $('#events1').val());
+		//var markers = $("#events1").val();
+		console.log(markers);
+		$.each( markers.scott, function(i, marker) {
+			console.log("marker = "+marker);
+			var address = encodeURIComponent(marker.location);
+			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+			$.get( url+address+"&sensor=false", function( data ) {
+				$('#map_1').gmap('addMarker', { 
+					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_1').gmap('openInfoWindow', { 'content': marker.content }, this);
 				});
-//			});
-//		});
+			});
+		});
 	});
 
 	$('#map_2').gmap().bind('init', function() { 
@@ -80,22 +75,18 @@ $(document).ready(function(){
 	});
 
 	$('#map_3').gmap().bind('init', function() { 
-	// This URL won't work on your localhost, so you need to change it
-	// see http://en.wikipedia.org/wiki/Same_origin_policy
-		$.getJSON( '/test3.json', function(data) { 
-			$.each( data.markers, function(i, marker) {
-//				console.log(marker.address);
-				var address = encodeURIComponent(marker.address);
-				var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-				$.get( url+address+"&sensor=false", function( data ) {
-//					alert(url+address+"&sensor=false");
-//					console.log(data);
-					$('#map_3').gmap('addMarker', { 
-						'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-						'bounds': true 
-					}).click(function() {
-						$('#map_3').gmap('openInfoWindow', { 'content': marker.content }, this);
-					});
+		var markers = jQuery.parseJSON($('#marker3').val());
+		console.log(markers);
+		$.each( markers.scott, function(i, marker) {
+			console.log("marker = "+marker);
+			var address = encodeURIComponent(marker.location);
+			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+			$.get( url+address+"&sensor=false", function( data ) {
+				$('#map_3').gmap('addMarker', { 
+					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+					'bounds': true 
+				}).click(function() {
+					$('#map_3').gmap('openInfoWindow', { 'content': marker.content }, this);
 				});
 			});
 		});
@@ -117,7 +108,7 @@ $(document).ready(function(){
 	});
 	
 	$('#map_5').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON( $('#marker5').val());
+		var markers = jQuery.parseJSON($('#marker5').val());
 		console.log(markers);
 		$.each( markers.scott, function(i, marker) {
 			console.log("marker = "+marker);
