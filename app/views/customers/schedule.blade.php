@@ -37,11 +37,11 @@ Schedule Appointments
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>
-	<input type="hidden" id="events1" value='Brasil'/>
-	<input type="hidden" id="marker2" value="Russia"/>
-	<input type="hidden" id="marker3" value='{{ json_encode($events["3"]) }}'/>{{ var_dump(json_encode($events['3'])) }}
-	<input type="hidden" id="marker4" value="England"/>
-	<input type="hidden" id="marker5" value='{{ json_encode($events["3"]) }}'/>
+	<input type="hidden" id="events1" value='{{ json_encode($events["1"]) }}'/>
+	<input type="hidden" id="events2" value='{{ json_encode($events["2"]) }}'/>
+	<input type="hidden" id="events3" value='{{ json_encode($events["3"]) }}'/>
+	<input type="hidden" id="events4" value='{{ json_encode($events["4"]) }}'/>
+	<input type="hidden" id="events5" value='{{ json_encode($events["5"]) }}'/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;
