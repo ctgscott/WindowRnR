@@ -612,9 +612,9 @@ class CustomersController extends BaseController {
 
 			foreach ($calendar as $calUser) 
 			{
-				$firephp->log($calUser, '$calUser = ');
+//				$firephp->log($calUser, '$calUser = ');
 				$calList = $cal->events->listEvents($calUser['id'], $params);
-				$firephp->log($calList, 'EstSchedByIDByDay - calList');
+//				$firephp->log($calList, 'EstSchedByIDByDay - calList');
 
 					
 				foreach ($calList['items'] as $event)
@@ -624,8 +624,8 @@ class CustomersController extends BaseController {
 					}else{
 						$n = date('w', $event['start']['dateTime']);
 					}
-					$firephp->log($event['start']['dateTime'], 'EstSchedByIDByDay - dateTime = ');
-					$firephp->log($n, 'EstSchedByIDByDay - $n = ');
+//					$firephp->log($event['start']['dateTime'], 'EstSchedByIDByDay - dateTime = ');
+//					$firephp->log($n, 'EstSchedByIDByDay - $n = ');
 					
 					
 	/*				if(!isset($event['description'])) {
@@ -651,7 +651,7 @@ class CustomersController extends BaseController {
 						"end" => $event['end']['dateTime'],
 						"url" => $event['htmlLink'],
 						"allDay" => false,
-						
+						"content" => $event['location'],
 						"description" => $event['description'],
 						"location" => $event['location'],
 					);
