@@ -43,6 +43,7 @@ $(document).ready(function(){
 */				$.each( markers[name], function(i, marker) {
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+					alert(address);
 					$.get( url+address+"&sensor=false", function( data ) {
 						$('#map_1').gmap('addMarker', { 
 							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 

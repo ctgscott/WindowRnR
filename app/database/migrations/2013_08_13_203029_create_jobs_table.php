@@ -22,6 +22,8 @@ class CreateJobsTable extends Migration {
 			$table->string('city');
 			$table->string('state');
 			$table->string('zip');
+			$table->decimal('lat', 11, 8);
+			$table->decimal('lng', 11, 8);
 			$table->string('built');
 			$table->string('type');
 			$table->string('lead_source');
