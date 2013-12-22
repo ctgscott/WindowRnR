@@ -35,15 +35,11 @@
 $(document).ready(function(){
 	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
-//		console.log(markers);
 		for(var name in markers) {
 			if(!(markers[name] == null)) {
-/*				alert(markers[name]);
-				console.log(markers[name]);
-*/				$.each( markers[name], function(i, marker) {
+				$.each( markers[name], function(i, marker) {
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-					alert(address);
 					$.get( url+address+"&sensor=false", function( data ) {
 						$('#map_1').gmap('addMarker', { 
 							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
@@ -58,20 +54,21 @@ $(document).ready(function(){
 		}
 	});
 
-/*	$('#map_2').gmap().bind('init', function() { 
+	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
 //		console.log(markers);
 		for(var name in markers) {
 			if(!(markers[name] == null)) {
-				alert(markers[name]);
-				console.log(markers[name]);
+//				alert(markers[name]);
+//				console.log(markers[name]);
 				$.each( markers[name], function(i, marker) {
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					$.get( url+address+"&sensor=false", function( data ) {
 						$('#map_2').gmap('addMarker', { 
 							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-							'bounds': true 
+							'bounds': true,
+							'animation': google.maps.Animation.DROP							
 						}).click(function() {
 							$('#map_2').gmap('openInfoWindow', { 'content': marker.content }, this);
 						});
@@ -83,56 +80,67 @@ $(document).ready(function(){
 
 	$('#map_3').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events3').val());
-//		console.log(markers);
-		$.each( markers.scott, function(i, marker) {
-//			console.log("marker = "+marker);
-			var address = encodeURIComponent(marker.location);
-			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-			$.get( url+address+"&sensor=false", function( data ) {
-				$('#map_3').gmap('addMarker', { 
-					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-					'bounds': true 
-				}).click(function() {
-					$('#map_3').gmap('openInfoWindow', { 'content': marker.content }, this);
+		for(var name in markers) {
+			if(!(markers[name] == null)) {
+				$.each( markers[name], function(i, marker) {
+					var address = encodeURIComponent(marker.location);
+					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+					$.get( url+address+"&sensor=false", function( data ) {
+						$('#map_3').gmap('addMarker', { 
+							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+							'bounds': true,
+							'animation': google.maps.Animation.DROP							
+						}).click(function() {
+							$('#map_3').gmap('openInfoWindow', { 'content': marker.content }, this);
+						});
+					});
 				});
-			});
-		});
+			}
+		}
 	});
 	
 	$('#map_4').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events4').val());
-		$.each( markers.scott, function(i, marker) {
-			var address = encodeURIComponent(marker.location);
-			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-			$.get( url+address+"&sensor=false", function( data ) {
-				$('#map_4').gmap('addMarker', { 
-					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-					'bounds': true 
-				}).click(function() {
-					$('#map_4').gmap('openInfoWindow', { 'content': marker.content }, this);
+		for(var name in markers) {
+			if(!(markers[name] == null)) {
+				$.each( markers[name], function(i, marker) {
+					var address = encodeURIComponent(marker.location);
+					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+					$.get( url+address+"&sensor=false", function( data ) {
+						$('#map_4').gmap('addMarker', { 
+							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+							'bounds': true,
+							'animation': google.maps.Animation.DROP							
+						}).click(function() {
+							$('#map_4').gmap('openInfoWindow', { 'content': marker.content }, this);
+						});
+					});
 				});
-			});
-		});
+			}
+		}
 	});
 	
 	$('#map_5').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events5').val());
-//		console.log(markers);
-		$.each( markers.scott, function(i, marker) {
-//			console.log("marker = "+marker);
-			var address = encodeURIComponent(marker.location);
-			var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-			$.get( url+address+"&sensor=false", function( data ) {
-				$('#map_5').gmap('addMarker', { 
-					'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-					'bounds': true 
-				}).click(function() {
-					$('#map_5').gmap('openInfoWindow', { 'content': marker.content }, this);
+		for(var name in markers) {
+			if(!(markers[name] == null)) {
+				$.each( markers[name], function(i, marker) {
+					var address = encodeURIComponent(marker.location);
+					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+					$.get( url+address+"&sensor=false", function( data ) {
+						$('#map_5').gmap('addMarker', { 
+							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+							'bounds': true,
+							'animation': google.maps.Animation.DROP							
+						}).click(function() {
+							$('#map_5').gmap('openInfoWindow', { 'content': marker.content }, this);
+						});
+					});
 				});
-			});
-		});
+			}
+		}
 	});
-*/});
+});
 
 
 /*$(document).ready(function(){

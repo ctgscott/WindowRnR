@@ -375,8 +375,8 @@ class CustomersController extends BaseController {
 			$monday = date('c', $init);
 			
 			$calendar = (object)array(
-				['name' => 'scott', 'id' => 'scott@windowrnr.com'],
-				['name' => 'normTest', 'id' => 'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com']
+				['name' => 'ScottTest', 'id' => 'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com'],
+				['name' => 'NormTest', 'id' => 'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com']
 			);
 			$firephp->log($calendar, '$calendar = ');
 			$name = [
@@ -386,7 +386,8 @@ class CustomersController extends BaseController {
 			$id = [
 //				'birgit@windowrnr.com',
 				'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
-				'scott@windowrnr.com',
+//				'scott@windowrnr.com',
+				'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com',
 //				'edwindowrepair@gmail.com',
 //				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
 /*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
@@ -428,11 +429,11 @@ class CustomersController extends BaseController {
 
 		if ($client->getAccessToken()) {
 			
-			$calList = $cal->calendarList->listCalendarList();
-			$firephp->log($calList, 'calList');
+//			$calList = $cal->calendarList->listCalendarList();
+//			$firephp->log($calList, 'calList');
 			$rightNow = date('c');
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
-			$calList2 = $cal->events->listEvents('primary', $params);
+			$calList2 = $cal->events->listEvents('windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com', $params);
 			$firephp->log($calList2, 'calList2');
 
 			$events = array();
@@ -492,7 +493,7 @@ class CustomersController extends BaseController {
 //		$firephp->log($client, 'EstimateSchedule2, $client)');
 
 		if ($client->getAccessToken()) {
-			$calList = $cal->calendarList->listCalendarList();
+//			$calList = $cal->calendarList->listCalendarList();
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
 			$calList2 = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
 			//print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
@@ -673,7 +674,7 @@ class CustomersController extends BaseController {
 				}
 			}
 
-			$firephp->log($events, 'EstSchedByIDByDay = ');
+//			$firephp->log($events, 'EstSchedByIDByDay = ');
 			return $events;
 		}
 	}
@@ -713,7 +714,8 @@ class CustomersController extends BaseController {
 			$end = substr($_POST['end'], 0, 33);
 			$end = strtotime($end);
 			$end = date('c', $end);
-			$description = $_POST['description'];
+			$description = "Job ID: ".$_POST['job_id'].", ";
+			$description .= "<br/>".$_POST['description'];
 			$event = new Google_Event();
 			$event->setSummary($summary);
 			$event->setLocation($location);
