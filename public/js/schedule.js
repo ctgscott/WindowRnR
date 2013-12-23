@@ -33,38 +33,34 @@
 ];*/
 
 $(document).ready(function(){
-	for (var i=1; i<6; i++) {
-		$('#map_'+i).gmap().bind('init', function() { 
-			var test = 'test'+i;
-			alert(test);
-			var markers = jQuery.parseJSON($('#events'+i).val());
-			for(var name in markers) {
-				if(!(markers[name] == null)) {
-					$.each( markers[name], function(i, marker) {
-						var address = encodeURIComponent(marker.location);
-						var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-						if(name=="NormTest") {
-							var icon = "/img/WinPin.png";
-						} else if(name=="ScottTest") {
-							var icon = "/img/WinPin2.png";
-						}
-						$.get( url+address+"&sensor=false", function( data ) {
-							$('#map_'+i).gmap('addMarker', { 
-								'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-								'bounds': true,
-								'animation': google.maps.Animation.DROP,
-								'icon': icon
-							}).click(function() {
-								$('#map_'+i).gmap('openInfoWindow', { 'content': marker.content }, this);
-							});
+	$('#map_1').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events1').val());
+		for(var name in markers) {
+			if(!(markers[name] == null)) {
+				$.each( markers[name], function(i, marker) {
+					var address = encodeURIComponent(marker.location);
+					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+					if(name=="NormTest") {
+						var icon = "/img/WinPin.png";
+					} else if(name=="ScottTest") {
+						var icon = "/img/WinPin2.png";
+					}
+					$.get( url+address+"&sensor=false", function( data ) {
+						$('#map_1').gmap('addMarker', { 
+							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
+							'bounds': true,
+							'animation': google.maps.Animation.DROP,
+							'icon': icon
+						}).click(function() {
+							$('#map_1').gmap('openInfoWindow', { 'content': marker.content }, this);
 						});
 					});
-				}
+				});
 			}
-		});
-	}
+		}
+	});
 
-/*	$('#map_2').gmap().bind('init', function() { 
+	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
 //		console.log(markers);
 		for(var name in markers) {
@@ -174,7 +170,6 @@ $(document).ready(function(){
 			}
 		}
 	});
-*/
 });
 
 
