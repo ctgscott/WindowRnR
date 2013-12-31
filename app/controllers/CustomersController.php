@@ -729,13 +729,14 @@ class CustomersController extends BaseController {
 
 			$createdEvent = $cal->events->insert($calendarID, $event);
 
-			$statusResult = JobsController::updateStatus($job_id, 2);
+			$statusResult[0] = AppointmentsController::insert($job_id, 'x', $start, $end, 'x', 'x');
+			$statusResult[1] = JobsController::updateStatus($job_id, 2);
 
-			if ($statusResult = 'success') {
+			if ($statusResult[0] == 'success' && $statusResult[1] == 'success') {
 				Session::flash('success', 'Lead Scheduled');
 				return $createdEvent['id'];
 			} else {
-				Session::flash("Failure", "Status updated failed with ".$statusResult);
+				Session::flash("Failure", "Status updated failed with Appointment inserts returning".$statusResult[0].", and Job inserts returning: ".$statusResult[1]);
 			}
 		
 //		$_SESSION['token'] = $client->getAccessToken();

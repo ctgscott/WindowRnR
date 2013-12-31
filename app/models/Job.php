@@ -25,4 +25,9 @@ class Job extends Eloquent {
 	{
 		return $this->hasMany('Window');
 	}
+
+	public function appointments()
+	{
+		return $this->hasMany('Appointment');
+	}
 }
