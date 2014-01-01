@@ -65,3 +65,5 @@ Route::resource('photos', 'PhotosController');
 Route::resource('window_totals', 'Window_totalsController');
 
 Route::resource('appointments', 'AppointmentsController');
+
+Route::resource('profiles', 'ProfilesController');

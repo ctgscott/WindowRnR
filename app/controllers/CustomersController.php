@@ -368,8 +368,19 @@ class CustomersController extends BaseController {
 				->where('jobs.archive', '=', 0)
 				->get();
 				
-//			$results['events']['scott'] = CustomersController::EstSchedScott();
-			
+			$users = DB::table('users_groups')
+				->select('user_id')
+				->where('group_id', '=', 3)
+				->get();
+				
+			$firephp->log($users, '$users = ');
+			foreach ($users as $user) {
+				$user_id = $user->user_id;
+				$google_id = DB::table('profiles')->where('user_id', '=', $user_id)->pluck('google_calendar_id');
+				$name = DB::table('users')->where('id', '=', $user_id)->pluck('first_name');
+				$results['sales'][$user_id] = array('calendar_id' => $google_id, 'name' => $name);
+			};
+
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 			$monday = date('c', $init);
@@ -530,62 +541,6 @@ class CustomersController extends BaseController {
 		}
 	}
 	
-	public static function EstSchedScott()
-	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
-		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
-
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
-
-		$client = new Google_Client();
-		$client->setApplicationName("Window R & R");
-		$cal = new Google_CalendarService($client);
- 
-		$ts = strtotime("now");
-		$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
-		$start_date = date('c', $init);
-		$end_date = date('c', strtotime('this Friday', $init));
-/*		$firephp->log($init, 'now');
-		$firephp->log($start_date, 'start_date');
-		$firephp->log($end_date, 'end_date');
-
-		$start = date('c',$start_date);
-		$end = date('c',$end_date);
-		$firephp->log($start, 'start');
-		$firephp->log($end, 'end');
-*/		
-		if (isset($_SESSION['token'])) {
-			$client->setAccessToken($_SESSION['token']);
-		}
-
-		if ($client->getAccessToken()) {
-			
-/*			$calList = $cal->calendarList->listCalendarList();
-			$firephp->log($calList, 'calList');
-			$rightNow = date('c');
-*/			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start_date, 'timeMax' => $end_date);
-			$calList = $cal->events->listEvents('primary', $params);
-			$firephp->log($calList, 'EstSchedScott - calList');
-
-			$events = array();
-			foreach ($calList['items'] as $event)
-			{
-				$events[] = array(
-					"title" => $event['summary'],
-					"start" => $event['start']['dateTime'],
-					"end" => $event['end']['dateTime'],
-					"url" => $event['htmlLink'],
-					"allDay" => false,
-					"description" => $event['description'],
-					"location" => $event['location'],
-				);
-			}
-			return $events;
-		}
-	}
-
 	public static function EstSchedByIDByDay($calendar, $monday)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
@@ -732,7 +687,7 @@ class CustomersController extends BaseController {
 			$statusResult[0] = AppointmentsController::insert($job_id, 'x', $start, $end, 'x', 'x');
 			$statusResult[1] = JobsController::updateStatus($job_id, 2);
 
-			if ($statusResult[0] == 'success' && $statusResult[1] == 'success') {
+			if ($statusResult[0] == 'Success' && $statusResult[1] == 'Success') {
 				Session::flash('success', 'Lead Scheduled');
 				return $createdEvent['id'];
 			} else {

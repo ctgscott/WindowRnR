@@ -72,9 +72,9 @@ class UserController extends BaseController {
 			    	}
 			    } 
 
-			    //return View::make('customers')->with($data);
+			    return View::make('users.index')->with($data);
 				//return View::make('users.login');
-				echo "hello world!";
+				//echo "hello world!";
 				//return Redirect::to('customers')->with($data);
 			} else {
 				Session::flash('error', 'You are not logged in.');
@@ -244,6 +244,11 @@ class UserController extends BaseController {
 	 */
 	public function getLogin()
 	{
+		// User is not logged in, but may have old token
+		if (isset($_SESSION['token'])) {
+			unset($_SESSION['token']);
+		}
+			
 		// Show the register form
 		return View::make('users.login');
 	}
@@ -886,18 +891,11 @@ class UserController extends BaseController {
 	private function oauth2($path) {
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
-		//session_start();
 
 		$client = new Google_Client();
 		$client->setApplicationName("WindowRnR");
 
-		// Visit https://code.google.com/apis/console?api=calendar to generate your
-		// client id, client secret, and to register your redirect uri.
-/*		$client->setClientId('9824738942-4g6mv5siudqkgb9768662jad4qhb5lir.apps.googleusercontent.com');
-		$client->setClientSecret('3hbp4TiSn_kAjlgw36IvB3_4');
-		$client->setRedirectUri('http://Localhost:8000/customers/schedule');
-		$client->setDeveloperKey('AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8');
-*/		$cal = new Google_CalendarService($client);
+		$cal = new Google_CalendarService($client);
 		if (isset($_GET['logout'])) {
 		  unset($_SESSION['token']);
 		}
@@ -912,32 +910,8 @@ class UserController extends BaseController {
 		  $client->setAccessToken($_SESSION['token']);
 		}
 
-		if ($client->getAccessToken()) {
-//			$calList = $cal->calendarList->listCalendarList();
-//			print_r($calList);
-//			exit;
-//			$rightNow = date('c');
-/*			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $rightNow);
-			$calList2 = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
-			//print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
-			//print "<h1>Calendar List2</h1><pre>" . print_r($calList2, true) . "</pre>";
-			$events = array();
-			foreach ($calList2['items'] as $event)
-			{
-				$events[] = array(
-					"title" => $event['summary'],
-					"start" => $event['start']['dateTime'],
-					"end" => $event['end']['dateTime'],
-					"url" => $event['htmlLink'],
-					//"url" => 'http://www.google.com',
-					"allDay" => false
-//					"location" => $event['location'],
-//					"description" => $event['description']
-				);
-			}
-*/
+		if ($client->getAccessToken() == 'test') {
 			$_SESSION['token'] = $client->getAccessToken();
-//			return $events;
 			return Redirect::to('/'.$path);
 
 		} else {

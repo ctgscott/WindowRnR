@@ -180,8 +180,9 @@ $(document).ready(function() {
 							data: googleInsert,
 							success: function(data) {
 								//$("#calendar").fullCalendar("refetchEvents");
-							//	alert(data)
-								window.location.reload();
+								alert(data)
+							//	window.location.reload();
+								document.location.href='/customers';
 							}
 						});
 						//This will close the popup div form

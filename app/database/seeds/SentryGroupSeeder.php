@@ -16,14 +16,25 @@ class SentryGroupSeeder extends Seeder {
 	        'permissions' => array(
 	            'admin' => 0,
 	            'users' => 1,
-	        )));
+	        )
+		));
 
 		Sentry::getGroupProvider()->create(array(
 	        'name'        => 'Admins',
 	        'permissions' => array(
 	            'admin' => 1,
 	            'users' => 1,
-	        )));
+	        )
+		));
+			
+		Sentry::getGroupProvider()->create(array(
+	        'name'        => 'Sales',
+	        'permissions' => array(
+	            'admin' => 0,
+	            'users' => 0,
+	        )
+		));
+
 	}
 
 }
