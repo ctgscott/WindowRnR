@@ -31,6 +31,11 @@ Schedule Appointments
 <img src="{{asset('img/WinPin.png')}}" alt="Norm's Calendar" id="WinPin"/><input type="checkbox" id="sourceCheckbox1" value="Angies" name="lead_source[]"> Norm
 <img src="{{asset('img/WinPin2.png')}}" alt="Ed's Calendar" id="WinPin"/><input type="checkbox" id="sourceCheckbox2" value="Yelp" name="lead_source[]"> Ed
 <img src="{{asset('img/WinPin3.png')}}" alt="Scott's Calendar" id="WinPin"/><input type="checkbox" id="sourceCheckbox3" value="Google" name="lead_source[]"> Scott
+<br/>
+@foreach ($sales as $seller)
+	<input type="checkbox" id="salescheckbox" value="{{ $seller['calendar_id'] }}" name="salesTeam[]"> {{ $seller['name'] }}
+@endforeach
+
 
 <div class="container-fluid mapContainer">
 	<span class="maps map1" id="map_1"></span>
