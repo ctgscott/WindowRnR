@@ -17,6 +17,7 @@ class CreateProfilesTable extends Migration {
 			$table->integer('user_id');
 			$table->string('google_id');
 			$table->string('google_calendar_id');
+			$table->string('avatar');
 			$table->timestamps();
 		});
 	}

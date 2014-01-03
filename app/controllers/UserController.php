@@ -482,6 +482,10 @@ class UserController extends BaseController {
 	
 	public function getEdit($id) 
 	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		try
 		{
 		    //Get the current user's id.
@@ -494,6 +498,11 @@ class UserController extends BaseController {
 				$data['user'] = Sentry::getUserProvider()->findById($id);
 				$data['userGroups'] = $data['user']->getGroups();
 				$data['allGroups'] = Sentry::getGroupProvider()->findAll();
+				$data['avatar'] = ProfilesController::getAvatar($id);
+				$firephp->log($id, '$id = ');
+				$firephp->log($data['avatar'], '$data = ');
+
+				$firephp->log($_SESSION, '$_SESSION = ');
 				return View::make('users.edit')->with($data);
 			} 
 			elseif ($currentUser->getId() == $id)
@@ -501,6 +510,7 @@ class UserController extends BaseController {
 				//They are not an admin, but they are viewing their own profile.
 				$data['user'] = Sentry::getUserProvider()->findById($id);
 				$data['userGroups'] = $data['user']->getGroups();
+				$data['avatar'] = ProfilesController::getAvatar($id);
 				return View::make('users.edit')->with($data);
 			} else {
 				Session::flash('error', 'You don\'t have access to that user.');
@@ -517,11 +527,18 @@ class UserController extends BaseController {
 
 
 	public function postEdit($id) {
+
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
 		// Gather Sanitized Input
 		$input = array(
 			'firstName' => Input::get('firstName'),
-			'lastName' => Input::get('lastName')
+			'lastName' => Input::get('lastName'),
+			'avatar' => Input::get('avatar')
 			);
+			$firephp->log($input, '$input = ');
 
 		// Set Validation Rules
 		$rules = array (
@@ -556,12 +573,28 @@ class UserController extends BaseController {
 				    $user->first_name = $input['firstName'];
 				    $user->last_name = $input['lastName'];
 
+					$saveAvatar = ProfilesController::saveAvatar($id, Input::get('avatar'));
+					$firephp->log($saveAvatar, '$saveAvatar = ');
+//					exit();
 				    // Update the user
-				    if ($user->save())
+				    if (($user->save()) && ($saveAvatar == 1 OR $saveAvatar == 0))
 				    {
 				        // User information was updated
-				        Session::flash('success', 'Profile updated.');
-						return Redirect::to('users/show/'. $id);
+						if ($saveAvatar == 1) {
+							$message = 'Profile updated & avatar changed.';
+							Session::flash('success', 'Profile updated & avatar changed.');
+						} else {
+							Session::flash('success', 'Profile updated but avatar unchanged.');
+						}
+//						var_dump($saveAvatar);
+						$firephp->log($_SESSION, '$_SESSION = ');
+					//exit();
+						//UserController::getEdit($id);
+						//return Redirect::action('UserController@getEdit', array($id))->with($_SESSION['new'], 'success');
+						//return View::make('users.edit/'.$id);
+						//return Redirect::to('users/edit/' . $id)->with('new', 'success');
+						//Session::flash("success", "Job #".$id." archived.");
+						return Redirect::to('users/edit/' . $id);
 				    }
 				    else
 				    {

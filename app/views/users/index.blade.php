@@ -20,7 +20,8 @@ Home
 		<div class="well">
 			<table class="table">
 				<thead>
-					<th>User</th>
+					<th>User (Login)</th>
+					<th>Name</th>
 					<th>Status</th>
 					<th>Options</th>
 				</thead>
@@ -28,6 +29,7 @@ Home
 					@foreach ($allUsers as $user)
 						<tr>
 							<td><a href="{{ URL::to('users/show') }}/{{ $user->id }}">{{ $user->email }}</a></td>
+							<td>{{ $user->last_name.", ".$user->first_name }} </td>
 							<td>{{ $userStatus[$user->id] }} </td>
 							<td><button class="btn" onClick="location.href='{{ URL::to('users/edit') }}/{{ $user->id}}'">Edit</button> <button class="btn" onClick="location.href='{{ URL::to('users/suspend') }}/{{ $user->id}}'">Suspend</button> <button class="btn action_confirm" href="{{ URL::to('users/delete') }}/{{ $user->id}}" data-token="{{ Session::getToken() }}" data-method="post">Delete</button></td>
 						</tr>

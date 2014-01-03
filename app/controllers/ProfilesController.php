@@ -13,6 +13,68 @@ class ProfilesController extends BaseController {
 	}
 
 	/**
+	 * Return the avatar image name for the give id.
+	 *
+	 * @return Response
+	 */
+	public static function getAvatar($id)
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('profiles')
+					->where('id', '=', $id)
+					->pluck('avatar');
+				$firephp->log($results, 'ProfilesController $results = ');
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+	
+	public static function saveAvatar($id, $avatar)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('profiles')
+					->where('id', $id)
+					->update(array('avatar' => $avatar));
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response

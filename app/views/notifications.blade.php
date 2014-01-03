@@ -8,7 +8,7 @@
 </div>
 @endif
 
-@if ($message = Session::get('success'))
+@if ($message = Session::get('_token'))
 <div id="alert" class="collapse">
 	<div class="alert alert-success alert-block">
 		<button type="button" class="close" data-toggle="collapse" data-target="#alert">&times;</button>
