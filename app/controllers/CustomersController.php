@@ -377,8 +377,9 @@ class CustomersController extends BaseController {
 			foreach ($users as $user) {
 				$user_id = $user->user_id;
 				$google_id = DB::table('profiles')->where('user_id', '=', $user_id)->pluck('google_calendar_id');
+				$avatar = DB::table('profiles')->where('user_id', '=', $user_id)->pluck('avatar');
 				$name = DB::table('users')->where('id', '=', $user_id)->pluck('first_name');
-				$results['sales'][$user_id] = array('calendar_id' => $google_id, 'name' => $name);
+				$results['sales'][$user_id] = array('calendar_id' => $google_id, 'name' => $name, 'avatar' => $avatar);
 			};
 
 			$ts = strtotime("now");

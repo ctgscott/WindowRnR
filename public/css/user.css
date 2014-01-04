@@ -1,0 +1,17 @@
+
+input[name=avatar] {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+#avatarRadio5, #avatarRadio6, #avatarRadio7 {
+	margin-left: 8px;
+}
+
+td input[name=job_radios], input[type=radio] {
+	margin-top: 7px;
+}
+
+#source, .form-inline .radio, input[name=lead_source], input[type=radio] {
+	margin-bottom: 5px;
+}

@@ -1,3 +1,9 @@
+.avatarList {
+	display: block;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
 .mapContainer {
 	margin-bottom: 20px;
 }

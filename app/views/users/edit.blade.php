@@ -6,6 +6,11 @@
 Edit Profile
 @stop
 
+@section('styles')
+<link href="{{ asset('css/user.css') }}" rel="stylesheet">
+<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+@stop
+
 {{-- Content --}}
 @section('content')
 
@@ -40,7 +45,7 @@ Profile</h4>
         <div class="avatar">
 			<label class="control-label avatar-radios" for="avatars">Avatars</label>
 			<div id="avatars">
-				<div id="avatarImgs">
+				<div id="avatarImgs" class="controls">
 					<img src="/img/WinPin.png">
 					<img src="/img/WinPin2.png">
 					<img src="/img/WinPin3.png">
@@ -49,7 +54,7 @@ Profile</h4>
 					<img src="/img/WinPin6.png">
 					<img src="/img/WinPin7.png">
 				</div>
-				<div id="avatarRadios">
+				<div id="avatarRadios" class="controls">
 					<input type="radio" name="avatar" id="avatarRadio" value="WinPin.png" @if ($avatar == 'WinPin.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio2" value="WinPin2.png" @if ($avatar == 'WinPin2.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio3" value="WinPin3.png" @if ($avatar == 'WinPin3.png') checked @endif >
@@ -134,4 +139,13 @@ Profile</h4>
 </div>
 @endif    
 
+@stop
+
+@section('scripts')
+<!--	<script type='text/javascript' src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/typeahead.min.js') }}"></script> 
+	<script type='text/javascript' src="{{ asset('js/jquery.maskedinput.js') }}"></script>
+	<script type='text/javascript' src="{{ asset('js/maskedinput.js') }}"></script>-->
+	<script type='text/javascript' src="{{ asset('js/user.js') }}"></script>
+<!--	<script type='text/javascript' src="{{ asset('js/hogan-2.0.0.js') }}"></script> -->
 @stop
