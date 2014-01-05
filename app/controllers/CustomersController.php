@@ -409,6 +409,8 @@ class CustomersController extends BaseController {
 				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
 			};
 			
+			$results['sales_profiles'] = UserController::getSalesProfiles();
+			
 			$firephp->log($results, 'getScheduleID($id)');
 			
 //			exit;			

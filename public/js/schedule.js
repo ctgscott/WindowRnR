@@ -33,6 +33,8 @@
 ];*/
 
 $(document).ready(function(){
+	var profiles = $('#profiles').val();
+	alert(profiles);
 	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
 		for(var name in markers) {

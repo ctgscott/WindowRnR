@@ -75,6 +75,78 @@ class ProfilesController extends BaseController {
 	}
 
 	/**
+	 * Return the google_id for the given id.
+	 *
+	 * @return Response
+	 */
+	public static function getGoogleID($id)
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('profiles')
+					->where('id', '=', $id)
+					->pluck('google_id');
+				$firephp->log($results, 'ProfilesController $results = ');
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
+	/**
+	 * Return the avatar image name for the give id.
+	 *
+	 * @return Response
+	 */
+	public static function getGoogleCalendarID($id)
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('profiles')
+					->where('id', '=', $id)
+					->pluck('google_calendar_id');
+				$firephp->log($results, 'ProfilesController $results = ');
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response

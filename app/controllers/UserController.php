@@ -87,6 +87,45 @@ class UserController extends BaseController {
 			return Redirect::to('users/login');
 		}
 	}
+	
+	/**
+	 *  Return all user accounts with a Sales role.
+	 *  Includes first name, avatar & calendar ID.
+	 */
+	public static function getSalesProfiles() {
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results =  DB::table('users_groups')->select('user_id')->where('group_id', '=', 3)->get();
+				foreach ($results as $sales) {
+					$id = $sales->user_id;
+					$profile[$id]['user_id'] = $id;
+					$profile[$id]['first_name'] = DB::table('users')->where('id', '=', $sales->user_id)->pluck('first_name');
+					$profile[$id]['avatar'] = ProfilesController::getAvatar($sales->user_id);
+					$profile[$id]['google_id'] = ProfilesController::getGoogleID($sales->user_id);
+					$profile[$id]['google_calendar_id'] = ProfilesController::getGoogleCalendarID($sales->user_id);
+				}
+				return $profile;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
 
 	/**
 	 *  Display this user's details.
