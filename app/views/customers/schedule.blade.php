@@ -29,9 +29,9 @@ Schedule Appointments
 @section('content')
 <h4>Estimates Appointments</h4>
 <div class="avatarList">
-	@foreach ($sales as $seller)
+	@foreach ($profiles as $seller)
 		<img src="{{ '/img/'.$seller['avatar'] }}" />
-		<input type="checkbox" id="salescheckbox" value="{{ $seller['calendar_id'] }}" name="salesTeam[]"> {{ $seller['name'] }}
+		<input type="checkbox" id="salescheckbox" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
 	@endforeach
 </div>
 
@@ -41,7 +41,7 @@ Schedule Appointments
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>
-	<input type="hidden" id="profiles" value='{{ json_encode($sales_profiles) }}'/>
+	<input type="hidden" id="profiles" value='{{ json_encode($profiles) }}'/>
 	<input type="hidden" id="events1" value='{{ json_encode($events["1"]) }}'/>
 	<input type="hidden" id="events2" value='{{ json_encode($events["2"]) }}'/>
 	<input type="hidden" id="events3" value='{{ json_encode($events["3"]) }}'/>

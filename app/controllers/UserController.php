@@ -110,14 +110,20 @@ class UserController extends BaseController {
 		{
 			// User is logged in
 			try {
-				$results =  DB::table('users_groups')->select('user_id')->where('group_id', '=', 3)->get();
-				foreach ($results as $sales) {
-					$id = $sales->user_id;
-					$profile[$id]['user_id'] = $id;
-					$profile[$id]['first_name'] = DB::table('users')->where('id', '=', $sales->user_id)->pluck('first_name');
-					$profile[$id]['avatar'] = ProfilesController::getAvatar($sales->user_id);
-					$profile[$id]['google_id'] = ProfilesController::getGoogleID($sales->user_id);
-					$profile[$id]['google_calendar_id'] = ProfilesController::getGoogleCalendarID($sales->user_id);
+				$users =  DB::table('users')->select('id', 'first_name')->get();
+				foreach ($users as $user) {
+					$id = $user->id;
+					$sales = DB::table('users_groups')
+						->select('user_id')
+						->where('user_id', '=', $id)
+						->where('group_id', '=', 3)
+						->count();
+					$profile[$id]['id'] = $id;
+					$profile[$id]['sales'] = $sales;
+					$profile[$id]['first_name'] = $user->first_name;
+					$profile[$id]['avatar'] = ProfilesController::getAvatar($user->id);
+					$profile[$id]['google_id'] = ProfilesController::getGoogleID($user->id);
+					$profile[$id]['google_calendar_id'] = ProfilesController::getGoogleCalendarID($user->id);
 				}
 				return $profile;
 			}

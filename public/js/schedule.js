@@ -34,7 +34,6 @@
 
 $(document).ready(function(){
 	var profiles = $('#profiles').val();
-	alert(profiles);
 	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
 		for(var name in markers) {
@@ -43,7 +42,7 @@ $(document).ready(function(){
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					if(name=="NormTest") {
-						var icon = "/img/WinPin.png";
+						var icon = "/img/WinPin1.png";
 					} else if(name=="ScottTest") {
 						var icon = "/img/WinPin2.png";
 					}
@@ -73,7 +72,7 @@ $(document).ready(function(){
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					if(name=="NormTest") {
-						var icon = "/img/WinPin.png";
+						var icon = "/img/WinPin1.png";
 					} else if(name=="ScottTest") {
 						var icon = "/img/WinPin2.png";
 					}
@@ -100,7 +99,7 @@ $(document).ready(function(){
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					if(name=="NormTest") {
-						var icon = "/img/WinPin.png";
+						var icon = "/img/WinPin1.png";
 					} else if(name=="ScottTest") {
 						var icon = "/img/WinPin2.png";
 					}
@@ -127,7 +126,7 @@ $(document).ready(function(){
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					if(name=="NormTest") {
-						var icon = "/img/WinPin.png";
+						var icon = "/img/WinPin1.png";
 					} else if(name=="ScottTest") {
 						var icon = "/img/WinPin2.png";
 					}
@@ -154,7 +153,7 @@ $(document).ready(function(){
 					var address = encodeURIComponent(marker.location);
 					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 					if(name=="NormTest") {
-						var icon = "/img/WinPin.png";
+						var icon = "/img/WinPin1.png";
 					} else if(name=="ScottTest") {
 						var icon = "/img/WinPin2.png";
 					}

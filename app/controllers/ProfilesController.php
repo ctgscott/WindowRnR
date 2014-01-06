@@ -19,10 +19,6 @@ class ProfilesController extends BaseController {
 	 */
 	public static function getAvatar($id)
 	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
-
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -39,7 +35,6 @@ class ProfilesController extends BaseController {
 				$results = DB::table('profiles')
 					->where('id', '=', $id)
 					->pluck('avatar');
-				$firephp->log($results, 'ProfilesController $results = ');
 				return $results;
 			}
 			catch (Exception $e) {
@@ -81,10 +76,6 @@ class ProfilesController extends BaseController {
 	 */
 	public static function getGoogleID($id)
 	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
-
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -101,7 +92,6 @@ class ProfilesController extends BaseController {
 				$results = DB::table('profiles')
 					->where('id', '=', $id)
 					->pluck('google_id');
-				$firephp->log($results, 'ProfilesController $results = ');
 				return $results;
 			}
 			catch (Exception $e) {
@@ -117,10 +107,6 @@ class ProfilesController extends BaseController {
 	 */
 	public static function getGoogleCalendarID($id)
 	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
-
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -137,7 +123,6 @@ class ProfilesController extends BaseController {
 				$results = DB::table('profiles')
 					->where('id', '=', $id)
 					->pluck('google_calendar_id');
-				$firephp->log($results, 'ProfilesController $results = ');
 				return $results;
 			}
 			catch (Exception $e) {

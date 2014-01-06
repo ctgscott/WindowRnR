@@ -46,22 +46,26 @@ Profile</h4>
 			<label class="control-label avatar-radios" for="avatars">Avatars</label>
 			<div id="avatars">
 				<div id="avatarImgs" class="controls">
-					<img src="/img/WinPin.png">
+					<img src="/img/WinPin1.png">
 					<img src="/img/WinPin2.png">
 					<img src="/img/WinPin3.png">
 					<img src="/img/WinPin4.png">
 					<img src="/img/WinPin5.png">
 					<img src="/img/WinPin6.png">
 					<img src="/img/WinPin7.png">
+					<img src="/img/WinPin8.png">
+					<img src="/img/WinPin9.png">
 				</div>
 				<div id="avatarRadios" class="controls">
-					<input type="radio" name="avatar" id="avatarRadio" value="WinPin.png" @if ($avatar == 'WinPin.png') checked @endif >
+					<input type="radio" name="avatar" id="avatarRadio1" value="WinPin1.png" @if ($avatar == 'WinPin1.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio2" value="WinPin2.png" @if ($avatar == 'WinPin2.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio3" value="WinPin3.png" @if ($avatar == 'WinPin3.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio4" value="WinPin4.png" @if ($avatar == 'WinPin4.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio5" value="WinPin5.png" @if ($avatar == 'WinPin5.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio6" value="WinPin6.png" @if ($avatar == 'WinPin6.png') checked @endif >
 					<input type="radio" name="avatar" id="avatarRadio7" value="WinPin7.png" @if ($avatar == 'WinPin7.png') checked @endif >
+					<input type="radio" name="avatar" id="avatarRadio8" value="WinPin8.png" @if ($avatar == 'WinPin8.png') checked @endif >
+					<input type="radio" name="avatar" id="avatarRadio9" value="WinPin9.png" @if ($avatar == 'WinPin9.png') checked @endif >
 				</div>
 			</div>
 

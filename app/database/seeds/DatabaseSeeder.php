@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('WindowtotalsTableSeeder');
 		$this->call('AppointmentsTableSeeder');
 		$this->call('ProfilesTableSeeder');
+		$this->call('EventsTableSeeder');
 	}
 }

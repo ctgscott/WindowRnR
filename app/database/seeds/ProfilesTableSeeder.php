@@ -18,7 +18,7 @@ class ProfilesTableSeeder extends Seeder {
 			['user_id' => '2',
 			'google_id' => 'ed@windowrnr.com',
 			'google_calendar_id' => 'windowrnr.com_67ra671l2aj4h82q1dosigd31c@group.calendar.google.com',
-			'avatar' => 'WinPin.png',
+			'avatar' => 'WinPin1.png',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime], 
 

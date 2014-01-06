@@ -368,20 +368,6 @@ class CustomersController extends BaseController {
 				->where('jobs.archive', '=', 0)
 				->get();
 				
-			$users = DB::table('users_groups')
-				->select('user_id')
-				->where('group_id', '=', 3)
-				->get();
-				
-			$firephp->log($users, '$users = ');
-			foreach ($users as $user) {
-				$user_id = $user->user_id;
-				$google_id = DB::table('profiles')->where('user_id', '=', $user_id)->pluck('google_calendar_id');
-				$avatar = DB::table('profiles')->where('user_id', '=', $user_id)->pluck('avatar');
-				$name = DB::table('users')->where('id', '=', $user_id)->pluck('first_name');
-				$results['sales'][$user_id] = array('calendar_id' => $google_id, 'name' => $name, 'avatar' => $avatar);
-			};
-
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 			$monday = date('c', $init);
@@ -409,15 +395,11 @@ class CustomersController extends BaseController {
 				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
 			};
 			
-			$results['sales_profiles'] = UserController::getSalesProfiles();
+			$results['profiles'] = UserController::getSalesProfiles();
 			
 			$firephp->log($results, 'getScheduleID($id)');
 			
-//			exit;			
-			
 			return View::make('customers.schedule')->with($results);
-			//return $results;
-			//return Redirect::to('customers/schedule')->with($results);
 		}
 	}
 
@@ -431,7 +413,7 @@ class CustomersController extends BaseController {
 		$firephp = FirePHP::getInstance(true);
 
 		$client = new Google_Client();
-		$client->setApplicationName("Google Calendar PHP Starter Application");
+		$client->setApplicationName("WindowRnR");
 		$cal = new Google_CalendarService($client);
 
 		$start = date('c',$_GET['start']);
@@ -442,9 +424,6 @@ class CustomersController extends BaseController {
 		}
 
 		if ($client->getAccessToken()) {
-			
-//			$calList = $cal->calendarList->listCalendarList();
-//			$firephp->log($calList, 'calList');
 			$rightNow = date('c');
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
 			$calList2 = $cal->events->listEvents('windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com', $params);
@@ -573,7 +552,7 @@ class CustomersController extends BaseController {
 			{
 //				$firephp->log($calUser, '$calUser = ');
 				$calList = $cal->events->listEvents($calUser['id'], $params);
-//				$firephp->log($calList, 'EstSchedByIDByDay - calList');
+				$firephp->log($calList, 'EstSchedByIDByDay - calList');
 
 					
 				foreach ($calList['items'] as $event)
