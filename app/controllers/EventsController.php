@@ -12,7 +12,7 @@ class EventsController extends BaseController {
         return View::make('events.index');
 	}
 	
-	public static function getGoogleEvents($start, $end, $cal)
+	public static function getGoogleCalEvents($start, $end, $calID)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
@@ -24,8 +24,9 @@ class EventsController extends BaseController {
 		$client = new Google_Client();
 		$client->setApplicationName("WindowRnR");
 		$cal = new Google_CalendarService($client);
-//		$start = date('c',$_GET['start']);
-//		$end = date('c',$_GET['end']);
+		$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+		$start = date('c',$start);
+		$end = date('c',$end);
 		
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
@@ -34,9 +35,10 @@ class EventsController extends BaseController {
 		if ($client->getAccessToken()) {
 //			$rightNow = date('c');
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
-			$eventList = $cal->events->listEvents($cal, $params);
+			$eventList = $cal->events->listEvents($newCal, $params);
 			$firephp->log($eventList, 'eventList');
-
+			
+			var_dump($eventList);
 //			$events = array();
 			foreach ($eventList['items'] as $event)
 			{
@@ -47,34 +49,38 @@ class EventsController extends BaseController {
 				$firephp->log($count, '$count');
 
 				if ($count == 0) {
-					if (!isset($event['description']) {
+					if (!isset($event['description'])) {
 						$description = 'None';
 					} else {
-						$description = $event['description']
-					})
-					if (isset($event['start']['date']) {
-						
-					if ($event['all_day'] == 1) {
+						$description = $event['description'];
+					}
+					if (isset($event['start']['date'])) {
+						$event['all_day'] = 1;
 						$eventStart = $event['start']['date'];
 						$eventEnd = $event['end']['date'];
 					} else {
+						$event['all_day'] = 0;
 						$eventStart = $event['start']['dateTime'];
 						$eventEnd = $event['end']['dateTime'];
 					}
 					
-					DB::table('events')->insert(array(
+					$result = DB::table('events')->insert(array(
 						'google_event_id' => $event['id'],
 						'google_cal_id' => $event['organizer']['email'],
 						'start' => $eventStart,
 						'end' => $eventEnd,
 						'location' => $event['location'],
 						'description' => $description,
-						'all_day' => $event[''],
+						'all_day' => $event['all_day'],
 						'title' => $event['summary'],
 						'created_by' => $event['creator']['email']
 						)
 					);
+					
+					echo $result;
 				}
+			}
+		}
 	}
 
 	/**

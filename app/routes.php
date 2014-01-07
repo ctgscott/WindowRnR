@@ -30,6 +30,7 @@ Route::get('customers/autocomplete', 'CustomersController@autocomplete');
 Route::get('customers/typeahead', 'CustomersController@typeahead');
 Route::post('customers/jobDetail', 'JobsController@postJobDetailByCustID');
 Route::get('customers/{id}', 'CustomersController@getDetailID');
+Route::get('events/getGoogleCalEvents/{start}/{end}/{cal}', 'EventsController@getGoogleCalEvents');
 
 Route::controller('users', 'UserController');
 Route::controller('customers/schedule', 'CustomersController'); 
