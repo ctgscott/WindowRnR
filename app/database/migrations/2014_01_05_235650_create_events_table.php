@@ -16,8 +16,8 @@ class CreateEventsTable extends Migration {
 			$table->increments('id');
 			$table->string('google_event_id');
 			$table->string('google_cal_id');
-			$table->integer('start');
-			$table->integer('end');
+			$table->string('start');
+			$table->string('end');
 			$table->string('location');
 			$table->string('description');
 			$table->integer('all_day');

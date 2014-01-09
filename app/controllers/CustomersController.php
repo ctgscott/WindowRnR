@@ -432,21 +432,31 @@ class CustomersController extends BaseController {
 			$events = array();
 			foreach ($calList2['items'] as $event)
 			{
+				if(isset($event['start']['dateTime'])) {
+					$eventStart = $event['start']['dateTime'];
+					$eventEnd = $event['end']['dateTime'];
+					$allDay = false;
+				}else{
+					$eventStart = $event['start']['date'];
+					$eventEnd = date('Y-m-d', strtotime($event['end']['date'])-1);
+					$allDay = true;
+				}
+
 				if(!isset($event['description'])) {
 					$event['description'] = null;
 				}
-
 			
 				$events[] = array(
 					"title" => $event['summary'],
-					"start" => $event['start']['dateTime'],
-					"end" => $event['end']['dateTime'],
+					"start" => $eventStart,
+					"end" => $eventEnd,
 					"url" => $event['htmlLink'],
-					"allDay" => false,
+					"allDay" => $allDay,
 					"description" => $event['description'],
 					"location" => $event['location'],
 				);
 			}
+			$firephp->log($events, 'estimateSchedule($events)');
 			return $events;
 		}
 	}
@@ -454,6 +464,59 @@ class CustomersController extends BaseController {
 	public static function EstimateSchedule2()
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
+		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
+
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$client = new Google_Client();
+		$client->setApplicationName("WindowRnR");
+		$cal = new Google_CalendarService($client);
+
+		$start = date('c',$_GET['start']);
+		$end = date('c',$_GET['end']);
+		
+		if (isset($_SESSION['token'])) {
+			$client->setAccessToken($_SESSION['token']);
+		}
+
+		if ($client->getAccessToken()) {
+			$rightNow = date('c');
+			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
+			$calList = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
+			$firephp->log($calList, 'calList');
+
+			$events = array();
+			foreach ($calList['items'] as $event)
+			{
+				if(isset($event['start']['dateTime'])) {
+					$eventStart = $event['start']['dateTime'];
+					$eventEnd = $event['end']['dateTime'];
+					$allDay = false;
+				}else{
+					$eventStart = $event['start']['date'];
+					$eventEnd = date('Y-m-d', strtotime($event['end']['date'])-1);
+					$allDay = true;
+				}
+
+				if(!isset($event['description'])) {
+					$event['description'] = null;
+				}
+			
+				$events[] = array(
+					"title" => $event['summary'],
+					"start" => $eventStart,
+					"end" => $eventEnd,
+					"url" => $event['htmlLink'],
+					"allDay" => $allDay,
+					"description" => $event['description'],
+					"location" => $event['location'],
+				);
+			}
+			$firephp->log($events, 'estimateSchedule($events)');
+			return $events;
+	/*	require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
 		
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
@@ -465,8 +528,6 @@ class CustomersController extends BaseController {
 		$client = new Google_Client();
 		$client->setApplicationName("Google Calendar PHP Starter Application");
 
-		// Visit https://code.google.com/apis/console?api=calendar to generate your
-		// client id, client secret, and to register your redirect uri.
 		$client->setRedirectUri('http://Localhost:8000/customers/schedule');
 		$cal = new Google_CalendarService($client);
 		if (isset($_GET['logout'])) {
@@ -483,14 +544,9 @@ class CustomersController extends BaseController {
 		  $client->setAccessToken($_SESSION['token']);
 		}
 
-//		$firephp->log($client, 'EstimateSchedule2, $client)');
-
 		if ($client->getAccessToken()) {
-//			$calList = $cal->calendarList->listCalendarList();
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start);
 			$calList2 = $cal->events->listEvents('windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com', $params);
-			//print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
-			//print "<h1>Calendar List2</h1><pre>" . print_r($calList2, true) . "</pre>";
 			$events = array();
 			foreach ($calList2['items'] as $event)
 			{
@@ -510,8 +566,7 @@ class CustomersController extends BaseController {
 			}
 
 			$_SESSION['token'] = $client->getAccessToken();
-		$firephp->log($events, 'getScheduleID($events)');
-//		$firephp->log($_SESSION, 'getScheduleID($_SESSION)');
+		$firephp->log($events, 'estimateSchedule2($events)');
 
 			return $events;
 		} else {
@@ -520,7 +575,7 @@ class CustomersController extends BaseController {
 				window.location.href="'.$authUrl.'";
 				</script>';
 		$firephp->log($_SESSION, 'EstimateSchedule2, $_SESSION #2)');
-		}
+*/		}
 	}
 	
 	public static function EstSchedByIDByDay($calendar, $monday)
@@ -559,8 +614,12 @@ class CustomersController extends BaseController {
 				{
 					if(isset($event['start']['dateTime'])) {
 						$n = date('w', strtotime($event['start']['dateTime']));
+						$start = date('w', strtotime($event['start']['dateTime']));
+						$end = date('w', strtotime($event['end']['dateTime']));
 					}else{
-						$n = date('w', $event['start']['dateTime']);
+						$n = date('w', strtotime($event['start']['date']));
+						$start = date('w', strtotime($event['start']['date']));
+						$end = date('w', strtotime($event['end']['date']));
 					}
 //					$firephp->log($event['start']['dateTime'], 'EstSchedByIDByDay - dateTime = ');
 //					$firephp->log($n, 'EstSchedByIDByDay - $n = ');
@@ -585,8 +644,8 @@ class CustomersController extends BaseController {
 					
 					$events[$n][$calUser['name']][] = array(
 						"title" => $event['summary'],
-						"start" => $event['start']['dateTime'],
-						"end" => $event['end']['dateTime'],
+						"start" => $start,
+						"end" => $end,
 						"url" => $event['htmlLink'],
 						"allDay" => false,
 						"content" => $event['location'],

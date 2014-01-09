@@ -9,7 +9,8 @@
 		"components/jquery": "2.0.*",
 		"egeloen/google-map": "1.0.*@dev",
 		"willdurand/geocoder": "2.0.*@dev",
-		"kriswallsmith/buzz": "dev-master"
+		"kriswallsmith/buzz": "dev-master",
+		"leeoniya/dump-r": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

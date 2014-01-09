@@ -33,13 +33,12 @@ class EventsController extends BaseController {
 		}
 
 		if ($client->getAccessToken()) {
-//			$rightNow = date('c');
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
 			$eventList = $cal->events->listEvents($newCal, $params);
 			$firephp->log($eventList, 'eventList');
 			
-			var_dump($eventList);
-//			$events = array();
+			dump_r($eventList);
+
 			foreach ($eventList['items'] as $event)
 			{
 				$count = DB::table('events')
@@ -56,12 +55,12 @@ class EventsController extends BaseController {
 					}
 					if (isset($event['start']['date'])) {
 						$event['all_day'] = 1;
-						$eventStart = $event['start']['date'];
-						$eventEnd = $event['end']['date'];
+						$eventStart = strtotime($event['start']['date']);
+						$eventEnd = strtotime($event['end']['date']);
 					} else {
 						$event['all_day'] = 0;
-						$eventStart = $event['start']['dateTime'];
-						$eventEnd = $event['end']['dateTime'];
+						$eventStart = strtotime($event['start']['dateTime']);
+						$eventEnd = strtotime($event['end']['dateTime']);
 					}
 					
 					$result = DB::table('events')->insert(array(
@@ -76,13 +75,37 @@ class EventsController extends BaseController {
 						'created_by' => $event['creator']['email']
 						)
 					);
-					
+
 					echo $result;
 				}
 			}
 		}
 	}
 
+	public static function getCalEvents($start, $end, $calID = 'all')
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		if (! $calID == 'all') {
+			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+			$events = DB::table('events')
+				->where('google_event_id', '=', $newCal)
+				->where('start', '>=', $start)
+				->where('end', '<=', $end)
+				->get();
+		} else {
+			$events = DB::table('events')
+				->where('start', '>=', $start)
+				->where('end', '<=', $end)
+				->get();
+		}
+		
+		$firephp->log($events, 'events');
+		return $events;
+	}
+	
 	/**
 	 * Show the form for creating a new resource.
 	 *

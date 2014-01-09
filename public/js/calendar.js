@@ -280,13 +280,21 @@ $(document).ready(function() {
 */		
 		eventSources: [
 			{
+				url: 'http://localhost:8000/events/getCalEvents/1388966400/1389398399',
+				type: 'GET',
+				color: 'red',    // an option!
+				textColor: 'white',  // an option!
+				error: function() {
+				}
+			},
+			{
 				url: 'http://localhost:8000/customers/estimateschedule',
 				type: 'GET',
-/*				data: {
-				start: startParam, //	custom_param1: 'something',
-				end: startParam //	custom_param2: 'somethingelse'
-				},
-*/				color: 'blue',    // an option!
+//				data: {
+//				start: startParam, //	custom_param1: 'something',
+//				end: startParam //	custom_param2: 'somethingelse'
+//				},
+				color: 'blue',    // an option!
 				textColor: 'white',  // an option!
 				error: function() {
 //					alert('there was an error while fetching estimateschedule!');
