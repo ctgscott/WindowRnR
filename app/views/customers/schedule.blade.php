@@ -41,12 +41,15 @@ Schedule Appointments
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>
-	<input type="hidden" id="profiles" value='{{ json_encode($profiles) }}'/>
-	<input type="hidden" id="events1" value='{{ json_encode($events["1"]) }}'/>
-	<input type="hidden" id="events2" value='{{ json_encode($events["2"]) }}'/>
-	<input type="hidden" id="events3" value='{{ json_encode($events["3"]) }}'/>
-	<input type="hidden" id="events4" value='{{ json_encode($events["4"]) }}'/>
-	<input type="hidden" id="events5" value='{{ json_encode($events["5"]) }}'/>
+	<input type="hidden" id="profiles" value='{//{ json_encode($profiles) }}'/>
+	<input type="hidden" id="events1" value='{//{ json_encode($events["1"]) }}'/>
+	<input type="hidden" id="events2" value='{//{ json_encode($events["2"]) }}'/>
+	<input type="hidden" id="events3" value='{//{ json_encode($events["3"]) }}'/>
+	<input type="hidden" id="events4" value='{//{ json_encode($events["4"]) }}'/>
+	<input type="hidden" id="events5" value='{//{ json_encode($events["5"]) }}'/> 
+	<input type="hidden" id="cal1" value='{{ json_encode($cal1) }}'/>
+	<input type="hidden" id="cal2" value='{{ json_encode($cal2) }}'/>
+	<input type="hidden" id="cal3" value='{{ json_encode($cal3) }}'/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;

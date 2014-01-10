@@ -391,11 +391,15 @@ class CustomersController extends BaseController {
 /*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
 				'en.usa#holiday@group.v.calendar.google.com'
 */			];
-			foreach ($id as $id) {
-				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
-			};
+//			foreach ($id as $id) {
+//				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
+//			};
 			
 			$results['profiles'] = UserController::getSalesProfiles();
+			
+			$results['cal1'] = EventsController::getCalEvents('1388966400', '1389398399', '1');
+			$results['cal2'] = EventsController::getCalEvents('1388966400', '1389398399', '2');
+			$results['cal3'] = EventsController::getCalEvents('1388966400', '1389398399', '3');
 			
 			$firephp->log($results, 'getScheduleID($id)');
 			

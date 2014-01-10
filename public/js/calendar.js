@@ -29,8 +29,11 @@ $(document).ready(function() {
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
-
-
+	
+	var cal1 = jQuery.parseJSON($("#cal1").val());
+	var cal2 = jQuery.parseJSON($("#cal2").val());
+	var cal3 = jQuery.parseJSON($("#cal3").val());
+	
 	$('#calendar').fullCalendar({
 		// put your options and callbacks here
 		
@@ -277,9 +280,9 @@ $(document).ready(function() {
 			textColor: 'black' // a non-ajax option
 			
 		},
-*/		
+*/	
 		eventSources: [
-			{
+/*			{
 				url: 'http://localhost:8000/events/getCalEvents/1388966400/1389398399',
 				type: 'GET',
 				color: 'red',    // an option!
@@ -287,7 +290,44 @@ $(document).ready(function() {
 				error: function() {
 				}
 			},
+*/			{
+				events: cal1,
+				color: 'yellow',
+				textColor: 'grey',
+				borderColer: 'grey'
+			},
 			{
+				events: cal2,
+				color: 'blue',
+				textColor: 'white',
+				borderColer: 'grey'
+			},
+			{
+				events: cal3,
+				color: 'green',
+				textColor: 'white',
+				borderColer: 'grey'
+			}
+/*			{
+				events: [
+					{	
+						title  : 'event2',
+						start  : '2014-01-09 09:30:00',
+						end    : '2014-01-09 10:30:00',
+						allDay: false
+					},
+					{	
+						title  : 'event3',
+						start  : '2014-01-09 11:30:00',
+						end    : '2014-01-09 12:30:00',
+						allDay: false
+					}
+
+				],
+				color: 'blue',
+				textColor: 'white'
+			}
+*//*			{
 				url: 'http://localhost:8000/customers/estimateschedule',
 				type: 'GET',
 //				data: {
@@ -309,7 +349,7 @@ $(document).ready(function() {
 //					alert('there was an error while fetching estimageschedule2!');
 				}
 			}
-		]
+*/		]
 	});
 	
 });

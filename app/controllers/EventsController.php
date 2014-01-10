@@ -23,16 +23,16 @@ class EventsController extends BaseController {
 
 		$client = new Google_Client();
 		$client->setApplicationName("WindowRnR");
-		$cal = new Google_CalendarService($client);
-		$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
-		$start = date('c',$start);
-		$end = date('c',$end);
-		
+		$cal = new Google_CalendarService($client);		
+
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
 		}
 
 		if ($client->getAccessToken()) {
+			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+			$start = date('c',$start);
+			$end = date('c',$end);
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
 			$eventList = $cal->events->listEvents($newCal, $params);
 			$firephp->log($eventList, 'eventList');
@@ -63,16 +63,19 @@ class EventsController extends BaseController {
 						$eventEnd = strtotime($event['end']['dateTime']);
 					}
 					
+					$now = date("Y-m-d H:i:s");
 					$result = DB::table('events')->insert(array(
 						'google_event_id' => $event['id'],
 						'google_cal_id' => $event['organizer']['email'],
+						'cal_user_id' => $calID,
 						'start' => $eventStart,
 						'end' => $eventEnd,
 						'location' => $event['location'],
 						'description' => $description,
-						'all_day' => $event['all_day'],
+						'allDay' => $event['all_day'],
 						'title' => $event['summary'],
-						'created_by' => $event['creator']['email']
+						'created_by' => $event['creator']['email'],
+						'created_at' => $now
 						)
 					);
 
@@ -88,10 +91,11 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		if (! $calID == 'all') {
-			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+		$firephp->log($calID, '$calID');
+
+		if ($calID != 'all') {
 			$events = DB::table('events')
-				->where('google_event_id', '=', $newCal)
+				->where('cal_user_id', '=', $calID)
 				->where('start', '>=', $start)
 				->where('end', '<=', $end)
 				->get();
