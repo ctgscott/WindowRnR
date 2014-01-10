@@ -294,19 +294,19 @@ $(document).ready(function() {
 				events: cal1,
 				color: 'yellow',
 				textColor: 'grey',
-				borderColer: 'grey'
+				borderColor: 'grey'
 			},
 			{
 				events: cal2,
 				color: 'blue',
 				textColor: 'white',
-				borderColer: 'grey'
+				borderColor: 'grey'
 			},
 			{
 				events: cal3,
 				color: 'green',
 				textColor: 'white',
-				borderColer: 'grey'
+				borderColor: 'grey'
 			}
 /*			{
 				events: [

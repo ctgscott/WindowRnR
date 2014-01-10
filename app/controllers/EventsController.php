@@ -48,6 +48,12 @@ class EventsController extends BaseController {
 				$firephp->log($count, '$count');
 
 				if ($count == 0) {
+					$address = urlencode($event['location']);
+					$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
+//					dump_r($latlng);
+//					$firephp->log($latlng, '$latlng');
+//					$firephp->log($latlng->results[0], '$latlng.results[0].geometry.location.lat');
+					
 					if (!isset($event['description'])) {
 						$description = 'None';
 					} else {
@@ -75,7 +81,9 @@ class EventsController extends BaseController {
 						'allDay' => $event['all_day'],
 						'title' => $event['summary'],
 						'created_by' => $event['creator']['email'],
-						'created_at' => $now
+						'created_at' => $now,
+						'lat' => $latlng->results[0]->geometry->location->lat,
+						'lng' => $latlng->results[0]->geometry->location->lng
 						)
 					);
 

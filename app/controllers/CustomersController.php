@@ -371,6 +371,16 @@ class CustomersController extends BaseController {
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
 			$monday = date('c', $init);
+			$mondayStart = $init;
+			$mondayEnd = $mondayStart+86399;
+			$tuesdayStart = $mondayEnd+1;
+			$tuesdayEnd = $tuesdayStart+86399;
+			$wednesdayStart = $tuesdayEnd+1;
+			$wednesdayEnd = $wednesdayStart+86399;
+			$thursdayStart = $wednesdayEnd+1;
+			$thursdayEnd = $thursdayStart+86399;
+			$fridayStart = $thursdayEnd+1;
+			$fridayEnd = $fridayStart+86399;
 			
 			$calendar = (object)array(
 				['name' => 'ScottTest', 'id' => 'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com'],
@@ -394,6 +404,12 @@ class CustomersController extends BaseController {
 //			foreach ($id as $id) {
 //				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
 //			};
+			
+			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
+			$results['map2'] = EventsController::getCalEvents($tuesdayStart, $tuesdayEnd);
+			$results['map3'] = EventsController::getCalEvents($wednesdayStart, $wednesdayEnd);
+			$results['map4'] = EventsController::getCalEvents($thursdayStart, $thursdayEnd);
+			$results['map5'] = EventsController::getCalEvents($fridayStart, $fridayEnd);
 			
 			$results['profiles'] = UserController::getSalesProfiles();
 			
