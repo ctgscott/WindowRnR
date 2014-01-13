@@ -33,35 +33,91 @@
 ];*/
 
 $(document).ready(function(){
-	var profiles = $('#profiles').val();
 	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
-		for(var name in markers) {
-			if(!(markers[name] == null)) {
-				$.each( markers[name], function(i, marker) {
-					var address = encodeURIComponent(marker.location);
-					var url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-					if(name=="NormTest") {
-						var icon = "/img/WinPin1.png";
-					} else if(name=="ScottTest") {
-						var icon = "/img/WinPin2.png";
-					}
-					$.get( url+address+"&sensor=false", function( data ) {
-						$('#map_1').gmap('addMarker', { 
-							'position': new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng), 
-							'bounds': true,
-							'animation': google.maps.Animation.DROP,
-							'icon': icon
-						}).click(function() {
-							$('#map_1').gmap('openInfoWindow', { 'content': marker.content }, this);
-						});
-					});
-				});
-			}
-		}
+		console.log(markers);
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_1').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_1').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
 	});
 
 	$('#map_2').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events2').val());
+		console.log(markers);
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_2').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_2').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
+	});
+
+	$('#map_3').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events3').val());
+		console.log(markers);
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_3').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_3').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
+	});
+
+		$('#map_4').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events4').val());
+		console.log(markers);
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_4').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_4').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
+	});
+
+		$('#map_5').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events5').val());
+		console.log(markers);
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_5').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_5').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
+	});
+/*	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
 //		console.log(markers);
 		for(var name in markers) {
@@ -170,7 +226,7 @@ $(document).ready(function(){
 				});
 			}
 		}
-	});
+	}); */
 });
 
 

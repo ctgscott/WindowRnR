@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration {
 			$table->string('google_event_id');
 			$table->string('google_cal_id');
 			$table->smallInteger('cal_user_id', 4);
+			$table->string('avatar');
 			$table->string('start');
 			$table->string('end');
 			$table->string('location');

@@ -31,6 +31,7 @@ class EventsController extends BaseController {
 
 		if ($client->getAccessToken()) {
 			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
 			$start = date('c',$start);
 			$end = date('c',$end);
 			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
@@ -41,39 +42,62 @@ class EventsController extends BaseController {
 
 			foreach ($eventList['items'] as $event)
 			{
+				$address = urlencode($event['location']);
+				$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
+				$now = date("Y-m-d H:i:s");
+				if (!isset($event['description'])) {
+					$description = 'None';
+				} else {
+					$description = $event['description'];
+				}
+				if (isset($event['start']['date'])) {
+					$event['all_day'] = 1;
+					$eventStart = strtotime($event['start']['date']);
+					$eventEnd = strtotime($event['end']['date']);
+				} else {
+					$event['all_day'] = 0;
+					$eventStart = strtotime($event['start']['dateTime']);
+					$eventEnd = strtotime($event['end']['dateTime']);
+				}
+
 				$count = DB::table('events')
 					->select('id')
 					->where('google_event_id', '=', $event['id'])
 					->count();
 				$firephp->log($count, '$count');
 
+				if ($count ==1) {
+						DB::table('events')
+							->where('updated_at', '<>', $event['updated'])
+							->update(array(
+								'google_event_id' => $event['id'],
+								'google_cal_id' => $event['organizer']['email'],
+								'cal_user_id' => $calID,
+								'avatar' => $avatar,
+								'start' => $eventStart,
+								'end' => $eventEnd,
+								'location' => $event['location'],
+								'description' => $description,
+								'allDay' => $event['all_day'],
+								'title' => $event['summary'],
+								'created_by' => $event['creator']['email'],
+								'created_at' => $now,
+								'updated_at' => $event['updated'],
+								'lat' => $latlng->results[0]->geometry->location->lat,
+								'lng' => $latlng->results[0]->geometry->location->lng
+							));
+					}
+					
 				if ($count == 0) {
-					$address = urlencode($event['location']);
-					$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
 //					dump_r($latlng);
 //					$firephp->log($latlng, '$latlng');
 //					$firephp->log($latlng->results[0], '$latlng.results[0].geometry.location.lat');
 					
-					if (!isset($event['description'])) {
-						$description = 'None';
-					} else {
-						$description = $event['description'];
-					}
-					if (isset($event['start']['date'])) {
-						$event['all_day'] = 1;
-						$eventStart = strtotime($event['start']['date']);
-						$eventEnd = strtotime($event['end']['date']);
-					} else {
-						$event['all_day'] = 0;
-						$eventStart = strtotime($event['start']['dateTime']);
-						$eventEnd = strtotime($event['end']['dateTime']);
-					}
-					
-					$now = date("Y-m-d H:i:s");
 					$result = DB::table('events')->insert(array(
 						'google_event_id' => $event['id'],
 						'google_cal_id' => $event['organizer']['email'],
 						'cal_user_id' => $calID,
+						'avatar' => $avatar,
 						'start' => $eventStart,
 						'end' => $eventEnd,
 						'location' => $event['location'],
@@ -82,6 +106,7 @@ class EventsController extends BaseController {
 						'title' => $event['summary'],
 						'created_by' => $event['creator']['email'],
 						'created_at' => $now,
+						'updated_at' => $event['updated'],
 						'lat' => $latlng->results[0]->geometry->location->lat,
 						'lng' => $latlng->results[0]->geometry->location->lng
 						)
