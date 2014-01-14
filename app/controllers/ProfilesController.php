@@ -68,7 +68,31 @@ class ProfilesController extends BaseController {
 			}
 		}
 	}
+	
+	/**
+	* POSTs check/no check boolean to the
+	* user's profile for use in the sales
+	* estimate checkboxes.
+	*/		
+	public static function postSalesCheckBox()
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
 
+		$id = ($_POST["id"]);
+		$value = ($_POST["value"]);
+		$firephp->log($id, '$id = ');
+		$firephp->log($value, '$value = ');
+
+		DB::table('profiles')
+            ->where('user_id', $id)
+            ->update(array('sales_check' => $value));
+			
+		$firephp->log($result, '$result (profile) = ');	
+		//return $result;
+	}
+	
 	/**
 	 * Return the google_id for the given id.
 	 *

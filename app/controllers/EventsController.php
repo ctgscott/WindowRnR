@@ -66,29 +66,30 @@ class EventsController extends BaseController {
 					->count();
 				$firephp->log($count, '$count');
 
+				$updated = strtotime($event['updated']);
+				$firephp->log($updated, '$updated');
 				if ($count ==1) {
-						DB::table('events')
-							->where('updated_at', '<>', $event['updated'])
-							->update(array(
-								'google_event_id' => $event['id'],
-								'google_cal_id' => $event['organizer']['email'],
-								'cal_user_id' => $calID,
-								'avatar' => $avatar,
-								'start' => $eventStart,
-								'end' => $eventEnd,
-								'location' => $event['location'],
-								'description' => $description,
-								'allDay' => $event['all_day'],
-								'title' => $event['summary'],
-								'created_by' => $event['creator']['email'],
-								'created_at' => $now,
-								'updated_at' => $event['updated'],
-								'lat' => $latlng->results[0]->geometry->location->lat,
-								'lng' => $latlng->results[0]->geometry->location->lng
-							));
-					}
-					
-				if ($count == 0) {
+					DB::table('events')
+						->where('google_event_id', '=', $event['id'])
+						->where('updated_at', '!=', $event['updated'])
+						->update(array(
+							'google_event_id' => $event['id'],
+							'google_cal_id' => $event['organizer']['email'],
+							'cal_user_id' => $calID,
+							'avatar' => $avatar,
+							'start' => $eventStart,
+							'end' => $eventEnd,
+							'location' => $event['location'],
+							'description' => $description,
+							'allDay' => $event['all_day'],
+							'title' => $event['summary'],
+							'created_by' => $event['creator']['email'],
+							'created_at' => $now,
+							'updated_at' => $event['updated'],
+							'lat' => $latlng->results[0]->geometry->location->lat,
+							'lng' => $latlng->results[0]->geometry->location->lng
+						));
+				} else if ($count == 0) {
 //					dump_r($latlng);
 //					$firephp->log($latlng, '$latlng');
 //					$firephp->log($latlng->results[0], '$latlng.results[0].geometry.location.lat');
@@ -124,7 +125,7 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$firephp->log($calID, '$calID');
+//		$firephp->log($calID, '$calID');
 
 		if ($calID != 'all') {
 			$events = DB::table('events')
@@ -138,8 +139,8 @@ class EventsController extends BaseController {
 				->where('end', '<=', $end)
 				->get();
 		}
-		
-		$firephp->log($events, 'events');
+		$date = date('D, n/j', $start);
+		$firephp->log($events, 'events for: '.$calID.' on '.$date);
 		return $events;
 	}
 	

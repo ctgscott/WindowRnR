@@ -10,7 +10,7 @@ class ProfilesTableSeeder extends Seeder {
 		$profiles = array(
 			['user_id' => '1',
 			'google_id' => 'scott@windowrnr.com',
-			'google_calendar_id' => 'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
+			'google_calendar_id' => 'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com',
 			'avatar' => 'WinPin7.png',
 			'created_at' => new DateTime, 
 			'updated_at' => new DateTime],

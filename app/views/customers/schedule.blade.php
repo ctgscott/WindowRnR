@@ -31,7 +31,7 @@ Schedule Appointments
 <div class="avatarList">
 	@foreach ($profiles as $seller)
 		<img src="{{ '/img/'.$seller['avatar'] }}" />
-		<input type="checkbox" id="salescheckbox" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
+		<input type="checkbox" id="salescheckbox{{ $seller['id'] }}" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
 	@endforeach
 </div>
 

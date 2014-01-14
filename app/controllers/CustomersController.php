@@ -369,7 +369,7 @@ class CustomersController extends BaseController {
 				->get();
 				
 			$ts = strtotime("now");
-			$init = (date('w', $ts) == 1) ? $ts : strtotime('last Monday', $ts);
+			$init = (date('w', $ts) == 1) ? strtotime('midnight') : strtotime('last Monday', $ts);
 			$monday = date('c', $init);
 			$mondayStart = $init;
 			$mondayEnd = $mondayStart+86399;
@@ -381,7 +381,18 @@ class CustomersController extends BaseController {
 			$thursdayEnd = $thursdayStart+86399;
 			$fridayStart = $thursdayEnd+1;
 			$fridayEnd = $fridayStart+86399;
-			
+
+/*			$monDate = date('D, n/j, H:i:s', $mondayStart);
+			$firephp->log($monDate, 'Monday = ');
+			$tuesDate = date('D, n/j, H:i:s', $tuesdayStart);
+			$firephp->log($tuesDate, 'Tuesday = ');
+			$wedDate = date('D, n/j, H:i:s', $wednesdayStart);
+			$firephp->log($wedDate, 'Wednesday = ');
+			$thurDate = date('D, n/j, H:i:s', $thursdayStart);
+			$firephp->log($thurDate, 'Thursday = ');
+			$friDate = date('D, n/j, H:i:s', $fridayStart);
+			$firephp->log($friDate, 'Friday = ');
+
 			$calendar = (object)array(
 				['name' => 'ScottTest', 'id' => 'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com'],
 				['name' => 'NormTest', 'id' => 'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com']
@@ -398,13 +409,13 @@ class CustomersController extends BaseController {
 				'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com',
 //				'edwindowrepair@gmail.com',
 //				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
-/*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
+*//*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
 				'en.usa#holiday@group.v.calendar.google.com'
-*/			];
+			];
 //			foreach ($id as $id) {
 //				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
 //			};
-			
+*/			
 			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
 			$results['map2'] = EventsController::getCalEvents($tuesdayStart, $tuesdayEnd);
 			$results['map3'] = EventsController::getCalEvents($wednesdayStart, $wednesdayEnd);
@@ -413,9 +424,9 @@ class CustomersController extends BaseController {
 			
 			$results['profiles'] = UserController::getSalesProfiles();
 			
-			$results['cal1'] = EventsController::getCalEvents('1388966400', '1389398399', '1');
-			$results['cal2'] = EventsController::getCalEvents('1388966400', '1389398399', '2');
-			$results['cal3'] = EventsController::getCalEvents('1388966400', '1389398399', '3');
+			$results['cal1'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '1');
+			$results['cal2'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '2');
+			$results['cal3'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '3');
 			
 			$firephp->log($results, 'getScheduleID($id)');
 			
