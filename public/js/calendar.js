@@ -30,9 +30,23 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	var cal1 = jQuery.parseJSON($("#cal1").val());
-	var cal2 = jQuery.parseJSON($("#cal2").val());
-	var cal3 = jQuery.parseJSON($("#cal3").val());
+	if ($("#cal1").val() == "none") {
+		var cal1 = null;
+	} else {
+		var cal1 = jQuery.parseJSON($("#cal1").val());
+	}
+	
+	if ($("#cal2").val() == "none") {
+		var cal2 = null;
+	} else {
+		var cal2 = jQuery.parseJSON($("#cal2").val());
+	}
+	
+	if ($("#cal3").val() == "none") {
+		var cal3 = null;
+	} else {
+		var cal3 = jQuery.parseJSON($("#cal3").val());
+	}
 	
 	$('#calendar').fullCalendar({
 		// put your options and callbacks here

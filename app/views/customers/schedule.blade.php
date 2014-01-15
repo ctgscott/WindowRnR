@@ -11,6 +11,7 @@ Schedule Appointments
 <link rel='stylesheet' type='text/css' href="{{ asset('css/validationEngine.jquery.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/customer.css') }}" >
 <link rel='stylesheet' type='text/css' href="{{ asset('css/schedule.css') }}" >
+<link rel='stylesheet' type='text/css' href="{{ asset('css/cool-buttons.css') }}" >
 <!--<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
@@ -33,9 +34,10 @@ Schedule Appointments
 		<img src="{{ '/img/'.$seller['avatar'] }}" />
 		<input type="checkbox" id="salescheckbox{{ $seller['id'] }}" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
 	@endforeach
+	<button id="reset_page" class="goog-buttonset-action" onclick="" tabindex="1" type="submit">Refresh Page</button>
 </div>
 
-<div class="container-fluid mapContainer">
+<div id="map_container" class="container-fluid mapContainer">
 	<span class="maps map1" id="map_1"></span>
 	<span class="maps" id="map_2">2</span>
 	<span class="maps" id="map_3">3</span>
@@ -47,9 +49,9 @@ Schedule Appointments
 	<input type="hidden" id="events3" value='{{ json_encode($map3) }}'/>
 	<input type="hidden" id="events4" value='{{ json_encode($map4) }}'/>
 	<input type="hidden" id="events5" value='{{ json_encode($map5) }}'/> 
-	<input type="hidden" id="cal1" value='{{ json_encode($cal1) }}'/>
-	<input type="hidden" id="cal2" value='{{ json_encode($cal2) }}'/>
-	<input type="hidden" id="cal3" value='{{ json_encode($cal3) }}'/>
+	<input type="hidden" id="cal1" value='{{ (isset($cal1) ? json_encode($cal1) : "none") }}'/>
+	<input type="hidden" id="cal2" value='{{ (isset($cal2) ? json_encode($cal2) : "none") }}'/>
+	<input type="hidden" id="cal3" value='{{ (isset($cal3) ? json_encode($cal3) : "none") }}'/>
 	<?php
 /*		use Ivory\GoogleMap\Map;
 		use Ivory\GoogleMap\Helper\MapHelper;

@@ -416,6 +416,14 @@ class CustomersController extends BaseController {
 //				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
 //			};
 */			
+			$salesChecks = ProfilesController::getSalesCheckBox();
+			$firephp->log($salesChecks, '$salesChecks = ');
+			foreach($salesChecks as $key => $value) {
+				$firephp->log($key, '$key = ');
+				$firephp->log($value->user_id, '$value->user_id = ');
+				$results['cal'.$value->user_id] = EventsController::getCalEvents($mondayStart, $fridayEnd, $value->user_id);
+			}
+			
 			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
 			$results['map2'] = EventsController::getCalEvents($tuesdayStart, $tuesdayEnd);
 			$results['map3'] = EventsController::getCalEvents($wednesdayStart, $wednesdayEnd);
@@ -424,10 +432,10 @@ class CustomersController extends BaseController {
 			
 			$results['profiles'] = UserController::getSalesProfiles();
 			
-			$results['cal1'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '1');
+/*			$results['cal1'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '1');
 			$results['cal2'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '2');
 			$results['cal3'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '3');
-			
+*/			
 			$firephp->log($results, 'getScheduleID($id)');
 			
 			return View::make('customers.schedule')->with($results);

@@ -31,3 +31,10 @@
 	margin-right: 5px;
 	margin-bottom: 20px;
 }
+
+#reset_page {
+	height: 35px;
+	margin-left: 50px;
+	border-radius: 4px;
+	min-width: 75px;
+}

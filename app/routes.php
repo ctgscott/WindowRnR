@@ -33,6 +33,7 @@ Route::get('customers/{id}', 'CustomersController@getDetailID');
 Route::get('events/getGoogleCalEvents/{start}/{end}/{cal}', 'EventsController@getGoogleCalEvents');
 Route::get('events/getCalEvents/{start}/{end}/{cal?}', 'EventsController@getCalEvents');
 Route::post('profiles/postSalesCheckBox', 'ProfilesController@postSalesCheckBox');
+Route::get('profiles/getSalesCheckBox', 'ProfilesController@getSalesCheckBox');
 
 Route::controller('users', 'UserController');
 Route::controller('customers/schedule', 'CustomersController'); 

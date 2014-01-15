@@ -76,23 +76,34 @@ class ProfilesController extends BaseController {
 	*/		
 	public static function postSalesCheckBox()
 	{
-		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
-		ob_start();
-		$firephp = FirePHP::getInstance(true);
-
 		$id = ($_POST["id"]);
 		$value = ($_POST["value"]);
-		$firephp->log($id, '$id = ');
-		$firephp->log($value, '$value = ');
 
-		DB::table('profiles')
+		$result = DB::table('profiles')
             ->where('user_id', $id)
             ->update(array('sales_check' => $value));
-			
-		$firephp->log($result, '$result (profile) = ');	
-		//return $result;
+		
+		if ($result == 0 || 1) {
+			return 'success';
+		} else {
+			return $result;
+		}
 	}
 	
+	/**
+	* Returns all user accounts expected to populate
+	* the estimate appointments checkboxes 
+	*/		
+	public static function getSalesCheckBox()
+	{
+		$result = DB::table('profiles')
+			->select('user_id')
+			->where('sales_check', '=', '1')
+			->get();
+		
+		return $result;
+	}
+
 	/**
 	 * Return the google_id for the given id.
 	 *

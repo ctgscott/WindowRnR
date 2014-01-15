@@ -92,6 +92,47 @@ $(document).ready(function(){
 		} else {
 			value = 0;
 		}
-		$.post( "/profiles/postSalesCheckBox/", { id: id, value: value });
+		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+	});
+
+	$( "#salescheckbox2" ).click(function() {
+		var id = $( "#salescheckbox2" ).val();
+		var value = null;
+		if($("#salescheckbox2").is(':checked')) {
+			value = 1;
+		} else {
+			value = 0;
+		}
+		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+	});
+
+	$( "#salescheckbox3" ).click(function() {
+		var id = $( "#salescheckbox3" ).val();
+		var value = null;
+		if($("#salescheckbox3").is(':checked')) {
+			value = 1;
+		} else {
+			value = 0;
+		}
+		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+	});
+	
+	$( "#reset_page" ).click(function() {
+		    location.reload();
+	});
+	
+	$( ".fc-button-agendaDay" ).click(function() {
+		$('#map_container').hide();
+		$('.fc-view-agendaDay').width('700');
+	});
+
+	$( ".fc-button-agendaWeek" ).click(function() {
+		$('#map_container').show();
+		$('.fc-view-agendaDay').width('');
+	});
+
+	$( ".fc-button-month" ).click(function() {
+		$('#map_container').hide();
+		$('.fc-view-agendaDay').width('');
 	});
 });
