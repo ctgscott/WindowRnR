@@ -35,6 +35,7 @@ Schedule Appointments
 		<input type="checkbox" id="salescheckbox{{ $seller['id'] }}" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
 	@endforeach
 	<button id="reset_page" class="goog-buttonset-action" onclick="" tabindex="1" type="submit">Refresh Page</button>
+	<button id="rerender" class="goog-buttonset-action" onclick="" tabindex="2" type="submit">Rerender Events</button>
 </div>
 
 <div id="map_container" class="container-fluid mapContainer">
@@ -52,89 +53,13 @@ Schedule Appointments
 	<input type="hidden" id="cal1" value='{{ (isset($cal1) ? json_encode($cal1) : "none") }}'/>
 	<input type="hidden" id="cal2" value='{{ (isset($cal2) ? json_encode($cal2) : "none") }}'/>
 	<input type="hidden" id="cal3" value='{{ (isset($cal3) ? json_encode($cal3) : "none") }}'/>
-	<?php
-/*		use Ivory\GoogleMap\Map;
-		use Ivory\GoogleMap\Helper\MapHelper;
-		use Ivory\GoogleMap\Overlays\Animation;
-		use Ivory\GoogleMap\Overlays\Marker;
-		use Ivory\GoogleMap\Overlays\InfoWindow;
-		use Ivory\GoogleMap\Events\MouseEvent;
-
-		$map = new Map();
-		
-		//$trafficLayer = new TrafficLayer();
-		//$trafficLayer.setMap(map);
-
-		$map->setAutoZoom(true);
-		$map->setStylesheetOptions(array(
-			'width'  => '100%',
-			'height' => '300px',
-			'border-radius' => '8px',
-			'-webkit-box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
-			'-moz-box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
-			'box-shadow' => '0 5px 10px rgba(0,0,0,.2)',
-		));
-		//$map->setCenter(34.03004,-118.304986, true);
-		//$map->setMapOption('zoom', 8);
-		
-		$marker = new Marker();
-		$marker->setPrefixJavascriptVariable('marker_');
-		$marker->setPosition(34.03004,-118.304986, true);
-		$marker->setAnimation(Animation::DROP);
-		$marker->setAnimation('drop');
-		$marker->setOptions(array(
-			'clickable' => true,
-			'flat'      => true,
-		));
-		$infoWindow = new InfoWindow();
-		$infoWindow->setPrefixJavascriptVariable('info_window_');
-		$infoWindow->setPosition(34.03004,-118.304986, true);
-		$infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
-		$infoWindow->setContent('<p>Customer #1</p>');
-		$infoWindow->setOpen(false);
-		$infoWindow->setAutoOpen(true);
-		$infoWindow->setOpenEvent(MouseEvent::CLICK);
-		$infoWindow->setAutoClose(true);
-		$infoWindow->setOptions(array(
-			'disableAutoPan' => true,
-			'zIndex'         => 10,
-		));
-		$marker->setInfoWindow($infoWindow);
-		
-		$marker2 = new Marker();
-		$marker2->setPrefixJavascriptVariable('marker_');
-		$marker2->setPosition(33.822684,-118.111446, true);
-		$marker2->setAnimation(Animation::DROP);
-		$marker2->setAnimation('drop');
-		$marker2->setOptions(array(
-			'clickable' => true,
-			'flat'      => true,
-		));
-		$infoWindow2 = new InfoWindow();
-		$infoWindow2->setPrefixJavascriptVariable('info_window_');
-		$infoWindow2->setPosition(33.822684,-118.111446, true);
-		$infoWindow2->setPixelOffset(1.1, 2.1, 'px', 'pt');
-		$infoWindow2->setContent('<p>Customer #2</p>');
-		$infoWindow2->setOpen(false);
-		$infoWindow2->setAutoOpen(true);
-		$infoWindow2->setOpenEvent(MouseEvent::CLICK);
-		$infoWindow2->setAutoClose(true);
-		$infoWindow2->setOptions(array(
-			'disableAutoPan' => true,
-			'zIndex'         => 10,
-		));
-		$marker2->setInfoWindow($infoWindow2);
-		
-		$map->addMarker($marker);
-		$map->addMarker($marker2);
-		
-		$mapHelper = new MapHelper();
-
-		echo $mapHelper->render($map);
-*/	?>					
 </div>
 <div class="container-fluid">
-	<div id="calendar"></div>
+	<div id="calendar">
+	</div>
+	<div id="map_day_container" class="container-fluid mapDayContainer">
+		<span class="map_day" id="map_day">x</span>
+	</div>
 </div>
 
 

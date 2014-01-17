@@ -1,7 +1,8 @@
 $(document).ready(function(){
+	$('#map_day').hide();
+
 	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
-//		console.log(markers);
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
 			$('#map_1').gmap('addMarker', { 
@@ -18,7 +19,6 @@ $(document).ready(function(){
 
 	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
-//		console.log(markers);
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
 			$('#map_2').gmap('addMarker', { 
@@ -35,7 +35,6 @@ $(document).ready(function(){
 
 	$('#map_3').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events3').val());
-//		console.log(markers);
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
 			$('#map_3').gmap('addMarker', { 
@@ -50,9 +49,8 @@ $(document).ready(function(){
 		});
 	});
 
-		$('#map_4').gmap().bind('init', function() { 
+	$('#map_4').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events4').val());
-//		console.log(markers);
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
 			$('#map_4').gmap('addMarker', { 
@@ -67,9 +65,8 @@ $(document).ready(function(){
 		});
 	});
 
-		$('#map_5').gmap().bind('init', function() { 
+	$('#map_5').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events5').val());
-//		console.log(markers);
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
 			$('#map_5').gmap('addMarker', { 
@@ -84,6 +81,22 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('#map_day').gmap().bind('init', function() { 
+		var markers = jQuery.parseJSON($('#events5').val());
+		$.each( markers, function(n, marker) {
+			var icon = "/img/"+marker.avatar;					
+			$('#map_day').gmap('addMarker', { 
+				'title': marker.title,
+				'position': new google.maps.LatLng(marker.lat, marker.lng), 
+				'bounds': true,
+				'animation': google.maps.Animation.DROP,
+				'icon': icon
+			}).click(function() {
+				$('#map_day').gmap('openInfoWindow', { 'content': marker.description }, this);
+			});
+		});
+	});
+
 	$( "#salescheckbox1" ).click(function() {
 		var id = $( "#salescheckbox1" ).val();
 		var value = null;
@@ -123,16 +136,31 @@ $(document).ready(function(){
 	
 	$( ".fc-button-agendaDay" ).click(function() {
 		$('#map_container').hide();
-		$('.fc-view-agendaDay').width('700');
+//		$('.fc-today').width('475px');
+		$('#calendar').width('49%');
+		$('.fc-header').width('1130px');
+//		$(window).trigger("resize");
+		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
+		$('#calendar').fullCalendar('render');
+		$('#map_day').show();
 	});
 
 	$( ".fc-button-agendaWeek" ).click(function() {
 		$('#map_container').show();
-		$('.fc-view-agendaDay').width('');
+		$('#calendar').width('100%');
+		$('#calendar').fullCalendar('render');
+		$('#map_day').hide();
 	});
 
 	$( ".fc-button-month" ).click(function() {
 		$('#map_container').hide();
-		$('.fc-view-agendaDay').width('');
+		$('#calendar').width('100%');
+		$('#calendar').fullCalendar('render');
+		$('#map_day').hide();
+	});
+
+	$( "#rerender" ).click(function() {
+		$('#calendar').fullCalendar('render');
+		alert('sheisse');
 	});
 });

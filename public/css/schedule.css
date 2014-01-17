@@ -8,6 +8,10 @@
 	margin-bottom: 20px;
 }
 
+.mapDayContainer {
+	
+}
+
 .maps {
 	margin-left: 10px;
 	border: 1px;
@@ -16,6 +20,25 @@
 	border-radius: 8px;
 	width: 17.5%;
 	height: 300px;
+	display: inline-block;
+	-webkit-box-shadow: 5px 10px rgba(0,0,0,.2);
+		-moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.map_day {
+	margin-left: 0px;
+	border: 1px;
+	border-style: solid;
+	border-color: #999;
+	border-radius: 8px;
+	width: 49%;
+	height: 560px;
+	float: right;
+	position: relative;
+	top:-560px;
+	left
+	z-index: -1;
 	display: inline-block;
 	-webkit-box-shadow: 5px 10px rgba(0,0,0,.2);
 		-moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);

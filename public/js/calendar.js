@@ -295,7 +295,11 @@ $(document).ready(function() {
 			
 		},
 */	
-		eventSources: [
+			windowResize: function(view) {
+				alert('The calendar has adjusted to a window resize');
+			},
+
+			eventSources: [
 /*			{
 				url: 'http://localhost:8000/events/getCalEvents/1388966400/1389398399',
 				type: 'GET',
