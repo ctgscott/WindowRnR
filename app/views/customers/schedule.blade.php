@@ -34,8 +34,8 @@ Schedule Appointments
 		<img src="{{ '/img/'.$seller['avatar'] }}" />
 		<input type="checkbox" id="salescheckbox{{ $seller['id'] }}" value="{{ $seller['id'] }}" name="salesTeam[]" @if ($seller['sales'] == '1') checked @endif > {{ $seller['first_name'] }}
 	@endforeach
-	<button id="reset_page" class="goog-buttonset-action" onclick="" tabindex="1" type="submit">Refresh Page</button>
-	<button id="rerender" class="goog-buttonset-action" onclick="" tabindex="2" type="submit">Rerender Events</button>
+	<button id="reset_page" class="goog-buttonset-action cool-button" onclick="" tabindex="1" type="submit">Refresh Page</button>
+	<button id="rerender" class="goog-buttonset-action cool-button" onclick="" tabindex="2" type="submit">Rerender Events</button>
 </div>
 
 <div id="map_container" class="container-fluid mapContainer">

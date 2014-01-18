@@ -81,7 +81,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('#map_day').gmap().bind('init', function() { 
+/*	$('#map_day').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events5').val());
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
@@ -96,6 +96,7 @@ $(document).ready(function(){
 			});
 		});
 	});
+*/	
 
 	$( "#salescheckbox1" ).click(function() {
 		var id = $( "#salescheckbox1" ).val();
@@ -143,6 +144,23 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
 		$('#calendar').fullCalendar('render');
 		$('#map_day').show();
+//		google.maps.event.trigger(map_day, "resize");
+
+		$('#map_day').gmap().bind('init', function() { 
+			var markers = jQuery.parseJSON($('#events1').val());
+			$.each( markers, function(n, marker) {
+				var icon = "/img/"+marker.avatar;					
+				$('#map_day').gmap('addMarker', { 
+					'title': marker.title,
+					'position': new google.maps.LatLng(marker.lat, marker.lng), 
+					'bounds': true,
+					'animation': google.maps.Animation.DROP,
+					'icon': icon
+				}).click(function() {
+					$('#map_day').gmap('openInfoWindow', { 'content': marker.description }, this);
+				});
+			});
+		});
 	});
 
 	$( ".fc-button-agendaWeek" ).click(function() {
