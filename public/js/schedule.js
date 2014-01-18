@@ -137,16 +137,40 @@ $(document).ready(function(){
 	
 	$( ".fc-button-agendaDay" ).click(function() {
 		$('#map_container').hide();
-//		$('.fc-today').width('475px');
-		$('#calendar').width('49%');
 		$('.fc-header').width('1130px');
-//		$(window).trigger("resize");
-		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
-		$('#calendar').fullCalendar('render');
 		$('#map_day').show();
-//		google.maps.event.trigger(map_day, "resize");
+		$( ".fc-content" ).css( "width", "49%" )		
+		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
+//		$('#calendar').fullCalendar('render');
 
-		$('#map_day').gmap().bind('init', function() { 
+		var map_day = L.map('map_day', {
+			trackResize: true,
+			zoomControl: true,
+		}).setView([37.8, -96], 4);
+		
+		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+//			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+//			maxZoom: 18
+		}).addTo(map_day);
+		
+		var markers = jQuery.parseJSON($('#events1').val());
+		var bounds = new Array();
+		
+		$.each( markers, function(n, marker) {
+			var myIcon = L.icon({
+				iconUrl: "/img/"+marker.avatar
+			})
+			L.marker([marker.lat, marker.lng], {
+				title: marker.title,
+				icon: myIcon
+			}).addTo(map_day);
+			var newLatLng = new L.LatLng(marker.lat, marker.lng);
+			bounds.push(newLatLng);
+		});
+		
+		map_day.fitBounds(bounds);
+		
+/*		$('#map_day').gmap().bind('init', function() { 
 			var markers = jQuery.parseJSON($('#events1').val());
 			$.each( markers, function(n, marker) {
 				var icon = "/img/"+marker.avatar;					
@@ -161,18 +185,18 @@ $(document).ready(function(){
 				});
 			});
 		});
-	});
+*/	});
 
 	$( ".fc-button-agendaWeek" ).click(function() {
 		$('#map_container').show();
-		$('#calendar').width('100%');
+		$( ".fc-content" ).css( "width", "100%" )		
 		$('#calendar').fullCalendar('render');
 		$('#map_day').hide();
 	});
 
 	$( ".fc-button-month" ).click(function() {
 		$('#map_container').hide();
-		$('#calendar').width('100%');
+		$('.fc-content').width('100%');		
 		$('#calendar').fullCalendar('render');
 		$('#map_day').hide();
 	});

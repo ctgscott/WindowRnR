@@ -7,6 +7,7 @@ Schedule Appointments
 
 @section('styles')
 <link rel='stylesheet' type='text/css' href="{{ asset('css/fullcalendar.css') }}" />
+<link rel='stylesheet' type='text/css' href="{{ asset('css/leaflet.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/jquery-ui-1.10.3.custom.min.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/validationEngine.jquery.css') }}" />
 <link rel='stylesheet' type='text/css' href="{{ asset('css/customer.css') }}" >
@@ -16,6 +17,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
