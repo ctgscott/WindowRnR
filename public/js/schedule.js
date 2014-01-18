@@ -138,8 +138,9 @@ $(document).ready(function(){
 	$( ".fc-button-agendaDay" ).click(function() {
 		$('#map_container').hide();
 		$('.fc-header').width('1130px');
+		$('.fc-header').css( "max-width", "1130px" )		
 		$('#map_day').show();
-		$( ".fc-content" ).css( "width", "49%" )		
+		$("#calendar" ).css( "width", "49%" )		
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
 //		$('#calendar').fullCalendar('render');
 

@@ -1,4 +1,7 @@
-.fc-content {
+.fc-header {
+	width: 1130px;
+	position: relative;
+	z-index: 999;
 }
 
 .avatarList {
