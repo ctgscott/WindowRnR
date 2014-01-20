@@ -12,6 +12,7 @@
 
 .mapContainer {
 	margin-bottom: 20px;
+	width: 1130px;
 }
 
 .mapDayContainer {
@@ -20,11 +21,12 @@
 
 .maps {
 	margin-left: 10px;
+	margin-bottom: 20px;
 	border: 1px;
 	border-style: solid;
 	border-color: #999;
 	border-radius: 8px;
-	width: 17.5%;
+	width: 17.9%;
 	height: 300px;
 	display: inline-block;
 	-webkit-box-shadow: 5px 10px rgba(0,0,0,.2);

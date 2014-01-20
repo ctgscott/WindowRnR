@@ -18,7 +18,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>
-<script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>
+<!--<script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>-->
@@ -41,11 +41,11 @@ Schedule Appointments
 </div>
 
 <div id="map_container" class="container-fluid mapContainer">
-	<span class="maps map1" id="map_1"></span>
+<!--	<span class="maps map1" id="map_1"></span>
 	<span class="maps" id="map_2">2</span>
 	<span class="maps" id="map_3">3</span>
 	<span class="maps" id="map_4">4</span>
-	<span class="maps" id="map_5">5</span>
+	<span class="maps" id="map_5">5</span>-->
 	<input type="hidden" id="profiles" value='{{ json_encode($profiles) }}'/>
 	<input type="hidden" id="events1" value='{{ json_encode($map1) }}'/>
 	<input type="hidden" id="events2" value='{{ json_encode($map2) }}'/>
