@@ -214,9 +214,15 @@ $(document).ready(function(){
 	});
 /*  Full Calendar - End */
 
-	$('.fc-header > tbody:last').append('<tr id="map_tr" class="accordion-bodycollapse"></tr>');
-	$('#map_tr').append('<td id="map_td" class="mapContainer" colspan="3"></td>');
-	$('#map_td').append('<span class="maps map1" id="map_1"></span><span class="maps" id="map_2">2</span><span class="maps" id="map_3">3</span><span class="maps" id="map_4">4</span><span class="maps" id="map_5">5</span>');
+	$('.fc-header > tbody:last').append('<tr id="map_tr" class="collapse"></tr>');
+		$('#map_tr').append('<td id="map_td" class="mapContainer" colspan="3"></td>');
+//	$('#map_td').append('<span class="maps map1" id="map_1"></span><span class="maps" id="map_2">2</span><span class="maps" id="map_3">3</span><span class="maps" id="map_4">4</span><span class="maps" id="map_5">5</span>');
+			$('#map_td').append('<div id="maps_block"></div>');
+				$('#maps_block').append('<span class="maps map1" id="map_1"></span>');
+				$('#maps_block').append('<span class="maps map2" id="map_2"></span>');
+				$('#maps_block').append('<span class="maps map3" id="map_3"></span>');
+				$('#maps_block').append('<span class="maps map4" id="map_4"></span>');
+				$('#maps_block').append('<span class="maps map5" id="map_5"></span>');
 
 	$('#map_day').hide();
 
@@ -355,12 +361,14 @@ $(document).ready(function(){
 	});
 	
 	$( ".fc-button-agendaDay" ).click(function() {
-		$('#map_container').hide();
-		$('#map_tr').hide();
+//		$('#map_container').collapse('hide');
+//		$('#maps_block').hide();
+		$('#maps_block').collapse('hide');
 		$('.fc-header').width('1130px');
 		$('.fc-header').css( "max-width", "1130px" )		
+//		$("#map_day_container").collapse('show');
 		$('#map_day').show();
-		$("#calendar" ).css( "width", "49%" )		
+		$("#calendar" ).css( "width", "49%" );
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
 //		$('#calendar').fullCalendar('render');
 
@@ -409,20 +417,22 @@ $(document).ready(function(){
 */	});
 
 	$( ".fc-button-agendaWeek" ).click(function() {
-		$('#map_container').hide();
-		$('#map_tr').show();
-		$("#calendar" ).css( "width", "100%" )		
-		$('#calendar').fullCalendar('render');
+//		$('#map_container').collapse('show');
 		$('#map_day').hide();
+		$("#calendar" ).css( "width", "100%" );		
+		$('#calendar').fullCalendar('render');
+		$('#maps_block').collapse('show');
+//		$("#map_day_container").collapse('hide');
 	});
 
 	$( ".fc-button-month" ).click(function() {
-		$('#map_container').hide();
-		//$('#map_tr').hide();
-		$("#map_tr").collapse('hide')
-		$("#calendar" ).css( "width", "100%" )		
+//		$('#map_container').hide();
+//		$('#map_tr').hide();
+		$('#maps_block').collapse('hide');
+		$("#calendar" ).css( "width", "100%" );
 		$('#calendar').fullCalendar('render');
 		$('#map_day').hide();
+//		$("#map_day_container").collapse('hide');
 	});
 
 	$( "#rerender" ).click(function() {

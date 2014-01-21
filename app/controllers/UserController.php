@@ -110,7 +110,7 @@ class UserController extends BaseController {
 		{
 			// User is logged in
 			try {
-				$users =  DB::table('users')->select('id', 'first_name')->get();
+/*				$users =  DB::table('users')->select('id', 'first_name')->get();
 				foreach ($users as $user) {
 					$id = $user->id;
 					$sales = DB::table('users_groups')
@@ -118,12 +118,19 @@ class UserController extends BaseController {
 						->where('user_id', '=', $id)
 						->where('group_id', '=', 3)
 						->count();
-					$profile[$id]['id'] = $id;
-					$profile[$id]['sales'] = $sales;
+*/				
+				$users = DB::table('profiles')->get();
+				$firephp->log($users, '$users');
+
+				$id = 0;
+				foreach ($users as $user) {
+					$id++;
+					$profile[$id]['id'] = $user->user_id;
+					$profile[$id]['sales'] = $user->sales_check;
 					$profile[$id]['first_name'] = $user->first_name;
-					$profile[$id]['avatar'] = ProfilesController::getAvatar($user->id);
-					$profile[$id]['google_id'] = ProfilesController::getGoogleID($user->id);
-					$profile[$id]['google_calendar_id'] = ProfilesController::getGoogleCalendarID($user->id);
+					$profile[$id]['avatar'] = $user->avatar;
+					$profile[$id]['google_id'] = $user->google_id;
+					$profile[$id]['google_calendar_id'] = $user->google_calendar_id;
 				}
 				return $profile;
 			}

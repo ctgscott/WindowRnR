@@ -14,7 +14,8 @@ Schedule Appointments
 <link rel='stylesheet' type='text/css' href="{{ asset('css/schedule.css') }}" >
 <link rel='stylesheet' type='text/css' href="{{ asset('css/cool-buttons.css') }}" >
 <!--<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>-->
-<script type='text/javascript' src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
+<!--<script type='text/javascript' src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>-->
+<script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>
@@ -60,7 +61,7 @@ Schedule Appointments
 	<div id="calendar">
 	</div>
 	<div id="map_day_container" class="container-fluid mapDayContainer">
-		<span class="map_day" id="map_day">x</span>
+		<span class="map_day" id="map_day"></span>
 	</div>
 </div>
 
