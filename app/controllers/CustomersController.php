@@ -342,14 +342,18 @@ class CustomersController extends BaseController {
 			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check');
 	
 				
-			$results['notes'] = DB::table('notes')
+/*			$results['notes'] = DB::table('notes')
 				->join('users', 'notes.user_id', '=', 'users.id')
 				->select('notes.note', 'user_id', 'notes.created_at', 'users.first_name as user_name')
 				->where('job_id', '=', $id)
 				->orderBy('notes.created_at', 'desc')
 				->get();
+*/
+			$results['notes'] = DB::table('lead')
+				->where('user_id', '=', $id)
+				->get();
 			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check2');
-				
+/*				
 			$results['customers'] = DB::table('jobs')
 				->join('customers', 'jobs.customer_id', '=', 'customers.id')
 				->select(
@@ -370,7 +374,7 @@ class CustomersController extends BaseController {
 				->where('jobs.status', '=', 1)
 				->where('jobs.archive', '=', 0)
 				->get();
-			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check3');
+*/			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check3');
 				
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? strtotime('midnight') : strtotime('last Monday', $ts);
@@ -386,40 +390,6 @@ class CustomersController extends BaseController {
 			$fridayStart = $thursdayEnd+1;
 			$fridayEnd = $fridayStart+86399;
 
-/*			$monDate = date('D, n/j, H:i:s', $mondayStart);
-			$firephp->log($monDate, 'Monday = ');
-			$tuesDate = date('D, n/j, H:i:s', $tuesdayStart);
-			$firephp->log($tuesDate, 'Tuesday = ');
-			$wedDate = date('D, n/j, H:i:s', $wednesdayStart);
-			$firephp->log($wedDate, 'Wednesday = ');
-			$thurDate = date('D, n/j, H:i:s', $thursdayStart);
-			$firephp->log($thurDate, 'Thursday = ');
-			$friDate = date('D, n/j, H:i:s', $fridayStart);
-			$firephp->log($friDate, 'Friday = ');
-
-			$calendar = (object)array(
-				['name' => 'ScottTest', 'id' => 'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com'],
-				['name' => 'NormTest', 'id' => 'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com']
-			);
-			$firephp->log($calendar, '$calendar = ');
-			$name = [
-				'scott',
-				'normTest'
-			];
-			$id = [
-//				'birgit@windowrnr.com',
-				'windowrnr.com_c7df92ao3vvg02n2kh52b81tn4@group.calendar.google.com',
-//				'scott@windowrnr.com',
-				'windowrnr.com_g67gtb3doc8ehsdaffpe1idaq4@group.calendar.google.com',
-//				'edwindowrepair@gmail.com',
-//				'ghjh7fj2kgshbuf3b10vo11gb8@group.calendar.google.com',
-*//*				'77mvu3ue7hvemvm60h8rb1iheg@group.calendar.google.com',
-				'en.usa#holiday@group.v.calendar.google.com'
-			];
-//			foreach ($id as $id) {
-//				$results['events'] = CustomersController::EstSchedByIDByDay($calendar, $monday);
-//			};
-*/			
 			$salesChecks = ProfilesController::getSalesCheckBox();
 			$firephp->log($salesChecks, '$salesChecks = ');
 			foreach($salesChecks as $key => $value) {
@@ -438,10 +408,6 @@ class CustomersController extends BaseController {
 			
 			$results['profiles'] = UserController::getSalesProfiles();
 			
-/*			$results['cal1'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '1');
-			$results['cal2'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '2');
-			$results['cal3'] = EventsController::getCalEvents($mondayStart, $fridayEnd, '3');
-*/			
 			$firephp->log($results, 'getScheduleID($id)');
 			$firephp->log(date("H:i:s", microtime(true)), 'Time Check6');
 			return View::make('customers.schedule')->with($results);

@@ -22,7 +22,25 @@ $(document).ready(function(){
 		
 	});
 
-
+	$.get( "/events/getCalEvents/0/4102444799", function( data ) {
+		console.log(data);
+		$(data).each(function(index) {
+			console.log(this.cal_user_id);
+			
+			if ( this.cal_user_id == 1) {
+				cal1 += this;
+			} else if ( this.cal_user_id == 2) {
+				cal2 += this;
+			} else if ( this.cal_user_id == 3) {
+				cal3 += this;
+			}
+		});
+	});
+	
+	console.log(cal1);
+	console.log(cal2);
+	console.log(cal3);
+	
 	// page is now ready, initialize the calendar...
 	var date = new Date();
 	var d = date.getDate();
