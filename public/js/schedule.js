@@ -21,25 +21,41 @@ $(document).ready(function(){
 		});
 		
 	});
+	var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+	var firstDay = new Date(y, m, 1);
+	var lastDay = new Date(y, m + 1, 0);
+	var firstTime = firstDay.getTime();
+	var lastTime = lastDay.getTime();
+/*	alert(date);
+	alert(firstTime);
+	alert(lastTime);
+*/
 
-	$.get( "/events/getCalEvents/0/4102444799", function( data ) {
-		console.log(data);
+	var cal1 = [];
+//	cal1.push("pear");
+	var cal2 = [];
+	var cal3 = [];
+	$.get( "/events/getCalEvents/"+firstTime+"/"+lastTime, function( data ) {
+	//	console.log(data);
+//		n = cal1.push("peach");
 		$(data).each(function(index) {
-			console.log(this.cal_user_id);
+	//		console.log(this);
 			
 			if ( this.cal_user_id == 1) {
-				cal1 += this;
+	//			console.log("#1");
+				cal1.push(this);
 			} else if ( this.cal_user_id == 2) {
-				cal2 += this;
+	//			console.log("#2");
+				cal2.push(this);
 			} else if ( this.cal_user_id == 3) {
-				cal3 += this;
+	//			console.log("#3");
+				cal3.push(this);
 			}
 		});
-	});
-	
 	console.log(cal1);
 	console.log(cal2);
 	console.log(cal3);
+	});
 	
 	// page is now ready, initialize the calendar...
 	var date = new Date();
@@ -47,7 +63,7 @@ $(document).ready(function(){
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	if ($("#cal1").val() == "none") {
+/*	if ($("#cal1").val() == "none") {
 		var cal1 = null;
 	} else {
 		var cal1 = jQuery.parseJSON($("#cal1").val());
@@ -64,7 +80,7 @@ $(document).ready(function(){
 	} else {
 		var cal3 = jQuery.parseJSON($("#cal3").val());
 	}
-	
+*/	
 	$('#calendar').fullCalendar({
 		// put your options and callbacks here
 		
