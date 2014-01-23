@@ -15,8 +15,8 @@
 	width: 1130px;
 }
 
-.mapDayContainer {
-	
+#map_day_container {
+	display: none;
 }
 
 .gm-style {

@@ -392,12 +392,13 @@ class CustomersController extends BaseController {
 
 			$salesChecks = ProfilesController::getSalesCheckBox();
 			$firephp->log($salesChecks, '$salesChecks = ');
-			foreach($salesChecks as $key => $value) {
+			
+/*			foreach($salesChecks as $key => $value) {
 				$firephp->log($key, '$key = ');
 				$firephp->log($value->user_id, '$value->user_id = ');
 				$results['cal'.$value->user_id] = EventsController::getCalEvents($mondayStart, $fridayEnd, $value->user_id);
 			}
-			$firephp->log(date("H:i:s", microtime(true)), 'Time Check4');
+*/			$firephp->log(date("H:i:s", microtime(true)), 'Time Check4');
 			
 			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
 			$results['map2'] = EventsController::getCalEvents($tuesdayStart, $tuesdayEnd);

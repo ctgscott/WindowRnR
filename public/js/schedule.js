@@ -1,7 +1,39 @@
+var cal1 = [];
+var cal2 = [];
+var cal3 = [];
+var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+var firstDay = new Date(y, m, 1);
+var lastDay = new Date(y, m + 1, 0);
+var firstTime = firstDay.getTime();
+var lastTime = lastDay.getTime();
+
+$.get( "/events/getCalEvents/"+firstTime+"/"+lastTime, function( data ) {
+//	console.log(data);
+//		n = cal1.push("peach");
+	$(data).each(function(index) {
+//		console.log(this);
+		
+		if ( this.cal_user_id == 1) {
+//			console.log("#1");
+			cal1.push(this);
+		} else if ( this.cal_user_id == 2) {
+//			console.log("#2");
+			cal2.push(this);
+		} else if ( this.cal_user_id == 3) {
+//			console.log("#3");
+			cal3.push(this);
+		}
+	});
+//console.log(cal1);
+//console.log(cal2);
+//console.log(cal3);
+});
+
+
 $(document).ready(function(){
 	/* Full Calendar - initialize the external events
 	-----------------------------------------------------------------*/
-
+	
 	$('#external-events div.external-event').each(function() {
 	
 		// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
@@ -20,41 +52,6 @@ $(document).ready(function(){
 			revertDuration: 0  //  original position after the drag
 		});
 		
-	});
-	var date = new Date(), y = date.getFullYear(), m = date.getMonth();
-	var firstDay = new Date(y, m, 1);
-	var lastDay = new Date(y, m + 1, 0);
-	var firstTime = firstDay.getTime();
-	var lastTime = lastDay.getTime();
-/*	alert(date);
-	alert(firstTime);
-	alert(lastTime);
-*/
-
-	var cal1 = [];
-//	cal1.push("pear");
-	var cal2 = [];
-	var cal3 = [];
-	$.get( "/events/getCalEvents/"+firstTime+"/"+lastTime, function( data ) {
-	//	console.log(data);
-//		n = cal1.push("peach");
-		$(data).each(function(index) {
-	//		console.log(this);
-			
-			if ( this.cal_user_id == 1) {
-	//			console.log("#1");
-				cal1.push(this);
-			} else if ( this.cal_user_id == 2) {
-	//			console.log("#2");
-				cal2.push(this);
-			} else if ( this.cal_user_id == 3) {
-	//			console.log("#3");
-				cal3.push(this);
-			}
-		});
-	console.log(cal1);
-	console.log(cal2);
-	console.log(cal3);
 	});
 	
 	// page is now ready, initialize the calendar...
@@ -400,11 +397,11 @@ $(document).ready(function(){
 		$('#maps_block').collapse('hide');
 		$('.fc-header').width('1130px');
 		$('.fc-header').css( "max-width", "1130px" )		
-//		$("#map_day_container").collapse('show');
+		$("#map_day_container").css('display', 'block');
 		$('#map_day').show();
 		$("#calendar" ).css( "width", "49%" );
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
-//		$('#calendar').fullCalendar('render');
+		$('#calendar').fullCalendar('render');
 
 		var map_day = L.map('map_day', {
 			trackResize: true,
@@ -471,6 +468,9 @@ $(document).ready(function(){
 
 	$( "#rerender" ).click(function() {
 		$('#calendar').fullCalendar('render');
-		alert('sheisse');
+	});
+	
+	$( "#calendar" ).load(function() {
+		$('#calendar').fullCalendar('render');
 	});
 });
