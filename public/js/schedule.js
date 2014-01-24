@@ -224,19 +224,38 @@ $(document).ready(function(){
 
 			eventSources: [
 			{
-				events: cal1,
+				url: '/events/getCalEvents/x/x/1',
+//				events: cal1,
 				color: 'yellow',
 				textColor: 'grey',
 				borderColor: 'grey'
 			},
 			{
-				events: cal2,
+				url: '/events/getCalEvents/x/x/1',
+				type: 'GET',
+/*				data: {
+					startX: 'x',
+					endX: 'x'
+				},
+*/				success: function(data) {
+					mapPaint(data);
+				},
+				error: function() {
+					alert('there was an error while fetching events!');
+				},
+				color: 'red',   // a non-ajax option
+				textColor: 'white' // a non-ajax option
+			},
+			{
+				url: '/events/getCalEvents/x/x/2',
+//				events: cal2,
 				color: 'blue',
 				textColor: 'white',
 				borderColor: 'grey'
 			},
 			{
-				events: cal3,
+				url: '/events/getCalEvents/x/x/3',
+//				events: cal3,
 				color: 'green',
 				textColor: 'white',
 				borderColor: 'grey'
@@ -473,4 +492,40 @@ $(document).ready(function(){
 	$( "#calendar" ).load(function() {
 		$('#calendar').fullCalendar('render');
 	});
+	
+	$(".fc-button-agendaDay, .fc-button-agendaWeek, .fc-button-month, fc-button-today, fc-button-next, fc-button-prev").click(function() {
+		$('#map_1').gmap().bind('init', function() { 
+			var markers = jQuery.parseJSON($('#events1').val());
+			$.each( markers, function(n, marker) {
+				var icon = "/img/"+marker.avatar;					
+				$('#map_1').gmap('addMarker', { 
+					'title': marker.title,
+					'position': new google.maps.LatLng(marker.lat, marker.lng), 
+					'bounds': true,
+					'animation': google.maps.Animation.DROP,
+					'icon': icon
+				}).click(function() {
+					$('#map_1').gmap('openInfoWindow', { 'content': marker.description }, this);
+				});
+			});
+ 		});
+	});
+	
+	function mapPaint(events) {
+		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
+		if ( $(".fc-button-agendaWeek").hasClass("fc-state-active")) {
+			$(events).each(function(index) {
+				if ( this.cal_user_id == 1) {
+					map1.push(this);
+				} else if ( this.cal_user_id == 2) {
+					map2.push(this);
+				} else if ( this.cal_user_id == 3) {
+					map3.push(this);
+				}
+			});
+			console.log("map1 = "+map1);
+		} else if ( $(".fc-button-agendaDay").hasClass("fc-state-active")) {
+			alert('hello day');
+		}
+	};
 });

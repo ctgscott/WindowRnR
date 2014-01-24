@@ -119,7 +119,7 @@ class EventsController extends BaseController {
 		}
 	}
 
-	public static function getCalEvents($start, $end, $calID = 'all')
+	public static function getCalEvents($start = null, $end = null, $calID = 'all')
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
 		ob_start();
@@ -127,12 +127,31 @@ class EventsController extends BaseController {
 
 //		$firephp->log($calID, '$calID');
 
+		if (isset($_GET['start'])) {
+			$start = $_GET['start'];
+		}
+		
+		if (isset($_GET['end'])) {
+			$end = $_GET['end'];
+		}
+
 		if ($calID != 'all') {
-			$events = DB::table('events')
-				->where('cal_user_id', '=', $calID)
-				->where('start', '>=', $start)
-				->where('end', '<=', $end)
-				->get();
+			if($calID == 1) {
+				$events = DB::table('calendar_1')
+					->where('start', '>=', $start)
+					->where('end', '<=', $end)
+					->get();
+			} else if ($calID == 2) {
+				$events = DB::table('calendar_2')
+					->where('start', '>=', $start)
+					->where('end', '<=', $end)
+					->get();
+			} else if($calID == 3) {
+				$events = DB::table('calendar_3')
+					->where('start', '>=', $start)
+					->where('end', '<=', $end)
+					->get();
+			}
 		} else {
 			$events = DB::table('events')
 				->where('start', '>=', $start)

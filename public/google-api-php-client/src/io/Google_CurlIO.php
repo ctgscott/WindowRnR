@@ -34,7 +34,7 @@ class Google_CurlIO extends Google_IO {
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_FOLLOWLOCATION => 0,
       CURLOPT_FAILONERROR => false,
-      CURLOPT_SSL_VERIFYPEER => true,
+      CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_HEADER => true,
       CURLOPT_VERBOSE => false,
   );

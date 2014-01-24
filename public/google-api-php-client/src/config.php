@@ -31,7 +31,7 @@ $apiConfig = array(
 
     // The developer key, you get this at https://code.google.com/apis/console
     //'developer_key' => 'AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8',
-    'developer_key' => 'AIzaSyCgRDHRL8EpXGqfP2GwIRI7DXrVIJ20ODo',
+//    'developer_key' => 'AIzaSyCgRDHRL8EpXGqfP2GwIRI7DXrVIJ20ODo',
     // Site name to show in the Google's OAuth 1 authentication screen.
     'site_name' => 'www.windowrnr.com',
 
