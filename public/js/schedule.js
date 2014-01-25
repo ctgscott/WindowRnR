@@ -225,37 +225,39 @@ $(document).ready(function(){
 			eventSources: [
 			{
 				url: '/events/getCalEvents/x/x/1',
-//				events: cal1,
-				color: 'yellow',
-				textColor: 'grey',
-				borderColor: 'grey'
-			},
-			{
-				url: '/events/getCalEvents/x/x/1',
 				type: 'GET',
-/*				data: {
-					startX: 'x',
-					endX: 'x'
-				},
-*/				success: function(data) {
+				success: function(data) {
 					mapPaint(data);
 				},
 				error: function() {
 					alert('there was an error while fetching events!');
 				},
-				color: 'red',   // a non-ajax option
-				textColor: 'white' // a non-ajax option
+				color: 'yellow',
+				textColor: 'grey',
+				borderColor: 'grey'
 			},
 			{
 				url: '/events/getCalEvents/x/x/2',
-//				events: cal2,
+				type: 'GET',
+				success: function(data) {
+//					mapPaint(data);
+				},
+				error: function() {
+					alert('there was an error while fetching events!');
+				},
 				color: 'blue',
 				textColor: 'white',
 				borderColor: 'grey'
 			},
 			{
 				url: '/events/getCalEvents/x/x/3',
-//				events: cal3,
+				type: 'GET',
+				success: function(data) {
+//					mapPaint(data);
+				},
+				error: function() {
+					alert('there was an error while fetching events!');
+				},
 				color: 'green',
 				textColor: 'white',
 				borderColor: 'grey'
@@ -276,7 +278,7 @@ $(document).ready(function(){
 
 	$('#map_day').hide();
 
-	$('#map_1').gmap().bind('init', function() { 
+/*	$('#map_1').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events1').val());
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
@@ -291,7 +293,7 @@ $(document).ready(function(){
 			});
 		});
 	});
-
+*/
 	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
 		$.each( markers, function(n, marker) {
@@ -524,8 +526,49 @@ $(document).ready(function(){
 				}
 			});
 			console.log("map1 = "+map1);
+			mapOne(map1);
 		} else if ( $(".fc-button-agendaDay").hasClass("fc-state-active")) {
 			alert('hello day');
 		}
+//		var view = $('#calendar').fullCalendar('getView');
+//		alert("The view's title is " + view.title);
 	};
+	
+	function mapOne(data) {
+		alert("fired mapOne");
+		$('#map_1').gmap().bind('init', function() { 
+			$.each( data, function(n, item) {
+				var icon = "/img/"+item.avatar;					
+				$('#map_1').gmap('addMarker', { 
+					'title': item.title,
+					'position': new google.maps.LatLng(item.lat, item.lng), 
+					'bounds': true,
+					'animation': google.maps.Animation.DROP,
+					'icon': icon
+				}).click(function() {
+					$('#map_1').gmap('openInfoWindow', { 'content': item.description }, this);
+				});
+			});
+		});
+	};
+
+	function initialize() {
+	  var mapOptions = {
+		zoom: 4,
+		center: new google.maps.LatLng(-33, 151)
+	  }
+	  var map = new google.maps.Map(document.getElementById('#map_1'),
+									mapOptions);
+
+	  var image = 'images/beachflag.png';
+	  var myLatLng = new google.maps.LatLng(-33.890542, 151.274856);
+	  var beachMarker = new google.maps.Marker({
+		  position: myLatLng,
+		  map: map,
+		  icon: image
+	  });
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
 });
+
