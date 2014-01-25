@@ -506,10 +506,10 @@ $(document).ready(function(){
 	function mapPaint(events, start) {
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
 		var start = $('#calendar').fullCalendar('getView').visStart;
-		alert("start = "+start);
+//		alert("start = "+start);
 		if ( $(".fc-button-agendaWeek").hasClass("fc-state-active")) {
 			$(events).each(function(index) {
-				if ( this.cal_user_id == 1) {
+				if ( this.start >= start && this.end <= start+86399) {
 					map1.push(this);
 				} else if ( this.cal_user_id == 2) {
 					map2.push(this);
