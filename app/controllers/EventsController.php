@@ -153,7 +153,7 @@ class EventsController extends BaseController {
 					->get();
 			}
 		} else {
-			$events = DB::table('events')
+			$events = DB::table('calendar_all')
 				->where('start', '>=', $start)
 				->where('end', '<=', $end)
 				->get();

@@ -19,6 +19,7 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>
+<script type='text/javascript' src="{{ asset('js/maps.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>

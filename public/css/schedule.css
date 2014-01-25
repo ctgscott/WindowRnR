@@ -1,3 +1,21 @@
+.1 {
+	background-color: yellow; 
+	border-color: grey;     
+	color: grey;
+}
+
+.2 {
+	background-color: blue; 
+	border-color: grey;     
+	color: white;
+}
+
+.3 {
+	background-color: green; 
+	border-color: grey;     
+	color: white;
+}
+
 .fc-header {
 	width: 1130px;
 	position: relative;

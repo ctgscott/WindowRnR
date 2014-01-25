@@ -224,44 +224,31 @@ $(document).ready(function(){
 
 			eventSources: [
 			{
-				url: '/events/getCalEvents/x/x/1',
+				url: '/events/getCalEvents/x/x/all',
 				type: 'GET',
-				success: function(data) {
-					mapPaint(data);
+				success: function(events) {
+					$(events).each(function() {
+						if(this.cal_user_id == 1) {
+							this['textColor'] = 'grey';
+							this['backgroundColor'] = 'yellow';
+							this['borderColor'] = 'grey';
+						} else if(this.cal_user_id == 2) {
+							this['textColor'] = 'white';
+							this['backgroundColor'] = 'blue';
+							this['borderColor'] = 'grey';
+						} else if(this.cal_user_id == 3) {
+							this['textColor'] = 'white';
+							this['backgroundColor'] = 'green';
+							this['borderColor'] = 'grey';
+						}
+					});
+					console.log("events ="+events);
+					mapPaint(events);
 				},
 				error: function() {
 					alert('there was an error while fetching events!');
 				},
-				color: 'yellow',
-				textColor: 'grey',
-				borderColor: 'grey'
 			},
-			{
-				url: '/events/getCalEvents/x/x/2',
-				type: 'GET',
-				success: function(data) {
-//					mapPaint(data);
-				},
-				error: function() {
-					alert('there was an error while fetching events!');
-				},
-				color: 'blue',
-				textColor: 'white',
-				borderColor: 'grey'
-			},
-			{
-				url: '/events/getCalEvents/x/x/3',
-				type: 'GET',
-				success: function(data) {
-//					mapPaint(data);
-				},
-				error: function() {
-					alert('there was an error while fetching events!');
-				},
-				color: 'green',
-				textColor: 'white',
-				borderColor: 'grey'
-			}
 		]
 	});
 /*  Full Calendar - End */
@@ -384,6 +371,7 @@ $(document).ready(function(){
 			value = 0;
 		}
 		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+		$('#calendar').fullCalendar('refetchEvents');
 	});
 
 	$( "#salescheckbox2" ).click(function() {
@@ -395,6 +383,7 @@ $(document).ready(function(){
 			value = 0;
 		}
 		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+		$('#calendar').fullCalendar('refetchEvents');
 	});
 
 	$( "#salescheckbox3" ).click(function() {
@@ -406,6 +395,7 @@ $(document).ready(function(){
 			value = 0;
 		}
 		$.post( "/profiles/postSalesCheckBox", { id: id, value: value });
+		$('#calendar').fullCalendar('refetchEvents');
 	});
 	
 	$( "#reset_page" ).click(function() {
@@ -513,8 +503,10 @@ $(document).ready(function(){
  		});
 	});
 	
-	function mapPaint(events) {
+	function mapPaint(events, start) {
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
+		var start = $('#calendar').fullCalendar('getView').visStart;
+		alert("start = "+start);
 		if ( $(".fc-button-agendaWeek").hasClass("fc-state-active")) {
 			$(events).each(function(index) {
 				if ( this.cal_user_id == 1) {
@@ -534,41 +526,6 @@ $(document).ready(function(){
 //		alert("The view's title is " + view.title);
 	};
 	
-	function mapOne(data) {
-		alert("fired mapOne");
-		$('#map_1').gmap().bind('init', function() { 
-			$.each( data, function(n, item) {
-				var icon = "/img/"+item.avatar;					
-				$('#map_1').gmap('addMarker', { 
-					'title': item.title,
-					'position': new google.maps.LatLng(item.lat, item.lng), 
-					'bounds': true,
-					'animation': google.maps.Animation.DROP,
-					'icon': icon
-				}).click(function() {
-					$('#map_1').gmap('openInfoWindow', { 'content': item.description }, this);
-				});
-			});
-		});
-	};
 
-	function initialize() {
-	  var mapOptions = {
-		zoom: 4,
-		center: new google.maps.LatLng(-33, 151)
-	  }
-	  var map = new google.maps.Map(document.getElementById('#map_1'),
-									mapOptions);
-
-	  var image = 'images/beachflag.png';
-	  var myLatLng = new google.maps.LatLng(-33.890542, 151.274856);
-	  var beachMarker = new google.maps.Marker({
-		  position: myLatLng,
-		  map: map,
-		  icon: image
-	  });
-	}
-
-	google.maps.event.addDomListener(window, 'load', initialize);
 });
 
