@@ -18,15 +18,15 @@ Schedule Appointments
 <script type='text/javascript' src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/fullcalendar.min.js') }}"></script>
-<script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>
+<!--<script type='text/javascript' src="{{ asset('js/leaflet.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/maps.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/calendar.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/schedule.js') }}"></script>
 <!--<script type='text/javascript' src="{{ asset('js/jquery.validationEngine.js') }}"></script>
 <script type='text/javascript' src="{{ asset('js/jquery.validationEngine-en.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/moment.min.js') }}"></script>
-<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-<script type='text/javascript' src="{{ asset('js/gomap-1.3.2.js') }}"></script>
+<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<!--<script type='text/javascript' src="{{ asset('js/gomap-1.3.2.js') }}"></script>-->
 <script type='text/javascript' src="{{ asset('js/jquery.ui.map.full.min.js') }}"></script>
 @stop
 
@@ -43,9 +43,9 @@ Schedule Appointments
 </div>
 
 <div id="map_container" class="container-fluid mapContainer">
-<!--	<span class="maps map1" id="map_1"></span>
-	<span class="maps" id="map_2">2</span>
-	<span class="maps" id="map_3">3</span>
+<!--	<span class="maps map1" id="map_one"></span>
+	<span class="maps" id="map_two">2</span>
+	<span class="maps" id="map_three">3</span>
 	<span class="maps" id="map_4">4</span>
 	<span class="maps" id="map_5">5</span>-->
 	<input type="hidden" id="profiles" value='{{ json_encode($profiles) }}'/>
