@@ -281,7 +281,7 @@ $(document).ready(function(){
 		});
 	});
 */
-	$('#map_2').gmap().bind('init', function() { 
+/*	$('#map_2').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events2').val());
 		$.each( markers, function(n, marker) {
 			var icon = "/img/"+marker.avatar;					
@@ -296,7 +296,7 @@ $(document).ready(function(){
 			});
 		});
 	});
-
+*/
 /*	$('#map_3').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events3').val());
 		$.each( markers, function(n, marker) {
@@ -312,7 +312,7 @@ $(document).ready(function(){
 			});
 		});
 	});
-*/
+
 	$('#map_4').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events4').val());
 		$.each( markers, function(n, marker) {
@@ -344,7 +344,7 @@ $(document).ready(function(){
 			});
 		});
 	});
-	
+*/	
 /*	$('#map_day').gmap().bind('init', function() { 
 		var markers = jQuery.parseJSON($('#events5').val());
 		$.each( markers, function(n, marker) {
@@ -477,8 +477,12 @@ $(document).ready(function(){
 //		$("#map_day_container").collapse('hide');
 	});
 
-	$( "#rerender" ).click(function() {
+/*	$( "#rerender" ).click(function() {
 		$('#calendar').fullCalendar('render');
+	});
+*/	
+	$( "#rerender" ).click(function() {
+		removeMarkers();
 	});
 	
 	$( "#calendar" ).load(function() {
@@ -504,7 +508,7 @@ $(document).ready(function(){
 	});
 	
 	function mapPaint(events, start) {
-		alert("fired mapPaint");
+//		alert("fired mapPaint");
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
 		var start = Date.parse($('#calendar').fullCalendar('getView').visStart)/1000;
 		var day2Start = start+86400;
@@ -512,33 +516,47 @@ $(document).ready(function(){
 		var day4Start = day3Start+86400;
 		var day5Start = day4Start+86400;
 //		alert("start = "+start);
+
+		var mapOptions = {};
+		function initialize() {	
+			mapOptions = {
+				center: new google.maps.LatLng(34.052234, -118.243685),
+				zoom: 8,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+			};
+		};
+		
+		google.maps.event.addDomListener(window, 'load', initialize);
+		
 		if ( $(".fc-button-agendaWeek").hasClass("fc-state-active")) {
 			$(events).each(function(index) {
 /*				console.log("start = "+this.start);
 				console.log("end = "+this.end);
 				console.log("day2Start = "+day2Start);
-*/				if ( this.start >= start && this.end <= start+86399) {
+*/				if (( this.start >= start && this.start <= start+86399) || (this.end >= start && this.end <= start+86399)) {
 					map1.push(this);
 //					alert(map1);
-				} else if ( this.start >= day2Start && this.end <= day2Start+86399) {
+				} else if (( this.start >= day2Start && this.start <= day2Start+86399) || (this.end >= day2Start && this.end <= day2Start+86399)) {
 					map2.push(this);
-				} else if ( this.start >= day3Start && this.end <= day3Start+86399) {
+				} else if (( this.start >= day3Start && this.start <= day3Start+86399) || (this.end >= day3Start && this.end <= day3Start+86399)) {
 					map3.push(this);
-				} else if ( this.start >= day4Start && this.end <= day4Start+86399) {
+				} else if (( this.start >= day4Start && this.start <= day4Start+86399) || (this.end >= day4Start && this.end <= day4Start+86399)) {
 					map4.push(this);
-				} else if ( this.start >= day5Start && this.end <= day5Start+86399) {
+				} else if (( this.start >= day5Start && this.start <= day5Start+86399) || (this.end >= day5Start && this.end <= day5Start+86399)) {
 					map5.push(this);
 				}
 			});
 			
-			initMap1(map1);
-			initMap2(map2);
-			initMap3(map3);
-			initMap4(map4);
-			initMap5(map5);
+			
+			initMap1(map1, mapOptions);
+			initMap2(map2, mapOptions);
+			initMap3(map3, mapOptions);
+			initMap4(map4, mapOptions);
+			initMap5(map5, mapOptions);
 		} else if ( $(".fc-button-agendaDay").hasClass("fc-state-active")) {
 			alert('hello day');
 		}
+		console.log("markersArray = ", markersArray);
 //		var view = $('#calendar').fullCalendar('getView');
 //		alert("The view's title is " + view.title);
 	};
