@@ -1,6 +1,7 @@
 var cal1 = [];
 var cal2 = [];
 var cal3 = [];
+var eventsList = [];
 var date = new Date(), y = date.getFullYear(), m = date.getMonth();
 var firstDay = new Date(y, m, 1);
 var lastDay = new Date(y, m + 1, 0);
@@ -242,7 +243,7 @@ $(document).ready(function(){
 							this['borderColor'] = 'grey';
 						}
 					});
-					console.log("events ="+events);
+					console.log("events (calendar) =", events);
 					mapPaint(events);
 				},
 				error: function() {
@@ -413,8 +414,9 @@ $(document).ready(function(){
 		$("#calendar" ).css( "width", "49%" );
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
 		$('#calendar').fullCalendar('render');
-
-		var map_day = L.map('map_day', {
+		mapPaint(eventsList);
+		
+/*		var map_day = L.map('map_day', {
 			trackResize: true,
 			zoomControl: true,
 		}).setView([37.8, -96], 4);
@@ -440,7 +442,7 @@ $(document).ready(function(){
 		});
 		
 		map_day.fitBounds(bounds);
-		
+*/		
 /*		$('#map_day').gmap().bind('init', function() { 
 			var markers = jQuery.parseJSON($('#events1').val());
 			$.each( markers, function(n, marker) {
@@ -489,7 +491,7 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('render');
 	});
 	
-	$(".fc-button-agendaDay, .fc-button-agendaWeek, .fc-button-month, fc-button-today, fc-button-next, fc-button-prev").click(function() {
+/*	$(".fc-button-agendaDay, .fc-button-agendaWeek, .fc-button-month, fc-button-today, fc-button-next, fc-button-prev").click(function() {
 		$('#map_1').gmap().bind('init', function() { 
 			var markers = jQuery.parseJSON($('#events1').val());
 			$.each( markers, function(n, marker) {
@@ -506,8 +508,8 @@ $(document).ready(function(){
 			});
  		});
 	});
-	
-	function mapPaint(events, start) {
+*/	
+	function mapPaint(events) {
 //		alert("fired mapPaint");
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
 		var start = Date.parse($('#calendar').fullCalendar('getView').visStart)/1000;
@@ -535,7 +537,6 @@ $(document).ready(function(){
 				console.log("day2Start = "+day2Start);
 */				if (( this.start >= start && this.start <= start+86399) || (this.end >= start && this.end <= start+86399)) {
 					map1.push(this);
-//					alert(map1);
 				} else if (( this.start >= day2Start && this.start <= day2Start+86399) || (this.end >= day2Start && this.end <= day2Start+86399)) {
 					map2.push(this);
 				} else if (( this.start >= day3Start && this.start <= day3Start+86399) || (this.end >= day3Start && this.end <= day3Start+86399)) {
@@ -547,14 +548,28 @@ $(document).ready(function(){
 				}
 			});
 			
-			
 			initMap1(map1, mapOptions);
 			initMap2(map2, mapOptions);
 			initMap3(map3, mapOptions);
 			initMap4(map4, mapOptions);
 			initMap5(map5, mapOptions);
+			
+			eventsList = events;
+			console.log("eventsList = ", eventsList);
 		} else if ( $(".fc-button-agendaDay").hasClass("fc-state-active")) {
-			alert('hello day');
+//			alert("mapDay");
+			$(events).each(function(index) {
+				var startNum = Date.parse(this.start)/1000;
+				var endNum = Date.parse(this.end)/1000;
+				alert("start = "+start+" and this.start = "+startNum);
+				if (( startNum >= start && startNum <= start+86399) || (endNum >= start && endNum <= start+86399)) {
+					alert("hi");
+					map_day.push(this);
+				}
+			});
+			console.log("events = ", events);
+			console.log("map_day = ", map_day);
+			mapDay(map_day, mapOptions);
 		}
 		console.log("markersArray = ", markersArray);
 //		var view = $('#calendar').fullCalendar('getView');

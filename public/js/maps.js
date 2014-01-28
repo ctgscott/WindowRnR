@@ -188,6 +188,38 @@ function initMap5(events, mapOptions) {
 //	google.maps.event.addDomListener(window, 'load', initialize);
 };
 
+function mapDay(events, mapOptions) {
+	console.log("mapDay fired with events = ", events);
+	var mapDay = new google.maps.Map(document.getElementById('map_day'), mapOptions);
+	
+	var boundsDay = new google.maps.LatLngBounds();
+	$.each( events, function(n, event) {
+		var myLatLng = new google.maps.LatLng(event.lat, event.lng);
+		var marker = new google.maps.Marker({
+			position: myLatLng,
+			map: mapDay,
+			icon: '/img/'+event.avatar,
+			animation: google.maps.Animation.DROP,
+			title: event.title,
+		});
+		
+		markersArray.push(marker);
+		console.log(marker);
+		boundsDay.extend(myLatLng);
+		mapDay.fitBounds(boundsDay);
+		mapDay.setCenter(boundsDay.getCenter());
+		
+		var infowindow = new google.maps.InfoWindow({
+			content: event.title
+		});
+		
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.open(mapDay,marker);
+		});
+
+	});
+};
+
 function setMarkers(map, events) {
 //	alert('called setMarkers');
 	console.log("setMarkers for map: "+map+" - events = "+events);
