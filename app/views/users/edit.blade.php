@@ -37,13 +37,13 @@ Profile</h4>
         <div class="control-group {{ $errors->has('lastName') ? 'error' : '' }}" for="lastName">
         	<label class="control-label" for="lastName">Last Name</label>
     		<div class="controls">
-				<input name="lastName" value="{{ (Request::old('lastName')) ? Request::old("lastName") : $user->last_name }}" type="text" class="input-xlarge" placeholder="Last Name">
+				<input name="lastName" value="{{ (Request::old('lastName')) ? Request::old('lastName') : $user->last_name }}" type="text" class="input-xlarge" placeholder="Last Name">
     			{{ ($errors->has('lastName') ?  $errors->first('lastName') : '') }}
     		</div>
     	</div>
 
         <div class="avatar">
-			<label class="control-label avatar-radios" for="avatars">Avatars</label>
+			<label class="control-label avatar-radios" for="avatars">Avatar</label>
 			<div id="avatars">
 				<div id="avatarImgs" class="controls">
 					<img src="/img/WinPin1.png">
@@ -68,8 +68,25 @@ Profile</h4>
 					<input type="radio" name="avatar" id="avatarRadio9" value="WinPin9.png" @if ($avatar == 'WinPin9.png') checked @endif >
 				</div>
 			</div>
+		</div>
+		
+		<div class="googleCalID" style="margin-top: 10px;">
+			<label class="control-label" for="googleCalID">Google Calendar ID</label>
+    		<div class="controls">
+				<input name="googleCalID" value="{{ $googleCalID }}" type="text" class="input-xlarge" placeholder="Google Calendar ID" style="width: 500px;">
+    			{{ ($errors->has('googleCalID') ?  $errors->first('googleCalID') : '') }}
+    		</div>
+		</div>
+		
+        <div class="control-group {{ $errors->has('email') ? 'error' : '' }}" for="email" style="margin-top: 20px;">
+        	<label class="control-label" for="email">Email</label>
+    		<div class="controls">
+				<input name="email" value="{{ (Request::old('email')) ? Request::old('email') : $user->email }}" type="text" class="input-xlarge" placeholder="Email">
+    			{{ ($errors->has('email') ?  $errors->first('email') : '') }}
+    		</div>
+    	</div>
 
-    	<div class="form-actions">
+		<div class="form-actions">
 	    	<input class="btn-primary btn" type="submit" value="Submit Changes"> 
 	    	<input class="btn-inverse btn" type="reset" value="Reset">
 	    </div>

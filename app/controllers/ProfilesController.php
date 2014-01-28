@@ -166,6 +166,32 @@ class ProfilesController extends BaseController {
 		}
 	}
 
+	public static function saveGoogleCalID($id, $googleCalID)
+	{
+		if ( ! Sentry::check())
+		{
+			// User is not logged in, or is not activated
+			if (isset($_SESSION['token'])) {
+				unset($_SESSION['token']);
+			}
+			Session::flash('error', 'There was a problem accessing your account.');
+			return Redirect::to('/');
+		}
+		else
+		{
+			// User is logged in
+			try {
+				$results = DB::table('profiles')
+					->where('id', $id)
+					->update(array('google_calendar_id' => $googleCalID));
+				return $results;
+			}
+			catch (Exception $e) {
+				return $e;
+			}
+		}
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

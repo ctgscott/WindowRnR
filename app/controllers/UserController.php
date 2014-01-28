@@ -551,6 +551,7 @@ class UserController extends BaseController {
 				$data['userGroups'] = $data['user']->getGroups();
 				$data['allGroups'] = Sentry::getGroupProvider()->findAll();
 				$data['avatar'] = ProfilesController::getAvatar($id);
+				$data['googleCalID'] = ProfilesController::getGoogleCalendarID($id);
 				$firephp->log($id, '$id = ');
 				$firephp->log($data['avatar'], '$data = ');
 
@@ -563,6 +564,7 @@ class UserController extends BaseController {
 				$data['user'] = Sentry::getUserProvider()->findById($id);
 				$data['userGroups'] = $data['user']->getGroups();
 				$data['avatar'] = ProfilesController::getAvatar($id);
+				$data['googleCalID'] = ProfilesController::getGoogleCalendarID($id);
 				return View::make('users.edit')->with($data);
 			} else {
 				Session::flash('error', 'You don\'t have access to that user.');
@@ -588,7 +590,8 @@ class UserController extends BaseController {
 		$input = array(
 			'firstName' => Input::get('firstName'),
 			'lastName' => Input::get('lastName'),
-			'avatar' => Input::get('avatar')
+			'avatar' => Input::get('avatar'),
+			'email' => Input::get('email')
 			);
 			$firephp->log($input, '$input = ');
 
@@ -624,8 +627,10 @@ class UserController extends BaseController {
 				    // Update the user details
 				    $user->first_name = $input['firstName'];
 				    $user->last_name = $input['lastName'];
+					$user->email = $input['email'];
 
 					$saveAvatar = ProfilesController::saveAvatar($id, Input::get('avatar'));
+					$saveGoogleCalID = ProfilesController::saveGoogleCalID($id, Input::get('googleCalID'));
 					$firephp->log($saveAvatar, '$saveAvatar = ');
 //					exit();
 				    // Update the user

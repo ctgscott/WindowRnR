@@ -149,7 +149,6 @@ $(document).ready(function(){
 							url: '/customers/postGoogleInsert',
 							data: googleInsert,
 							success: function(data) {
-								alert(data)
 								document.location.href='/customers';
 							}
 						});
@@ -220,7 +219,6 @@ $(document).ready(function(){
         },
 		
 			windowResize: function(view) {
-				alert('The calendar has adjusted to a window resize');
 			},
 
 			eventSources: [
@@ -256,7 +254,6 @@ $(document).ready(function(){
 
 	$('.fc-header > tbody:last').append('<tr id="map_tr" class="collapse"></tr>');
 		$('#map_tr').append('<td id="map_td" class="mapContainer" colspan="3"></td>');
-//	$('#map_td').append('<span class="maps map1" id="map_1"></span><span class="maps" id="map_2">2</span><span class="maps" id="map_3">3</span><span class="maps" id="map_4">4</span><span class="maps" id="map_5">5</span>');
 			$('#map_td').append('<div id="maps_block"></div>');
 				$('#maps_block').append('<span class="maps map1" id="map_1"></span>');
 				$('#maps_block').append('<span class="maps map2" id="map_2"></span>');
@@ -265,103 +262,6 @@ $(document).ready(function(){
 				$('#maps_block').append('<span class="maps map5" id="map_5"></span>');
 
 	$('#map_day').hide();
-
-/*	$('#map_1').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events1').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_1').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_1').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-*/
-/*	$('#map_2').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events2').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_2').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_2').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-*/
-/*	$('#map_3').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events3').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_3').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_3').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-
-	$('#map_4').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events4').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_4').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_4').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-
-	$('#map_5').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events5').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_5').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_5').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-*/	
-/*	$('#map_day').gmap().bind('init', function() { 
-		var markers = jQuery.parseJSON($('#events5').val());
-		$.each( markers, function(n, marker) {
-			var icon = "/img/"+marker.avatar;					
-			$('#map_day').gmap('addMarker', { 
-				'title': marker.title,
-				'position': new google.maps.LatLng(marker.lat, marker.lng), 
-				'bounds': true,
-				'animation': google.maps.Animation.DROP,
-				'icon': icon
-			}).click(function() {
-				$('#map_day').gmap('openInfoWindow', { 'content': marker.description }, this);
-			});
-		});
-	});
-*/	
 
 	$( "#salescheckbox1" ).click(function() {
 		var id = $( "#salescheckbox1" ).val();
@@ -404,8 +304,6 @@ $(document).ready(function(){
 	});
 	
 	$( ".fc-button-agendaDay" ).click(function() {
-//		$('#map_container').collapse('hide');
-//		$('#maps_block').hide();
 		$('#maps_block').collapse('hide');
 		$('.fc-header').width('1130px');
 		$('.fc-header').css( "max-width", "1130px" )		
@@ -415,74 +313,22 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('option', 'aspectRatio', .8);
 		$('#calendar').fullCalendar('render');
 		mapPaint(eventsList);
-		
-/*		var map_day = L.map('map_day', {
-			trackResize: true,
-			zoomControl: true,
-		}).setView([37.8, -96], 4);
-		
-		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-//			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-//			maxZoom: 18
-		}).addTo(map_day);
-		
-		var markers = jQuery.parseJSON($('#events1').val());
-		var bounds = new Array();
-		
-		$.each( markers, function(n, marker) {
-			var myIcon = L.icon({
-				iconUrl: "/img/"+marker.avatar
-			})
-			L.marker([marker.lat, marker.lng], {
-				title: marker.title,
-				icon: myIcon
-			}).addTo(map_day);
-			var newLatLng = new L.LatLng(marker.lat, marker.lng);
-			bounds.push(newLatLng);
-		});
-		
-		map_day.fitBounds(bounds);
-*/		
-/*		$('#map_day').gmap().bind('init', function() { 
-			var markers = jQuery.parseJSON($('#events1').val());
-			$.each( markers, function(n, marker) {
-				var icon = "/img/"+marker.avatar;					
-				$('#map_day').gmap('addMarker', { 
-					'title': marker.title,
-					'position': new google.maps.LatLng(marker.lat, marker.lng), 
-					'bounds': true,
-					'animation': google.maps.Animation.DROP,
-					'icon': icon
-				}).click(function() {
-					$('#map_day').gmap('openInfoWindow', { 'content': marker.description }, this);
-				});
-			});
-		});
-*/	});
+	});
 
 	$( ".fc-button-agendaWeek" ).click(function() {
-//		$('#map_container').collapse('show');
 		$('#map_day').hide();
 		$("#calendar" ).css( "width", "100%" );		
 		$('#calendar').fullCalendar('render');
 		$('#maps_block').collapse('show');
-//		$("#map_day_container").collapse('hide');
 	});
 
 	$( ".fc-button-month" ).click(function() {
-//		$('#map_container').hide();
-//		$('#map_tr').hide();
 		$('#maps_block').collapse('hide');
 		$("#calendar" ).css( "width", "100%" );
 		$('#calendar').fullCalendar('render');
 		$('#map_day').hide();
-//		$("#map_day_container").collapse('hide');
 	});
 
-/*	$( "#rerender" ).click(function() {
-		$('#calendar').fullCalendar('render');
-	});
-*/	
 	$( "#rerender" ).click(function() {
 		removeMarkers();
 	});
@@ -491,34 +337,14 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('render');
 	});
 	
-/*	$(".fc-button-agendaDay, .fc-button-agendaWeek, .fc-button-month, fc-button-today, fc-button-next, fc-button-prev").click(function() {
-		$('#map_1').gmap().bind('init', function() { 
-			var markers = jQuery.parseJSON($('#events1').val());
-			$.each( markers, function(n, marker) {
-				var icon = "/img/"+marker.avatar;					
-				$('#map_1').gmap('addMarker', { 
-					'title': marker.title,
-					'position': new google.maps.LatLng(marker.lat, marker.lng), 
-					'bounds': true,
-					'animation': google.maps.Animation.DROP,
-					'icon': icon
-				}).click(function() {
-					$('#map_1').gmap('openInfoWindow', { 'content': marker.description }, this);
-				});
-			});
- 		});
-	});
-*/	
 	function mapPaint(events) {
-//		alert("fired mapPaint");
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
 		var start = Date.parse($('#calendar').fullCalendar('getView').visStart)/1000;
 		var day2Start = start+86400;
 		var day3Start = day2Start+86400;
 		var day4Start = day3Start+86400;
 		var day5Start = day4Start+86400;
-//		alert("start = "+start);
-
+		
 		var mapOptions = {};
 		function initialize() {	
 			mapOptions = {
@@ -532,10 +358,7 @@ $(document).ready(function(){
 		
 		if ( $(".fc-button-agendaWeek").hasClass("fc-state-active")) {
 			$(events).each(function(index) {
-/*				console.log("start = "+this.start);
-				console.log("end = "+this.end);
-				console.log("day2Start = "+day2Start);
-*/				if (( this.start >= start && this.start <= start+86399) || (this.end >= start && this.end <= start+86399)) {
+				if (( this.start >= start && this.start <= start+86399) || (this.end >= start && this.end <= start+86399)) {
 					map1.push(this);
 				} else if (( this.start >= day2Start && this.start <= day2Start+86399) || (this.end >= day2Start && this.end <= day2Start+86399)) {
 					map2.push(this);
@@ -557,13 +380,12 @@ $(document).ready(function(){
 			eventsList = events;
 			console.log("eventsList = ", eventsList);
 		} else if ( $(".fc-button-agendaDay").hasClass("fc-state-active")) {
-//			alert("mapDay");
 			$(events).each(function(index) {
-				var startNum = Date.parse(this.start)/1000;
-				var endNum = Date.parse(this.end)/1000;
-				alert("start = "+start+" and this.start = "+startNum);
-				if (( startNum >= start && startNum <= start+86399) || (endNum >= start && endNum <= start+86399)) {
-					alert("hi");
+				if($.isNumeric(this.start) == false) {
+					this.start = Date.parse(this.start)/1000;
+					this.end = Date.parse(this.end)/1000;
+				}
+				if (( this.start >= start && this.start <= start+86399) || (this.end >= start && this.end <= start+86399)) {
 					map_day.push(this);
 				}
 			});
@@ -572,8 +394,6 @@ $(document).ready(function(){
 			mapDay(map_day, mapOptions);
 		}
 		console.log("markersArray = ", markersArray);
-//		var view = $('#calendar').fullCalendar('getView');
-//		alert("The view's title is " + view.title);
 	};
 	
 
