@@ -339,42 +339,10 @@ class CustomersController extends BaseController {
 				->select('customers.id as customer_id', 'customers.l_name as customer_lname', 'customers.f_name as customer_fname', 'customers.phone as customer_phone', 'customers.alt_phone as customer_altphone', 'customers.email as customer_email', 'jobs.id as job_id', 'jobs.created_at as job_created_at', 'jobs.created_by as job_created_by', 'jobs.address as job_address', 'jobs.city as job_city', 'jobs.zip as job_zip', 'jobs.built as house_built')
 				->where('jobs.id', '=', $id)
 				->get();
-			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check');
-	
-				
-/*			$results['notes'] = DB::table('notes')
-				->join('users', 'notes.user_id', '=', 'users.id')
-				->select('notes.note', 'user_id', 'notes.created_at', 'users.first_name as user_name')
-				->where('job_id', '=', $id)
-				->orderBy('notes.created_at', 'desc')
-				->get();
-*/
+
 			$results['notes'] = DB::table('lead')
 				->where('user_id', '=', $id)
 				->get();
-			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check2');
-/*				
-			$results['customers'] = DB::table('jobs')
-				->join('customers', 'jobs.customer_id', '=', 'customers.id')
-				->select(
-					'customers.id as customer_id', 
-					'customers.l_name as customer_lname', 
-					'customers.f_name as customer_fname', 
-					'customers.phone as customer_phone', 
-					'customers.alt_phone as customer_altphone', 
-					'customers.email as customer_email', 
-					'jobs.id as job_id', 
-					'jobs.created_at as job_created_at', 
-					'jobs.created_by as job_created_by', 
-					'jobs.address as job_address', 
-					'jobs.city as job_city', 
-					'jobs.zip as job_zip', 
-					'jobs.built as job_house_built'
-				)
-				->where('jobs.status', '=', 1)
-				->where('jobs.archive', '=', 0)
-				->get();
-*/			$firephp->log(date("H:i:s:u", microtime(true)), 'Time Check3');
 				
 			$ts = strtotime("now");
 			$init = (date('w', $ts) == 1) ? strtotime('midnight') : strtotime('last Monday', $ts);
@@ -393,19 +361,14 @@ class CustomersController extends BaseController {
 			$salesChecks = ProfilesController::getSalesCheckBox();
 			$firephp->log($salesChecks, '$salesChecks = ');
 			
-/*			foreach($salesChecks as $key => $value) {
-				$firephp->log($key, '$key = ');
-				$firephp->log($value->user_id, '$value->user_id = ');
-				$results['cal'.$value->user_id] = EventsController::getCalEvents($mondayStart, $fridayEnd, $value->user_id);
-			}
-*/			$firephp->log(date("H:i:s", microtime(true)), 'Time Check4');
+			$firephp->log(date("H:i:s", microtime(true)), 'Time Check4');
 			
-			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
+/*			$results['map1'] = EventsController::getCalEvents($mondayStart, $mondayEnd);
 			$results['map2'] = EventsController::getCalEvents($tuesdayStart, $tuesdayEnd);
 			$results['map3'] = EventsController::getCalEvents($wednesdayStart, $wednesdayEnd);
 			$results['map4'] = EventsController::getCalEvents($thursdayStart, $thursdayEnd);
 			$results['map5'] = EventsController::getCalEvents($fridayStart, $fridayEnd);
-			$firephp->log(date("H:i:s", microtime(true)), 'Time Check5');
+*/			$firephp->log(date("H:i:s", microtime(true)), 'Time Check5');
 			
 			$results['profiles'] = UserController::getSalesProfiles();
 			

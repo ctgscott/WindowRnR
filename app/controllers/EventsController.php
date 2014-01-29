@@ -42,8 +42,23 @@ class EventsController extends BaseController {
 
 			foreach ($eventList['items'] as $event)
 			{
-				$address = urlencode($event['location']);
+				if (isset($event['location'])) {
+					$address = urlencode($event['location']);
+				} else {
+					$address = null;
+					$event['location'] = null;
+				}
+	set_time_limit(90);
 				$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
+//				$firephp->log($latlng, '$latlng');
+				if (isset($latlng->results[0]->geometry->location->lat)) {
+					$lat = $latlng->results[0]->geometry->location->lat;
+					$lng = $latlng->results[0]->geometry->location->lng;
+				} else {
+					$lat = null;
+					$lng = null;
+				}
+
 				$now = date("Y-m-d H:i:s");
 				if (!isset($event['description'])) {
 					$description = 'None';
@@ -64,10 +79,10 @@ class EventsController extends BaseController {
 					->select('id')
 					->where('google_event_id', '=', $event['id'])
 					->count();
-				$firephp->log($count, '$count');
+//				$firephp->log($count, '$count');
 
 				$updated = strtotime($event['updated']);
-				$firephp->log($updated, '$updated');
+//				$firephp->log($updated, '$updated');
 				if ($count ==1) {
 					DB::table('events')
 						->where('google_event_id', '=', $event['id'])
@@ -86,8 +101,8 @@ class EventsController extends BaseController {
 							'created_by' => $event['creator']['email'],
 							'created_at' => $now,
 							'updated_at' => $event['updated'],
-							'lat' => $latlng->results[0]->geometry->location->lat,
-							'lng' => $latlng->results[0]->geometry->location->lng
+							'lat' => $lat,
+							'lng' => $lng
 						));
 				} else if ($count == 0) {
 //					dump_r($latlng);
@@ -108,8 +123,8 @@ class EventsController extends BaseController {
 						'created_by' => $event['creator']['email'],
 						'created_at' => $now,
 						'updated_at' => $event['updated'],
-						'lat' => $latlng->results[0]->geometry->location->lat,
-						'lng' => $latlng->results[0]->geometry->location->lng
+						'lat' => $lat,
+						'lng' => $lng
 						)
 					);
 

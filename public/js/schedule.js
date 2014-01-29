@@ -338,6 +338,7 @@ $(document).ready(function(){
 	});
 	
 	function mapPaint(events) {
+		console.log("mapPaint-events", events);
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];
 		var start = Date.parse($('#calendar').fullCalendar('getView').visStart)/1000;
 		var day2Start = start+86400;
@@ -389,8 +390,9 @@ $(document).ready(function(){
 					map_day.push(this);
 				}
 			});
-			console.log("events = ", events);
+			console.log("agendaDay - events = ", events);
 			console.log("map_day = ", map_day);
+			console.log("this.start = ", this.start);
 			mapDay(map_day, mapOptions);
 		}
 		console.log("markersArray = ", markersArray);

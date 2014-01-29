@@ -20,14 +20,14 @@ class CreateEventsTable extends Migration {
 			$table->string('avatar');
 			$table->string('start');
 			$table->string('end');
-			$table->string('location');
+			$table->string('location')->nullable();
 			$table->string('description');
 			$table->integer('allDay');
 			$table->string('title');
 			$table->string('created_by');
 			$table->string('event_type');
-			$table->decimal('lat', 10, 8);
-			$table->decimal('lng', 11, 8);
+			$table->decimal('lat', 10, 8)->nullable();
+			$table->decimal('lng', 11, 8)->nullable();
 			$table->timestamps();
 		});
 	}

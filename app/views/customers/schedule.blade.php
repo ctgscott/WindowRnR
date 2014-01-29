@@ -47,16 +47,16 @@ Schedule Appointments
 	<span class="maps" id="map_two">2</span>
 	<span class="maps" id="map_three">3</span>
 	<span class="maps" id="map_4">4</span>
-	<span class="maps" id="map_5">5</span>-->
-	<input type="hidden" id="profiles" value='{{ json_encode($profiles) }}'/>
-	<input type="hidden" id="events1" value='{{ json_encode($map1) }}'/>
-	<input type="hidden" id="events2" value='{{ json_encode($map2) }}'/>
-	<input type="hidden" id="events3" value='{{ json_encode($map3) }}'/>
-	<input type="hidden" id="events4" value='{{ json_encode($map4) }}'/>
-	<input type="hidden" id="events5" value='{{ json_encode($map5) }}'/> 
-	<input type="hidden" id="cal1" value='{{ (isset($cal1) ? json_encode($cal1) : "none") }}'/>
-	<input type="hidden" id="cal2" value='{{ (isset($cal2) ? json_encode($cal2) : "none") }}'/>
-	<input type="hidden" id="cal3" value='{{ (isset($cal3) ? json_encode($cal3) : "none") }}'/>
+	<span class="maps" id="map_5">5</span>
+	<input type="hidden" id="profiles" value='{//{ json_encode($profiles) }}'/>
+	<input type="hidden" id="events1" value='{//{ json_encode($map1) }}'/>
+	<input type="hidden" id="events2" value='{//{ json_encode($map2) }}'/>
+	<input type="hidden" id="events3" value='{//{ json_encode($map3) }}'/>
+	<input type="hidden" id="events4" value='{//{ json_encode($map4) }}'/>
+	<input type="hidden" id="events5" value='{//{ json_encode($map5) }}'/> 
+	<input type="hidden" id="cal1" value='{//{ (isset($cal1) ? json_encode($cal1) : "none") }}'/>
+	<input type="hidden" id="cal2" value='{//{ (isset($cal2) ? json_encode($cal2) : "none") }}'/>
+	<input type="hidden" id="cal3" value='{//{ (isset($cal3) ? json_encode($cal3) : "none") }}'/>-->
 </div>
 <div class="container-fluid">
 	<div id="calendar">
