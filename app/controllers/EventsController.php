@@ -34,7 +34,8 @@ class EventsController extends BaseController {
 			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
 			$start = date('c',$start);
 			$end = date('c',$end);
-			$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
+		//	$params = array('singleEvents' => 'true', 'orderBy' => 'startTime', 'timeMin' => $start, 'timeMax' => $end);
+			$params = array('singleEvents' => 'true', 'orderBy' => 'updated', 'timeMin' => $start, 'timeMax' => $end);
 			$eventList = $cal->events->listEvents($newCal, $params);
 			$firephp->log($eventList, 'eventList');
 			
@@ -131,6 +132,46 @@ class EventsController extends BaseController {
 					echo $result;
 				}
 			}
+		}
+	}
+	
+	public static function updateEvents($start, $end, $calID)
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
+		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
+
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+	
+		$client = new Google_Client();
+		$client->setApplicationName("WindowRnR");
+		$cal = new Google_CalendarService($client);		
+
+		if (isset($_SESSION['token'])) {
+			$client->setAccessToken($_SESSION['token']);
+		}
+
+		if ($client->getAccessToken()) {
+			$updatedMin = date('c');
+			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
+			$firstRow = DB::table('events')->where('cal_user_id', $calID)->first();
+			$latestUpdate = $firstRow->updated_at;
+			$start = date('c',$start);
+			$end = date('c',$end);
+			$params = array(
+				'singleEvents' => 'true', 
+				'maxResults' => 100, 
+				'orderBy' => 'updated', 
+				//'updatedMin' => $updatedMin, 
+				'timeMin' => $start, 
+				'timeMax' => $end
+			);
+			$eventList = $cal->events->listEvents($newCal, $params);
+			$firephp->log($eventList, 'eventList');
+			$firephp->log($firstRow);
+			$firephp->log($latestUpdate);
 		}
 	}
 

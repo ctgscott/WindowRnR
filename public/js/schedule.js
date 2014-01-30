@@ -337,6 +337,13 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('render');
 	});
 	
+	$( ".fc-button-next, .fc-button-prev, .fc-button-today" ).click(function() {
+		if ($(".fc-button-agendaDay").hasClass("fc-state-active")) {
+			//$('#calendar').fullCalendar('refetchEvents');
+			//alert("refetched");
+		}
+	});
+	
 	function mapPaint(events) {
 		console.log("mapPaint-events", events);
 		var map1 = [], map2 = [], map3 = [], map4 = [], map5 = [], map_day  = [];

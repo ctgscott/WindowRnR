@@ -23,7 +23,7 @@ function initMap1(events, mapOptions) {
 				title: event.title,
 			});
 			
-			markersArray.push(marker);
+			//markersArray.push(marker);
 			console.log(marker);
 			bounds1.extend(myLatLng);
 			map1.fitBounds(bounds1);
@@ -61,7 +61,7 @@ function initMap2(events, mapOptions) {
 				animation: google.maps.Animation.DROP,
 				title: event.title,
 			});
-			markersArray.push(marker);
+			//markersArray.push(marker);
 			bounds2.extend(myLatLng);
 			map2.fitBounds(bounds2);
 			map2.setCenter(bounds2.getCenter());
@@ -97,7 +97,7 @@ function initMap3(events, mapOptions) {
 				animation: google.maps.Animation.DROP,
 				title: event.title,
 			});
-			markersArray.push(marker);
+			//markersArray.push(marker);
 			bounds3.extend(myLatLng);
 			map3.fitBounds(bounds3);
 			map3.setCenter(bounds3.getCenter());
@@ -133,7 +133,7 @@ function initMap4(events, mapOptions) {
 				animation: google.maps.Animation.DROP,
 				title: event.title,
 			});
-			markersArray.push(marker);
+			//markersArray.push(marker);
 			bounds4.extend(myLatLng);
 			map4.fitBounds(bounds4);
 			map4.setCenter(bounds4.getCenter());
@@ -169,7 +169,7 @@ function initMap5(events, mapOptions) {
 				animation: google.maps.Animation.DROP,
 				title: event.title,
 			});
-			markersArray.push(marker);
+			//markersArray.push(marker);
 			bounds5.extend(myLatLng);
 			map5.fitBounds(bounds5);
 			map5.setCenter(bounds5.getCenter());
@@ -203,7 +203,7 @@ function mapDay(events, mapOptions) {
 			title: event.title,
 		});
 		
-		markersArray.push(marker);
+		//markersArray.push(marker);
 		console.log(marker);
 		boundsDay.extend(myLatLng);
 		mapDay.fitBounds(boundsDay);

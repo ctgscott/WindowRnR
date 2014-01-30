@@ -32,6 +32,7 @@ Route::post('customers/jobDetail', 'JobsController@postJobDetailByCustID');
 Route::get('customers/{id}', 'CustomersController@getDetailID');
 Route::get('events/getGoogleCalEvents/{start}/{end}/{cal}', 'EventsController@getGoogleCalEvents');
 Route::get('events/getCalEvents/{start?}/{end?}/{cal?}', 'EventsController@getCalEvents');
+Route::get('events/updateEvents/{start?}/{end?}/{cal?}', 'EventsController@updateEvents');
 Route::post('profiles/postSalesCheckBox', 'ProfilesController@postSalesCheckBox');
 Route::get('profiles/getSalesCheckBox', 'ProfilesController@getSalesCheckBox');
 
