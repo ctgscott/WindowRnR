@@ -135,7 +135,7 @@ class EventsController extends BaseController {
 		}
 	}
 	
-	public static function updateEvents($start, $end, $calID)
+	public static function updateEvents($start, $end, $calID, $gCalID)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
@@ -154,8 +154,8 @@ class EventsController extends BaseController {
 
 		if ($client->getAccessToken()) {
 			$updatedMin = date('c');
-			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
-			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
+//			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
+//			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
 			$firstRow = DB::table('events')->where('cal_user_id', $calID)->first();
 			$latestUpdate = $firstRow->updated_at;
 			$start = date('c',$start);
@@ -168,10 +168,21 @@ class EventsController extends BaseController {
 				'timeMin' => $start, 
 				'timeMax' => $end
 			);
-			$eventList = $cal->events->listEvents($newCal, $params);
+			$eventList = $cal->events->listEvents($gCalID, $params);
 			$firephp->log($eventList, 'eventList');
 			$firephp->log($firstRow);
 			$firephp->log($latestUpdate);
+			
+			Schema::create('temp_events', function($table) {
+				$table->increments('id');
+				$table->string('google_event_id');
+				$table->timestamp('updated_at');
+			});
+			
+			foreach ($eventList['items'] as $event)
+			{
+			DB::table('temp_events')->insert(
+				array(
 		}
 	}
 
