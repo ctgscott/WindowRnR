@@ -135,7 +135,7 @@ class EventsController extends BaseController {
 		}
 	}
 	
-	public static function updateEvents($start, $end, $calID, $gCalID)
+	public static function updateEvents($start, $end, $gCalID)
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 		require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
@@ -153,36 +153,68 @@ class EventsController extends BaseController {
 		}
 
 		if ($client->getAccessToken()) {
-			$updatedMin = date('c');
+//			$updatedMin = date('c');
 //			$newCal = DB::table('profiles')->where('id', '=', $calID)->pluck('google_calendar_id');
 //			$avatar = DB::table('profiles')->where('id', '=', $calID)->pluck('avatar');
-			$firstRow = DB::table('events')->where('cal_user_id', $calID)->first();
-			$latestUpdate = $firstRow->updated_at;
+//			$firstRow = DB::table('events')->where('cal_user_id', $calID)->first();
+//			$latestUpdate = $firstRow->updated_at;
 			$start = date('c',$start);
 			$end = date('c',$end);
 			$params = array(
-				'singleEvents' => 'true', 
-				'maxResults' => 100, 
+			//	'singleEvents' => 'true', 
+			//	'maxResults' => 25, 
 				'orderBy' => 'updated', 
-				//'updatedMin' => $updatedMin, 
-				'timeMin' => $start, 
-				'timeMax' => $end
+			//	'updatedMin' => date('c', 1389764791),
+			//	'updatedMin' => $updatedMin, 
+			//	'timeMin' => $start, 
+			//	'timeMax' => $end
 			);
 			$eventList = $cal->events->listEvents($gCalID, $params);
 			$firephp->log($eventList, 'eventList');
-			$firephp->log($firstRow);
-			$firephp->log($latestUpdate);
+//			$firephp->log($firstRow);
+//			$firephp->log($latestUpdate);
 			
+			Schema::dropIfExists('temp_events');
 			Schema::create('temp_events', function($table) {
 				$table->increments('id');
 				$table->string('google_event_id');
+				$table->string('status');
 				$table->timestamp('updated_at');
 			});
+
+			$params2 = array(
+				'orderBy' => 'updated', 
+				'pageToken' => $eventList['nextPageToken']
+			);
+			$totalResult = [];
 			
-			foreach ($eventList['items'] as $event)
+			do {
+				if (isset($eventList['nextPageToken'])) {
+				   $eventList= $cal->events->listEvents($gCalID, $params2);
+				} else {
+				   $eventList= $cal->events->listEvents($gCalID, $params);
+				}
+				array_push($totalResult, $eventList['items']);
+			}while(isset($eventList['nextPageToken']) && !empty($eventList['nextPageToken']));
+
+			foreach ($totalResult as $event)
 			{
-			DB::table('temp_events')->insert(
-				array(
+				if ($event['status'] != 'cancelled') {
+					DB::table('temp_events')->insert(
+						array(
+							'google_event_id' => $event['id'],
+							'updated_at' => $event['updated']
+						)
+					);
+				} else {
+					DB::table('temp_events')->insert(
+						array(
+							'google_event_id' => $event['id'],
+							'status' => $event['status']
+						)
+					);
+				}
+			};
 		}
 	}
 
