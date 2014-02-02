@@ -170,7 +170,7 @@ class EventsController extends BaseController {
 			//	'timeMax' => $end
 			);
 			$eventList = $cal->events->listEvents($gCalID, $params);
-			$firephp->log($eventList, 'eventList');
+//			$firephp->log($eventList, 'eventList');
 //			$firephp->log($firstRow);
 //			$firephp->log($latestUpdate);
 			
@@ -181,6 +181,8 @@ class EventsController extends BaseController {
 				$table->string('status');
 				$table->timestamp('updated_at');
 			});
+			
+			set_time_limit(120); 
 
 			$params2 = array(
 				'orderBy' => 'updated', 
@@ -194,27 +196,29 @@ class EventsController extends BaseController {
 				} else {
 				   $eventList= $cal->events->listEvents($gCalID, $params);
 				}
-				array_push($totalResult, $eventList['items']);
+				//array_push($totalResult, $eventList['items']);
+
+				foreach ($eventList['items'] as $event)
+				{
+					if ($event['status'] != 'cancelled') {
+						DB::table('temp_events')->insert(
+							array(
+								'google_event_id' => $event['id'],
+								'updated_at' => $event['updated']
+							)
+						);
+					} else {
+						DB::table('temp_events')->insert(
+							array(
+								'google_event_id' => $event['id'],
+								'status' => $event['status']
+							)
+						);
+					}
+				};
+
 			}while(isset($eventList['nextPageToken']) && !empty($eventList['nextPageToken']));
 
-			foreach ($totalResult as $event)
-			{
-				if ($event['status'] != 'cancelled') {
-					DB::table('temp_events')->insert(
-						array(
-							'google_event_id' => $event['id'],
-							'updated_at' => $event['updated']
-						)
-					);
-				} else {
-					DB::table('temp_events')->insert(
-						array(
-							'google_event_id' => $event['id'],
-							'status' => $event['status']
-						)
-					);
-				}
-			};
 		}
 	}
 
