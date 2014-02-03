@@ -179,43 +179,50 @@ class EventsController extends BaseController {
 				$table->increments('id');
 				$table->string('google_event_id');
 				$table->string('status');
+				$table->string('htmlLink');
+				$table->string('summary');
+				$table->string('location');
+				$table->string('creatorEmail');
+				$table->string('organizerEmail');
+				$table->timestamp('start');
+				$table->timestamp('end');
 				$table->timestamp('updated_at');
 			});
 			
-			set_time_limit(120); 
-
-			$params2 = array(
-				'orderBy' => 'updated', 
-				'pageToken' => $eventList['nextPageToken']
-			);
 			$totalResult = [];
+			set_time_limit(150); 
 			
 			do {
+				$params2 = array(
+					'orderBy' => 'updated', 
+					'pageToken' => $eventList['nextPageToken']
+				);
+				
 				if (isset($eventList['nextPageToken'])) {
 				   $eventList= $cal->events->listEvents($gCalID, $params2);
+					foreach ($eventList['items'] as $event)
+					{
+						if ($event['status'] != 'cancelled') {
+							DB::table('temp_events')->insert(
+								array(
+									'google_event_id' => $event['id'],
+									'updated_at' => $event['updated']
+								)
+							);
+						} else {
+							DB::table('temp_events')->insert(
+								array(
+									'google_event_id' => $event['id'],
+									'status' => $event['status']
+								)
+							);
+						}
+					};
 				} else {
-				   $eventList= $cal->events->listEvents($gCalID, $params);
+				//   $eventList= $cal->events->listEvents($gCalID, $params);
 				}
 				//array_push($totalResult, $eventList['items']);
 
-				foreach ($eventList['items'] as $event)
-				{
-					if ($event['status'] != 'cancelled') {
-						DB::table('temp_events')->insert(
-							array(
-								'google_event_id' => $event['id'],
-								'updated_at' => $event['updated']
-							)
-						);
-					} else {
-						DB::table('temp_events')->insert(
-							array(
-								'google_event_id' => $event['id'],
-								'status' => $event['status']
-							)
-						);
-					}
-				};
 
 			}while(isset($eventList['nextPageToken']) && !empty($eventList['nextPageToken']));
 
