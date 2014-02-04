@@ -180,12 +180,14 @@ class EventsController extends BaseController {
 				$table->string('google_event_id');
 				$table->string('status');
 				$table->string('htmlLink');
-				$table->string('summary');
-				$table->string('location');
+				$table->string('summary')->nullable();
+				$table->string('location')->nullable();
+				$table->tinyInteger('all_day');
 				$table->string('creatorEmail');
 				$table->string('organizerEmail');
 				$table->timestamp('start');
 				$table->timestamp('end');
+				$table->timestamp('created_at');
 				$table->timestamp('updated_at');
 			});
 			
@@ -200,12 +202,40 @@ class EventsController extends BaseController {
 				
 				if (isset($eventList['nextPageToken'])) {
 				   $eventList= $cal->events->listEvents($gCalID, $params2);
+					$firephp->log($eventList, 'eventList');
 					foreach ($eventList['items'] as $event)
 					{
+						if (!isset($event['location'])) {
+							$event['location'] = null;
+						}
+
+						if (!isset($event['summary'])) {
+							$event['summary'] = null;
+						}
+
 						if ($event['status'] != 'cancelled') {
+							if (isset($event['start']['date'])) {
+								$event['all_day'] = 1;
+								$eventStart = $event['start']['date'];
+								$eventEnd = $event['end']['date'];
+							} else {
+								$event['all_day'] = 0;
+								$eventStart = $event['start']['dateTime'];
+								$eventEnd = $event['end']['dateTime'];
+							}
 							DB::table('temp_events')->insert(
 								array(
 									'google_event_id' => $event['id'],
+									'status' => $event['status'],
+									'htmlLink' => $event['htmlLink'],
+									'summary' => $event['summary'],
+									'location' => $event['location'],
+									'all_day' => $event['all_day'],
+									'creatorEmail' => $event['creator']['email'],
+									'organizerEmail' => $event['organizer']['email'],
+									'start' => $eventStart,
+									'end' => $eventEnd,
+									'created_at' => $event['created'],
 									'updated_at' => $event['updated']
 								)
 							);
@@ -229,6 +259,23 @@ class EventsController extends BaseController {
 		}
 	}
 
+	public static function updateEventsTable() 
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
+		ob_start();
+		$firephp = FirePHP::getInstance(true);
+
+		$appMissing = DB::table('temp_events')
+			->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
+			->get();
+			$firephp->log(count($appMissing), 'appMissing');
+
+		$googMissing = DB::table('events')
+			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
+			->get();
+			$firephp->log(count($googMissing), 'googMissing');
+	}
+	
 	public static function getCalEvents($start = null, $end = null, $calID = 'all')
 	{
 		require_once $_SERVER['DOCUMENT_ROOT'].'/FirePHPCore/FirePHP.class.php';	
