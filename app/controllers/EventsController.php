@@ -265,7 +265,20 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$appMissing = DB::table('temp_events')
+		$test2 = DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color')->get();
+		
+		$test = DB::table('test_1')
+			->leftJoin('test_2', 'test_2.name', '=', 'test_1.name')
+			->where('test_2.id', null)
+			->where('test_2.color', '!=', 'test_1.color')
+			->get();
+			$firephp->log($test, 'Test');
+			$firephp->log($test2, 'Test2');
+	//		$firephp->log('Test');
+	//		console.log('test2');
+			
+
+/*		$appMissing = DB::table('temp_events')
 			->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
 			->get();
 			$firephp->log(count($appMissing), 'appMissing');
@@ -274,7 +287,7 @@ class EventsController extends BaseController {
 			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
 			->get();
 			$firephp->log(count($googMissing), 'googMissing');
-	}
+*/	}
 	
 	public static function getCalEvents($start = null, $end = null, $calID = 'all')
 	{
