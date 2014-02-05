@@ -14,6 +14,8 @@ class CustomersController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
+		$firephp->log('Started in CustomersController');
+
 		if ( ! Sentry::check())
 		{
 			// User is not logged in, or is not activated
@@ -26,6 +28,10 @@ class CustomersController extends BaseController {
 			require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/Google_Client.php';
 			require_once $_SERVER['DOCUMENT_ROOT'].'/google-api-php-client/src/contrib/Google_CalendarService.php';
 			$client = new Google_Client();
+			$firephp->log('I appear logged in - passed Sentry::check');
+			$data = Session::all();
+			$firephp->log($data, '$data');
+
 			
 			if (isset($_GET['code'])) {
 				$client->authenticate($_GET['code']);
@@ -34,11 +40,14 @@ class CustomersController extends BaseController {
 				return Redirect::to('/customers');
 			}
 
-			if (isset($_SESSION['token'])) {
-				$client->setAccessToken($_SESSION['token']);
+		//	if (isset($_SESSION['token'])) {
+			if (isset($data['token'])) {
+//				$client->setAccessToken($_SESSION['token']);
+				$client->setAccessToken($data['token']);
 
 				try 
 				{
+					$firephp->log('got token about to try LeadCheck.php');
 					$leadCheck = file_get_contents('http://www.windowrnr.com/LeadCheck.php');
 					$firephp->log($leadCheck, 'leadCheck');
 					if (is_numeric($leadCheck)) {
@@ -79,7 +88,7 @@ class CustomersController extends BaseController {
 						->where('jobs.archive', '=', 0)
 						->get();
 					$firephp->log($results, 'Results');
-					$firephp->log($_SESSION, '_SESSION');
+					$firephp->log($data, 'data');
 
 					return View::make('customers.index')->with($results);
 				}
