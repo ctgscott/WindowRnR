@@ -265,7 +265,8 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$test2 = DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color')->get();
+		$test2 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color'));
+		$test3 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE b.id is NULL'));
 		
 		$test = DB::table('test_1')
 			->leftJoin('test_2', 'test_2.name', '=', 'test_1.name')
@@ -274,6 +275,7 @@ class EventsController extends BaseController {
 			->get();
 			$firephp->log($test, 'Test');
 			$firephp->log($test2, 'Test2');
+			$firephp->log($test3, 'Test3');
 	//		$firephp->log('Test');
 	//		console.log('test2');
 			
