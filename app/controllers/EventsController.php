@@ -177,7 +177,7 @@ class EventsController extends BaseController {
 			Schema::dropIfExists('temp_events');
 			Schema::create('temp_events', function($table) {
 				$table->increments('id');
-				$table->string('google_event_id');
+				$table->string('google_event_id')->unique();
 				$table->string('status');
 				$table->string('htmlLink');
 				$table->string('summary')->nullable();
@@ -188,20 +188,19 @@ class EventsController extends BaseController {
 				$table->timestamp('start');
 				$table->timestamp('end');
 				$table->timestamp('created_at');
-				$table->timestamp('updated_at');
+				$table->timestamp('updated_at', 6)->index();
 			});
 			
 			$totalResult = [];
 			set_time_limit(150); 
 			
 			do {
-				$params2 = array(
-					'orderBy' => 'updated', 
-					'pageToken' => $eventList['nextPageToken']
-				);
-				
 				if (isset($eventList['nextPageToken'])) {
-				   $eventList= $cal->events->listEvents($gCalID, $params2);
+					$params2 = array(
+						'orderBy' => 'updated', 
+						'pageToken' => $eventList['nextPageToken']
+					);
+					$eventList= $cal->events->listEvents($gCalID, $params2);
 					$firephp->log($eventList, 'eventList');
 					foreach ($eventList['items'] as $event)
 					{
@@ -265,31 +264,60 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-		$test2 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color'));
-		$test3 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE b.id is NULL'));
+//		$test2 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color'));
+//		$test3 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE b.id is NULL'));
 		
-		$test = DB::table('test_1')
+/*		$test = DB::table('test_1')
 			->leftJoin('test_2', 'test_2.name', '=', 'test_1.name')
-			->where('test_2.id', null)
-			->where('test_2.color', '!=', 'test_1.color')
+			->whereNull('test_2.id')
+//			->where('test_2.color', '!=', 'test_1.color')
+            ->select('test_1.id AS id', 'test_1.name AS name', 'test_1.color AS color')
 			->get();
 			$firephp->log($test, 'Test');
 			$firephp->log($test2, 'Test2');
 			$firephp->log($test3, 'Test3');
 	//		$firephp->log('Test');
 	//		console.log('test2');
-			
+*/			
 
-/*		$appMissing = DB::table('temp_events')
+		$appMissing = DB::table('temp_events')
 			->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
+			->whereNull('events.google_event_id')
+		//	->where('temp_events.updated_at', '<', 'events.updated_at')
+        //    ->select('temp_events.google_event_id AS googID', 'temp_events.updated_at AS googUpdated')
+			->select('temp_events.*')
 			->get();
-			$firephp->log(count($appMissing), 'appMissing');
+			$firephp->log($appMissing, 'appMissing');
 
+		foreach ($appMissing as $event)
+		{
+			if($event->summary == null) {
+				$event->summary = 'x';
+			}
+			DB::table('events')->insert(
+				array(
+					'google_event_id' => $event->google_event_id,
+					'status' => $event->status,
+					'htmlLink' => $event->htmlLink,
+					'title' => $event->summary,
+					'location' => $event->location,
+					'allDay' => $event->all_day,
+					'creatorEmail' => $event->creatorEmail,
+					'organizerEmail' => $event->organizerEmail,
+					'start' => $event->start,
+					'end' => $event->end,
+					'created_at' => $event->created_at,
+					'updated_at' => $event->updated_at
+				)
+			);
+		}
 		$googMissing = DB::table('events')
 			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
+ 			->whereNull('temp_events.google_event_id')
+			->select('temp_events.google_event_id AS id', 'temp_events.updated_at AS updated')
 			->get();
 			$firephp->log(count($googMissing), 'googMissing');
-*/	}
+	}
 	
 	public static function getCalEvents($start = null, $end = null, $calID = 'all')
 	{

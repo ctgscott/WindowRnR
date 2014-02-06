@@ -40,10 +40,10 @@ class CustomersController extends BaseController {
 				return Redirect::to('/customers');
 			}
 
-		//	if (isset($_SESSION['token'])) {
-			if (isset($data['token'])) {
-//				$client->setAccessToken($_SESSION['token']);
-				$client->setAccessToken($data['token']);
+			if (isset($_SESSION['token'])) {
+		//	if (isset($data['token'])) {
+				$client->setAccessToken($_SESSION['token']);
+		//		$client->setAccessToken($data['token']);
 
 				try 
 				{
