@@ -36,6 +36,7 @@ Route::get('events/updateEvents/{start?}/{end?}/{cal?}', 'EventsController@updat
 Route::get('events/updateEventsTable', 'EventsController@updateEventsTable');
 Route::post('profiles/postSalesCheckBox', 'ProfilesController@postSalesCheckBox');
 Route::get('profiles/getSalesCheckBox', 'ProfilesController@getSalesCheckBox');
+Route::get('profiles/getSalesCalID', 'ProfilesController@getSalesCalID');
 
 Route::controller('users', 'UserController');
 Route::controller('customers/schedule', 'CustomersController'); 

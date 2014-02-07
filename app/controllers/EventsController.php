@@ -174,22 +174,26 @@ class EventsController extends BaseController {
 //			$firephp->log($firstRow);
 //			$firephp->log($latestUpdate);
 			
-			Schema::dropIfExists('temp_events');
-			Schema::create('temp_events', function($table) {
-				$table->increments('id');
-				$table->string('google_event_id')->unique();
-				$table->string('status');
-				$table->string('htmlLink');
-				$table->string('summary')->nullable();
-				$table->string('location')->nullable();
-				$table->tinyInteger('all_day');
-				$table->string('creatorEmail');
-				$table->string('organizerEmail');
-				$table->timestamp('start');
-				$table->timestamp('end');
-				$table->timestamp('created_at');
-				$table->timestamp('updated_at', 6)->index();
-			});
+//			Schema::dropIfExists('temp_events');
+			if (Schema::hasTable('temp_events'))
+			{
+			} else {
+				Schema::create('temp_events', function($table) {
+					$table->increments('id');
+					$table->string('google_event_id')->unique();
+					$table->string('status');
+					$table->string('htmlLink');
+					$table->string('summary')->nullable();
+					$table->string('location')->nullable();
+					$table->tinyInteger('all_day');
+					$table->string('creatorEmail');
+					$table->string('organizerEmail');
+					$table->timestamp('start');
+					$table->timestamp('end');
+					$table->timestamp('created_at');
+					$table->timestamp('updated_at', 6)->index();
+				});
+			}
 			
 			$totalResult = [];
 			set_time_limit(150); 
@@ -311,12 +315,14 @@ class EventsController extends BaseController {
 				)
 			);
 		}
-		$googMissing = DB::table('events')
+/*		$googMissing = DB::table('events')
 			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
  			->whereNull('temp_events.google_event_id')
 			->select('temp_events.google_event_id AS id', 'temp_events.updated_at AS updated')
 			->get();
 			$firephp->log(count($googMissing), 'googMissing');
+*/
+		Schema::dropIfExists('temp_events');
 	}
 	
 	public static function getCalEvents($start = null, $end = null, $calID = 'all')

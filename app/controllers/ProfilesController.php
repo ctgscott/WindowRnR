@@ -105,6 +105,20 @@ class ProfilesController extends BaseController {
 	}
 
 	/**
+	* Returns all user accounts expected to populate
+	* the estimate appointments checkboxes 
+	*/		
+	public static function getSalesCalID()
+	{
+		$result = DB::table('profiles')
+			->select('google_calendar_id')
+			->where('sales_check', '=', '1')
+			->get();
+		
+		return $result;
+	}
+
+	/**
 	 * Return the google_id for the given id.
 	 *
 	 * @return Response
