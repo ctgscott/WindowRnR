@@ -225,19 +225,20 @@ $(document).ready(function(){
 	});	
 	
 	$calendar = $.get("/profiles/getSalesCalID", function(data,status) {
-		alert("Data: " + data + "\nStatus: " + status);
+		//alert("Data: " + data + "\nStatus: " + status);
 		console.log(data);
 		$now = $.now()/1000;
+		$lastWeek = $now-604800;
 		$nextMonth = $now+2592000;
-		alert($.now());
+		//alert($.now());
 		$.each( data, function(n, calID) {
 			$googCal = calID.google_calendar_id;
-			$.get("/events/updateEvents/1/"+$nextMonth+"/"+$googCal, function(data,status) {
-				alert("Data: " + data + "\nStatus: " + status);
+			$.get("/events/updateEvents/"+$lastWeek+"/"+$nextMonth+"/"+$googCal, function(data,status) {
+			//	alert("Data: " + data + "\nStatus: " + status);
 			});
 		});
 		$.get("/events/updateEventsTable", function(data,status) {
-				alert("Data: " + data + "\nStatus: " + status);
+			//	alert("Data: " + data + "\nStatus: " + status);
 		});
 	});
 });

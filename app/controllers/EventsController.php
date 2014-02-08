@@ -161,13 +161,14 @@ class EventsController extends BaseController {
 			$start = date('c',$start);
 			$end = date('c',$end);
 			$params = array(
-			//	'singleEvents' => 'true', 
+				'singleEvents' => 'true', 
 			//	'maxResults' => 25, 
-				'orderBy' => 'updated', 
+			//	'orderBy' => 'updated', 
+				'orderBy' => 'startTime', 
 			//	'updatedMin' => date('c', 1389764791),
 			//	'updatedMin' => $updatedMin, 
-			//	'timeMin' => $start, 
-			//	'timeMax' => $end
+				'timeMin' => $start, 
+				'timeMax' => $end
 			);
 			$eventList = $cal->events->listEvents($gCalID, $params);
 //			$firephp->log($eventList, 'eventList');
@@ -268,27 +269,17 @@ class EventsController extends BaseController {
 		ob_start();
 		$firephp = FirePHP::getInstance(true);
 
-//		$test2 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE a.color != b.color'));
-//		$test3 = DB::select( DB::raw('SELECT a.* FROM test_1 a LEFT JOIN test_2 b ON b.name = a.name WHERE b.id is NULL'));
-		
-/*		$test = DB::table('test_1')
-			->leftJoin('test_2', 'test_2.name', '=', 'test_1.name')
-			->whereNull('test_2.id')
-//			->where('test_2.color', '!=', 'test_1.color')
-            ->select('test_1.id AS id', 'test_1.name AS name', 'test_1.color AS color')
-			->get();
-			$firephp->log($test, 'Test');
-			$firephp->log($test2, 'Test2');
-			$firephp->log($test3, 'Test3');
-	//		$firephp->log('Test');
-	//		console.log('test2');
-*/			
-
-		$appMissing = DB::table('temp_events')
+		/** 
+		 * Events found in Google but not found in
+		 * the application's calendar.
+		 * Update the app events table as appropriate
+		 **/
+		 $firephp->log('start');
+		 $appMissing = DB::table('temp_events')
 			->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
 			->whereNull('events.google_event_id')
-		//	->where('temp_events.updated_at', '<', 'events.updated_at')
-        //    ->select('temp_events.google_event_id AS googID', 'temp_events.updated_at AS googUpdated')
+		//	->where('temp_events.status', '!=', 'cancelled')
+		//	->where('temp_events.location', '!=', null)
 			->select('temp_events.*')
 			->get();
 			$firephp->log($appMissing, 'appMissing');
@@ -298,6 +289,18 @@ class EventsController extends BaseController {
 			if($event->summary == null) {
 				$event->summary = 'x';
 			}
+			
+			$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
+			if (isset($latlng->results[0]->geometry->location->lat)) {
+				$lat = $latlng->results[0]->geometry->location->lat;
+				$lng = $latlng->results[0]->geometry->location->lng;
+			} else {
+				$lat = null;
+				$lng = null;
+			}
+			
+			$avatar = DB::table('profiles')->where('google_calendar_id', '=', $event->organizerEmail)->pluck('avatar');
+
 			DB::table('events')->insert(
 				array(
 					'google_event_id' => $event->google_event_id,
@@ -306,15 +309,31 @@ class EventsController extends BaseController {
 					'title' => $event->summary,
 					'location' => $event->location,
 					'allDay' => $event->all_day,
+					'avatar' => $avatar,
 					'creatorEmail' => $event->creatorEmail,
-					'organizerEmail' => $event->organizerEmail,
+					'google_cal_id' => $event->organizerEmail,
 					'start' => $event->start,
 					'end' => $event->end,
+					'lat' => $lat,
+					'lng' => $lng,
 					'created_at' => $event->created_at,
 					'updated_at' => $event->updated_at
 				)
 			);
 		}
+
+		/** 
+		 * Events found in Google as 'Canceled' but 'Confirmed'
+		 * or 'Tentative' in the application's calendar.
+		 * Update the app events table as appropriate
+		 **/
+
+		/** 
+		 * Events found in the app but not found in
+		 * Google's calendar.  Update Google
+		 * as appropriate
+		 **/
+
 /*		$googMissing = DB::table('events')
 			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
  			->whereNull('temp_events.google_event_id')

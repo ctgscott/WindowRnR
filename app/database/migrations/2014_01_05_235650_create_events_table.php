@@ -22,8 +22,8 @@ class CreateEventsTable extends Migration {
 			$table->string('creatorEmail');
 			$table->string('organizerEmail');
 			$table->string('htmlLink', 100);
-			$table->string('start');
-			$table->string('end');
+			$table->timestamp('start');
+			$table->timestamp('end');
 			$table->string('location')->nullable();
 			$table->string('description');
 			$table->integer('allDay');
