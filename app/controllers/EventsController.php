@@ -171,7 +171,7 @@ class EventsController extends BaseController {
 				'timeMax' => $end
 			);
 			$eventList = $cal->events->listEvents($gCalID, $params);
-//			$firephp->log($eventList, 'eventList');
+			$firephp->log($eventList, 'eventList');
 //			$firephp->log($firstRow);
 //			$firephp->log($latestUpdate);
 			
@@ -189,6 +189,7 @@ class EventsController extends BaseController {
 					$table->tinyInteger('all_day');
 					$table->string('creatorEmail');
 					$table->string('organizerEmail');
+					$table->integer('cal_user_id');
 					$table->timestamp('start');
 					$table->timestamp('end');
 					$table->timestamp('created_at');
@@ -216,6 +217,12 @@ class EventsController extends BaseController {
 						if (!isset($event['summary'])) {
 							$event['summary'] = null;
 						}
+						
+						if (isset($event['organizer']['email'])) {
+							$event['cal_user_id'] =  DB::table('profiles')
+								->where('google_calendar_id', $event['organizer']['email'])
+								->pluck('user_id');
+						}
 
 						if ($event['status'] != 'cancelled') {
 							if (isset($event['start']['date'])) {
@@ -237,6 +244,7 @@ class EventsController extends BaseController {
 									'all_day' => $event['all_day'],
 									'creatorEmail' => $event['creator']['email'],
 									'organizerEmail' => $event['organizer']['email'],
+									'cal_user_id' => $event['cal_user_id'],
 									'start' => $eventStart,
 									'end' => $eventEnd,
 									'created_at' => $event['created'],
@@ -253,13 +261,61 @@ class EventsController extends BaseController {
 						}
 					};
 				} else {
-				//   $eventList= $cal->events->listEvents($gCalID, $params);
-				}
-				//array_push($totalResult, $eventList['items']);
+					foreach ($eventList['items'] as $event)
+					{
+						if (!isset($event['location'])) {
+							$event['location'] = null;
+						}
 
+						if (!isset($event['summary'])) {
+							$event['summary'] = null;
+						}
+
+						if (isset($event['organizer']['email'])) {
+							$event['cal_user_id'] =  DB::table('profiles')
+								->where('google_calendar_id', $event['organizer']['email'])
+								->pluck('user_id');
+						}
+
+						if ($event['status'] != 'cancelled') {
+							if (isset($event['start']['date'])) {
+								$event['all_day'] = 1;
+								$eventStart = $event['start']['date'];
+								$eventEnd = $event['end']['date'];
+							} else {
+								$event['all_day'] = 0;
+								$eventStart = $event['start']['dateTime'];
+								$eventEnd = $event['end']['dateTime'];
+							}
+							DB::table('temp_events')->insert(
+								array(
+									'google_event_id' => $event['id'],
+									'status' => $event['status'],
+									'htmlLink' => $event['htmlLink'],
+									'summary' => $event['summary'],
+									'location' => $event['location'],
+									'all_day' => $event['all_day'],
+									'creatorEmail' => $event['creator']['email'],
+									'organizerEmail' => $event['organizer']['email'],
+									'cal_user_id' => $event['cal_user_id'],
+									'start' => $eventStart,
+									'end' => $eventEnd,
+									'created_at' => $event['created'],
+									'updated_at' => $event['updated']
+								)
+							);
+						} else {
+							DB::table('temp_events')->insert(
+								array(
+									'google_event_id' => $event['id'],
+									'status' => $event['status']
+								)
+							);
+						}
+					};
+				}
 
 			}while(isset($eventList['nextPageToken']) && !empty($eventList['nextPageToken']));
-
 		}
 	}
 
@@ -289,7 +345,14 @@ class EventsController extends BaseController {
 			if($event->summary == null) {
 				$event->summary = 'x';
 			}
-			
+
+			if (isset($event->location)) {
+				$address = urlencode($event->location);
+			} else {
+				$address = null;
+				$event->location = null;
+			}
+
 			$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
 			if (isset($latlng->results[0]->geometry->location->lat)) {
 				$lat = $latlng->results[0]->geometry->location->lat;
@@ -310,6 +373,7 @@ class EventsController extends BaseController {
 					'location' => $event->location,
 					'allDay' => $event->all_day,
 					'avatar' => $avatar,
+					'cal_user_id' => $event->cal_user_id,
 					'creatorEmail' => $event->creatorEmail,
 					'google_cal_id' => $event->organizerEmail,
 					'start' => $event->start,
@@ -363,24 +427,24 @@ class EventsController extends BaseController {
 		if ($calID != 'all') {
 			if($calID == 1) {
 				$events = DB::table('calendar_1')
-					->where('start', '>=', $start)
-					->where('end', '<=', $end)
+					->where('start', '>=', date('c',$start))
+					->where('end', '<=', date('c',$end))
 					->get();
 			} else if ($calID == 2) {
 				$events = DB::table('calendar_2')
-					->where('start', '>=', $start)
-					->where('end', '<=', $end)
+					->where('start', '>=', date('c',$start))
+					->where('end', '<=', date('c',$end))
 					->get();
 			} else if($calID == 3) {
 				$events = DB::table('calendar_3')
-					->where('start', '>=', $start)
-					->where('end', '<=', $end)
+					->where('start', '>=', date('c',$start))
+					->where('end', '<=', date('c',$end))
 					->get();
 			}
 		} else {
 			$events = DB::table('calendar_all')
-				->where('start', '>=', $start)
-				->where('end', '<=', $end)
+				->where('start', '>=', date('c',$start))
+				->where('end', '<=', date('c',$end))
 				->get();
 		}
 		$date = date('D, n/j', $start);

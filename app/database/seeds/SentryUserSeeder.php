@@ -12,7 +12,7 @@ class SentryUserSeeder extends Seeder {
 		DB::table('users')->delete();
 
 		Sentry::getUserProvider()->create(array(
-	        'email'    => 'admin@admin.com',
+	        'email'    => 'scott@windowrnr.com',
 	        'password' => 'sentryadmin',
 	        'activated' => 1,
 			'first_name' => 'Scott',
@@ -20,7 +20,7 @@ class SentryUserSeeder extends Seeder {
 	    ));
 
 	    Sentry::getUserProvider()->create(array(
-	        'email'    => 'user@user.com',
+	        'email'    => 'ed@windowrnr.com',
 	        'password' => 'sentryuser',
 	        'activated' => 1,
 			'first_name' => 'Ed',
@@ -28,7 +28,7 @@ class SentryUserSeeder extends Seeder {
 	    ));
 		
 	    Sentry::getUserProvider()->create(array(
-	        'email'    => 'norm@norm.com',
+	        'email'    => 'norm@windowrnr.com',
 	        'password' => 'sentrynorm',
 	        'activated' => 1,
 			'first_name' => 'Norm',
