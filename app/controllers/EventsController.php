@@ -189,7 +189,7 @@ class EventsController extends BaseController {
 					$table->tinyInteger('all_day');
 					$table->string('creatorEmail');
 					$table->string('organizerEmail');
-					$table->integer('cal_user_id');
+					$table->integer('cal_user_id')->nullable();
 					$table->timestamp('start');
 					$table->timestamp('end');
 					$table->timestamp('created_at');
@@ -234,6 +234,12 @@ class EventsController extends BaseController {
 								$eventStart = $event['start']['dateTime'];
 								$eventEnd = $event['end']['dateTime'];
 							}
+							
+							$startTime = strtotime($eventStart);
+							$endTime = strtotime($eventEnd);
+							$eventStart = date("Y-m-d H:i:s", $startTime);
+							$eventEnd = date("Y-m-d H:i:s", $endTime);
+							
 							DB::table('temp_events')->insert(
 								array(
 									'google_event_id' => $event['id'],
@@ -287,6 +293,12 @@ class EventsController extends BaseController {
 								$eventStart = $event['start']['dateTime'];
 								$eventEnd = $event['end']['dateTime'];
 							}
+							
+							$startTime = strtotime($eventStart);
+							$endTime = strtotime($eventEnd);
+							$eventStart = date("Y-m-d H:i:s", $startTime);
+							$eventEnd = date("Y-m-d H:i:s", $endTime);
+							
 							DB::table('temp_events')->insert(
 								array(
 									'google_event_id' => $event['id'],
