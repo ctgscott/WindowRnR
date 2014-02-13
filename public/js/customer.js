@@ -228,8 +228,8 @@ $(document).ready(function(){
 		//alert("Data: " + data + "\nStatus: " + status);
 		console.log(data);
 		$now = $.now()/1000;
-		//$lastWeek = $now-604800;
-		$lastWeek = 1;
+		$lastWeek = $now-604800;
+		//$lastWeek = 1;
 		$nextMonth = $now+2592000;
 		//alert($.now());
 		$.each( data, function(n, calID) {

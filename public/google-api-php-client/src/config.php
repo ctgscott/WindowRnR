@@ -27,11 +27,11 @@ $apiConfig = array(
     // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
     'oauth2_client_id' => '9824738942-4g6mv5siudqkgb9768662jad4qhb5lir.apps.googleusercontent.com',
     'oauth2_client_secret' => '3hbp4TiSn_kAjlgw36IvB3_4',
-    'oauth2_redirect_uri' => 'http://Localhost:8000/customers',
+    'oauth2_redirect_uri' => 'http://localhost:8000/customers',
 
     // The developer key, you get this at https://code.google.com/apis/console
     //'developer_key' => 'AIzaSyBOEw4SxexTFurahdUDK4Q6blrdM8xFD_8',
-//    'developer_key' => 'AIzaSyCgRDHRL8EpXGqfP2GwIRI7DXrVIJ20ODo',
+    'developer_key' => 'AIzaSyCgRDHRL8EpXGqfP2GwIRI7DXrVIJ20ODo',
     // Site name to show in the Google's OAuth 1 authentication screen.
     'site_name' => 'www.windowrnr.com',
 

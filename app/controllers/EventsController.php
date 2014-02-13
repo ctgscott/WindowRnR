@@ -179,154 +179,170 @@ class EventsController extends BaseController {
 			if (Schema::hasTable('temp_events'))
 			{
 			} else {
-				Schema::create('temp_events', function($table) {
-					$table->increments('id');
-					$table->string('google_event_id')->unique();
-					$table->string('status');
-					$table->string('htmlLink');
-					$table->string('summary')->nullable();
-					$table->string('location')->nullable();
-					$table->tinyInteger('all_day');
-					$table->string('creatorEmail');
-					$table->string('organizerEmail');
-					$table->integer('cal_user_id')->nullable();
-					$table->timestamp('start');
-					$table->timestamp('end');
-					$table->timestamp('created_at');
-					$table->timestamp('updated_at', 6)->index();
-				});
+				try 
+				{
+					Schema::create('temp_events', function($table) {
+						$table->increments('id');
+						$table->string('google_event_id')->unique();
+						$table->string('status');
+						$table->string('htmlLink');
+						$table->string('summary')->nullable();
+						$table->string('location')->nullable();
+						$table->tinyInteger('all_day');
+						$table->string('creatorEmail');
+						$table->string('organizerEmail');
+						$table->integer('cal_user_id')->nullable();
+						$table->timestamp('start');
+						$table->timestamp('end');
+						$table->timestamp('created_at');
+						$table->timestamp('updated_at', 6)->index();
+					});
+				}
+				catch (Exception $e) {
+					Session::flash('error', 'There was a problem: '.$e);
+					return $e;
+				}
 			}
 			
 			$totalResult = [];
 			set_time_limit(150); 
 			
 			do {
-				if (isset($eventList['nextPageToken'])) {
-					$params2 = array(
-						'orderBy' => 'updated', 
-						'pageToken' => $eventList['nextPageToken']
-					);
-					$eventList= $cal->events->listEvents($gCalID, $params2);
-					$firephp->log($eventList, 'eventList');
-					foreach ($eventList['items'] as $event)
-					{
-						if (!isset($event['location'])) {
-							$event['location'] = null;
-						}
+				try {
+					if (isset($eventList['nextPageToken'])) {
+						$params2 = array(
+						//	'singleEvents' => 'true', 
+						//	'orderBy' => 'startTime', 
+							//'orderBy' => "updated", 
+							'pageToken' => $eventList['nextPageToken']
+						);
 
-						if (!isset($event['summary'])) {
-							$event['summary'] = null;
-						}
-						
-						if (isset($event['organizer']['email'])) {
-							$event['cal_user_id'] =  DB::table('profiles')
-								->where('google_calendar_id', $event['organizer']['email'])
-								->pluck('user_id');
-						}
 
-						if ($event['status'] != 'cancelled') {
-							if (isset($event['start']['date'])) {
-								$event['all_day'] = 1;
-								$eventStart = $event['start']['date'];
-								$eventEnd = $event['end']['date'];
-							} else {
-								$event['all_day'] = 0;
-								$eventStart = $event['start']['dateTime'];
-								$eventEnd = $event['end']['dateTime'];
+						$eventList= $cal->events->listEvents($gCalID, $params2);
+						$firephp->log($eventList, 'eventList');
+						foreach ($eventList['items'] as $event)
+						{
+							if (!isset($event['location'])) {
+								$event['location'] = null;
+							}
+
+							if (!isset($event['summary'])) {
+								$event['summary'] = null;
 							}
 							
-							$startTime = strtotime($eventStart);
-							$endTime = strtotime($eventEnd);
-							$eventStart = date("Y-m-d H:i:s", $startTime);
-							$eventEnd = date("Y-m-d H:i:s", $endTime);
-							
-							DB::table('temp_events')->insert(
-								array(
-									'google_event_id' => $event['id'],
-									'status' => $event['status'],
-									'htmlLink' => $event['htmlLink'],
-									'summary' => $event['summary'],
-									'location' => $event['location'],
-									'all_day' => $event['all_day'],
-									'creatorEmail' => $event['creator']['email'],
-									'organizerEmail' => $event['organizer']['email'],
-									'cal_user_id' => $event['cal_user_id'],
-									'start' => $eventStart,
-									'end' => $eventEnd,
-									'created_at' => $event['created'],
-									'updated_at' => $event['updated']
-								)
-							);
-						} else {
-							DB::table('temp_events')->insert(
-								array(
-									'google_event_id' => $event['id'],
-									'status' => $event['status']
-								)
-							);
-						}
-					};
-				} else {
-					foreach ($eventList['items'] as $event)
-					{
-						if (!isset($event['location'])) {
-							$event['location'] = null;
-						}
-
-						if (!isset($event['summary'])) {
-							$event['summary'] = null;
-						}
-
-						if (isset($event['organizer']['email'])) {
-							$event['cal_user_id'] =  DB::table('profiles')
-								->where('google_calendar_id', $event['organizer']['email'])
-								->pluck('user_id');
-						}
-
-						if ($event['status'] != 'cancelled') {
-							if (isset($event['start']['date'])) {
-								$event['all_day'] = 1;
-								$eventStart = $event['start']['date'];
-								$eventEnd = $event['end']['date'];
-							} else {
-								$event['all_day'] = 0;
-								$eventStart = $event['start']['dateTime'];
-								$eventEnd = $event['end']['dateTime'];
+							if (isset($event['organizer']['email'])) {
+								$event['cal_user_id'] =  DB::table('profiles')
+									->where('google_calendar_id', $event['organizer']['email'])
+									->pluck('user_id');
 							}
-							
-							$startTime = strtotime($eventStart);
-							$endTime = strtotime($eventEnd);
-							$eventStart = date("Y-m-d H:i:s", $startTime);
-							$eventEnd = date("Y-m-d H:i:s", $endTime);
-							
-							DB::table('temp_events')->insert(
-								array(
-									'google_event_id' => $event['id'],
-									'status' => $event['status'],
-									'htmlLink' => $event['htmlLink'],
-									'summary' => $event['summary'],
-									'location' => $event['location'],
-									'all_day' => $event['all_day'],
-									'creatorEmail' => $event['creator']['email'],
-									'organizerEmail' => $event['organizer']['email'],
-									'cal_user_id' => $event['cal_user_id'],
-									'start' => $eventStart,
-									'end' => $eventEnd,
-									'created_at' => $event['created'],
-									'updated_at' => $event['updated']
-								)
-							);
-						} else {
-							DB::table('temp_events')->insert(
-								array(
-									'google_event_id' => $event['id'],
-									'status' => $event['status']
-								)
-							);
-						}
-					};
+
+							if ($event['status'] != 'cancelled') {
+								if (isset($event['start']['date'])) {
+									$event['all_day'] = 1;
+									$eventStart = $event['start']['date'];
+									$eventEnd = $event['end']['date'];
+								} else {
+									$event['all_day'] = 0;
+									$eventStart = $event['start']['dateTime'];
+									$eventEnd = $event['end']['dateTime'];
+								}
+								
+								$startTime = strtotime($eventStart);
+								$endTime = strtotime($eventEnd);
+								$eventStart = date("Y-m-d H:i:s", $startTime);
+								$eventEnd = date("Y-m-d H:i:s", $endTime);
+								
+								DB::table('temp_events')->insert(
+									array(
+										'google_event_id' => $event['id'],
+										'status' => $event['status'],
+										'htmlLink' => $event['htmlLink'],
+										'summary' => $event['summary'],
+										'location' => $event['location'],
+										'all_day' => $event['all_day'],
+										'creatorEmail' => $event['creator']['email'],
+										'organizerEmail' => $event['organizer']['email'],
+										'cal_user_id' => $event['cal_user_id'],
+										'start' => $eventStart,
+										'end' => $eventEnd,
+										'created_at' => $event['created'],
+										'updated_at' => $event['updated']
+									)
+								);
+							} else {
+								DB::table('temp_events')->insert(
+									array(
+										'google_event_id' => $event['id'],
+										'status' => $event['status']
+									)
+								);
+							}
+						};
+					} else {
+						foreach ($eventList['items'] as $event)
+						{
+							if (!isset($event['location'])) {
+								$event['location'] = null;
+							}
+
+							if (!isset($event['summary'])) {
+								$event['summary'] = null;
+							}
+
+							if (isset($event['organizer']['email'])) {
+								$event['cal_user_id'] =  DB::table('profiles')
+									->where('google_calendar_id', $event['organizer']['email'])
+									->pluck('user_id');
+							}
+
+							if ($event['status'] != 'cancelled') {
+								if (isset($event['start']['date'])) {
+									$event['all_day'] = 1;
+									$eventStart = $event['start']['date'];
+									$eventEnd = $event['end']['date'];
+								} else {
+									$event['all_day'] = 0;
+									$eventStart = $event['start']['dateTime'];
+									$eventEnd = $event['end']['dateTime'];
+								}
+								
+								$startTime = strtotime($eventStart);
+								$endTime = strtotime($eventEnd);
+								$eventStart = date("Y-m-d H:i:s", $startTime);
+								$eventEnd = date("Y-m-d H:i:s", $endTime);
+								
+								DB::table('temp_events')->insert(
+									array(
+										'google_event_id' => $event['id'],
+										'status' => $event['status'],
+										'htmlLink' => $event['htmlLink'],
+										'summary' => $event['summary'],
+										'location' => $event['location'],
+										'all_day' => $event['all_day'],
+										'creatorEmail' => $event['creator']['email'],
+										'organizerEmail' => $event['organizer']['email'],
+										'cal_user_id' => $event['cal_user_id'],
+										'start' => $eventStart,
+										'end' => $eventEnd,
+										'created_at' => $event['created'],
+										'updated_at' => $event['updated']
+									)
+								);
+							} else {
+								DB::table('temp_events')->insert(
+									array(
+										'google_event_id' => $event['id'],
+										'status' => $event['status']
+									)
+								);
+							}
+						};
+					}
 				}
-
+				catch (Exception $e) {
+					Session::flash('error', 'There was a problem: '.$e);
+					return $e;
+				}
 			}while(isset($eventList['nextPageToken']) && !empty($eventList['nextPageToken']));
 		}
 	}
@@ -342,82 +358,93 @@ class EventsController extends BaseController {
 		 * the application's calendar.
 		 * Update the app events table as appropriate
 		 **/
-		 $firephp->log('start');
-		 $appMissing = DB::table('temp_events')
-			->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
-			->whereNull('events.google_event_id')
-		//	->where('temp_events.status', '!=', 'cancelled')
-		//	->where('temp_events.location', '!=', null)
-			->select('temp_events.*')
-			->get();
-			$firephp->log($appMissing, 'appMissing');
+		// $firephp->log('start');
+		try {
+			 $appMissing = DB::table('temp_events')
+				->leftJoin('events', 'temp_events.google_event_id', '=', 'events.google_event_id')
+				->whereNull('events.google_event_id')
+			//	->where('temp_events.status', '!=', 'cancelled')
+			//	->where('temp_events.location', '!=', null)
+				->select('temp_events.*')
+				->get();
+			//	$firephp->log($appMissing, 'appMissing');
 
-		foreach ($appMissing as $event)
-		{
-			if($event->summary == null) {
-				$event->summary = 'x';
+			foreach ($appMissing as $event)
+			{
+				if ($event->cal_user_id == null) {
+					continue;
+				}
+				if($event->summary == null) {
+					$event->summary = 'x';
+				}
+
+				if (isset($event->location)) {
+					$address = urlencode($event->location);
+				} else {
+					$address = null;
+					$event->location = null;
+				}
+
+				$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
+				if (isset($latlng->results[0]->geometry->location->lat)) {
+					$lat = $latlng->results[0]->geometry->location->lat;
+					$lng = $latlng->results[0]->geometry->location->lng;
+				} else {
+					$lat = null;
+					$lng = null;
+				}
+				
+				$avatar = DB::table('profiles')->where('google_calendar_id', '=', $event->organizerEmail)->pluck('avatar');
+				if ($avatar == null) {
+					$avatar = "WinPin2.png";
+				}
+
+				DB::table('events')->insert(
+					array(
+						'google_event_id' => $event->google_event_id,
+						'status' => $event->status,
+						'htmlLink' => $event->htmlLink,
+						'title' => $event->summary,
+						'location' => $event->location,
+						'allDay' => $event->all_day,
+						'avatar' => $avatar,
+						'cal_user_id' => $event->cal_user_id,
+						'creatorEmail' => $event->creatorEmail,
+						'google_cal_id' => $event->organizerEmail,
+						'start' => $event->start,
+						'end' => $event->end,
+						'lat' => $lat,
+						'lng' => $lng,
+						'created_at' => $event->created_at,
+						'updated_at' => $event->updated_at
+					)
+				);
 			}
 
-			if (isset($event->location)) {
-				$address = urlencode($event->location);
-			} else {
-				$address = null;
-				$event->location = null;
-			}
+			/** 
+			 * Events found in Google as 'Canceled' but 'Confirmed'
+			 * or 'Tentative' in the application's calendar.
+			 * Update the app events table as appropriate
+			 **/
 
-			$latlng = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".$address."&sensor=false"));
-			if (isset($latlng->results[0]->geometry->location->lat)) {
-				$lat = $latlng->results[0]->geometry->location->lat;
-				$lng = $latlng->results[0]->geometry->location->lng;
-			} else {
-				$lat = null;
-				$lng = null;
-			}
-			
-			$avatar = DB::table('profiles')->where('google_calendar_id', '=', $event->organizerEmail)->pluck('avatar');
+			/** 
+			 * Events found in the app but not found in
+			 * Google's calendar.  Update Google
+			 * as appropriate
+			 **/
 
-			DB::table('events')->insert(
-				array(
-					'google_event_id' => $event->google_event_id,
-					'status' => $event->status,
-					'htmlLink' => $event->htmlLink,
-					'title' => $event->summary,
-					'location' => $event->location,
-					'allDay' => $event->all_day,
-					'avatar' => $avatar,
-					'cal_user_id' => $event->cal_user_id,
-					'creatorEmail' => $event->creatorEmail,
-					'google_cal_id' => $event->organizerEmail,
-					'start' => $event->start,
-					'end' => $event->end,
-					'lat' => $lat,
-					'lng' => $lng,
-					'created_at' => $event->created_at,
-					'updated_at' => $event->updated_at
-				)
-			);
+	/*		$googMissing = DB::table('events')
+				->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
+				->whereNull('temp_events.google_event_id')
+				->select('temp_events.google_event_id AS id', 'temp_events.updated_at AS updated')
+				->get();
+				$firephp->log(count($googMissing), 'googMissing');
+	*/
+			Schema::dropIfExists('temp_events');
+		} catch (Exception $e) {
+			Session::flash('error', 'There was a problem: '.$e);
+			return $e;
 		}
-
-		/** 
-		 * Events found in Google as 'Canceled' but 'Confirmed'
-		 * or 'Tentative' in the application's calendar.
-		 * Update the app events table as appropriate
-		 **/
-
-		/** 
-		 * Events found in the app but not found in
-		 * Google's calendar.  Update Google
-		 * as appropriate
-		 **/
-
-/*		$googMissing = DB::table('events')
-			->leftJoin('temp_events', 'events.google_event_id', '=', 'temp_events.google_event_id')
- 			->whereNull('temp_events.google_event_id')
-			->select('temp_events.google_event_id AS id', 'temp_events.updated_at AS updated')
-			->get();
-			$firephp->log(count($googMissing), 'googMissing');
-*/
-		Schema::dropIfExists('temp_events');
 	}
 	
 	public static function getCalEvents($start = null, $end = null, $calID = 'all')
